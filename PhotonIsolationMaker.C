@@ -47,6 +47,7 @@ int PhotonIsolationMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("particle_eta", _b_particle_eta,"particle_eta[particle_n]/F");
   _tree->Branch("particle_phi", _b_particle_phi,"particle_phi[particle_n]/F");
   _tree->Branch("particle_pid", _b_particle_pid,"particle_pid[particle_n]/I");
+  _tree->Branch("particle_e", _b_particle_e,"particle_e[particle_n]/I");
   _tree->Branch("particle_calo_iso_0", _b_particle_calo_iso_0,"particle_calo_iso_0[particle_n]/F");
   _tree->Branch("particle_calo_iso_1", _b_particle_calo_iso_1,"particle_calo_iso_1[particle_n]/F");
   _tree->Branch("particle_calo_iso_2", _b_particle_calo_iso_2,"particle_calo_iso_2[particle_n]/F");
@@ -55,6 +56,9 @@ int PhotonIsolationMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("cluster_pt", _b_cluster_pt,"cluster_pt[cluster_n]/F");
   _tree->Branch("cluster_eta",_b_cluster_eta,"cluster_eta[cluster_n]/F");
   _tree->Branch("cluster_phi",_b_cluster_phi,"cluster_phi[cluster_n]/F");
+  _tree->Branch("cluster_prob", _b_cluster_prob,"cluster_prob[cluster_n]/F");
+  _tree->Branch("cluster_ecore",_b_cluster_ecore,"cluster_ecore[cluster_n]/F");
+  _tree->Branch("cluster_e",    _b_cluster_e,"cluster_e[cluster_n]/F");
 
 
   return 0;
@@ -93,24 +97,18 @@ int PhotonIsolationMaker::process_event(PHCompositeNode *topNode)
   PHG4TruthInfoContainer::Range range = truthinfo->GetPrimaryParticleRange();
   
   for ( PHG4TruthInfoContainer::ConstIterator iter = range.first; iter != range.second; ++iter ) {
-    PHG4Particle* g4particle = iter->second; // You may ask yourself, why second?
+    PHG4Particle* g4particle = iter->second; // second because the key for the map is in the first spot
 
-    //if ( truthinfo->isEmbeded( g4particle->get_track_id() ) != _embed_id ) continue;
+    //if ( truthinfo->isEmbeded( g4particle->get_track_id() ) != _embed_id ) continue; // what does this do?
     
     TLorentzVector t; t.SetPxPyPzE( g4particle->get_px(), g4particle->get_py(), g4particle->get_pz(), g4particle->get_e() );
     
     float truth_pt = t.Pt();
-    //if (truth_pt < 1) continue;
     float truth_eta = t.Eta();
-    if (fabs(truth_eta) > 1.1) continue;
+    if (fabs(truth_eta) > 1.1) continue; 
     float truth_phi = t.Phi();
-    int truth_pid = g4particle->get_pid();
-    
-    //if (truth_pid == 22 || truth_pid == 2112 || truth_pid == -2112 || truth_pid == 130) continue;
-    //if (truth_pid == 2112 || truth_pid == -2112 || truth_pid == 130) continue;
-    // save high-pT photons
-    //if (truth_pid == 22 && truth_pt < 20) continue;
-    //if (truth_pid == 12 || truth_pid == -12 || truth_pid == 13 || truth_pid == -13 || truth_pid == 14 || truth_pid == -14) continue;
+    int truth_pid = g4particle->get_pid();//could cut on pid right here
+     
     
     _b_particle_pt[ _b_particle_n ] = truth_pt;
     _b_particle_eta[ _b_particle_n ] = truth_eta;
@@ -120,7 +118,9 @@ int PhotonIsolationMaker::process_event(PHCompositeNode *topNode)
     _b_particle_calo_iso_0[ _b_particle_n ] = -99;
     _b_particle_calo_iso_1[ _b_particle_n ] = -99;
     _b_particle_calo_iso_2[ _b_particle_n ] = -99;
-    if ( truth_pid == 22 && truth_pt > 10 && fabs( truth_eta ) > 0.7 ){return 0;}
+    // save high-pT photons
+    // where should the prob e_core and e be calculated from 
+    if ( truth_pid == 22 && truth_pt > 10 && fabs( truth_eta ) > 0.7 ){return 0; }//the dector ends at 1.1 which is about .3 from .7 so cut on that
     else if ( truth_pid == 22 && truth_pt > 10  ) {
       _b_particle_calo_iso_0[ _b_particle_n ] = 0;
       _b_particle_calo_iso_1[ _b_particle_n ] = 0;
@@ -129,14 +129,14 @@ int PhotonIsolationMaker::process_event(PHCompositeNode *topNode)
       {
 	RawTowerContainer::ConstRange begin_end = towersEM3old->getTowers();
 	for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
-	  RawTower *tower = rtiter->second;
+	  RawTower *tower = rtiter->second; 
 	  RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
 
 	  float this_phi = tower_geom->get_phi();
-	  float this_eta = tower_geom->get_eta();
+	  float this_eta = tower_geom->get_eta();//eta of the tower which gets compared to truth eta 
 	  float this_ET = tower->get_energy() / cosh( this_eta );
 
-	  if ( deltaR( truth_eta, this_eta, truth_phi, this_phi ) < 0.3 )
+	  if ( deltaR( truth_eta, this_eta, truth_phi, this_phi ) < 0.3 )//if this tower is within .3 of the truth photon add its ET to the isolated calorimeter
 	    _b_particle_calo_iso_0[ _b_particle_n ] += this_ET;
 	}
       }
@@ -173,8 +173,8 @@ int PhotonIsolationMaker::process_event(PHCompositeNode *topNode)
 
       // 
 
-      std::cout << " --> truth photon at #" << _b_particle_n << ", pt / eta / phi = " << truth_pt << " / " << truth_eta << " / " << truth_phi << ", PID " << truth_pid << ", embed = " <<  truthinfo->isEmbeded( g4particle->get_track_id() ) << std::endl;
-      std::cout << " --> --> calo iso in layers = " << _b_particle_calo_iso_0[ _b_particle_n ] << " / " << _b_particle_calo_iso_1[ _b_particle_n ] << " / " << _b_particle_calo_iso_2[ _b_particle_n ] << std::endl;
+      std::cout << " --> truth photon at #" << _b_particle_n << ", pt / eta / phi = " << truth_pt << " / " << truth_eta << " / " << truth_phi << ", PID " << truth_pid << ", embed = " <<  truthinfo->isEmbeded( g4particle->get_track_id() ) << '\n';
+      std::cout << " --> --> calo iso in layers = " << _b_particle_calo_iso_0[ _b_particle_n ] << " / " << _b_particle_calo_iso_1[ _b_particle_n ] << " / " << _b_particle_calo_iso_2[ _b_particle_n ] <<'\n';
 
     }
     
@@ -190,12 +190,12 @@ int PhotonIsolationMaker::process_event(PHCompositeNode *topNode)
   RawClusterContainer::ConstRange begin_end = clusters->getClusters();
   RawClusterContainer::ConstIterator rtiter;
   
-  //std::cout << " I see " << clusters->size() << " clusters " << std::endl;
+  std::cout << " I see " << clusters->size() << " clusters " << '\n';
   
   for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) {
     RawCluster *cluster = rtiter->second;
     
-    CLHEP::Hep3Vector vertex( 0, 0, 0 );
+    CLHEP::Hep3Vector vertex( 0, 0, 0 ); //Note these need to be changed to get the right vertex
     CLHEP::Hep3Vector E_vec_cluster = RawClusterUtility::GetEVec(*cluster, vertex);
     float cluster_energy = E_vec_cluster.mag();
     float cluster_eta = E_vec_cluster.pseudoRapidity();
@@ -208,7 +208,7 @@ int PhotonIsolationMaker::process_event(PHCompositeNode *topNode)
     _b_cluster_eta[ _b_cluster_n ] =  cluster_eta;
     _b_cluster_phi[ _b_cluster_n ] =  cluster->get_phi();
     
-    std::cout << " cluster (CEMC) # " << _b_cluster_n << " pt/eta/phi = " << pt << " / " << cluster_eta << " / " << cluster->get_phi() << std::endl;
+    std::cout << " cluster (CEMC) # " << _b_cluster_n << " pt/eta/phi = " << pt << " / " << cluster_eta << " / " << cluster->get_phi() << '\n';
     
     _b_cluster_n++;
   }
