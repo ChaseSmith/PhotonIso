@@ -93,7 +93,7 @@ int PhotonIsolationMaker::process_event(PHCompositeNode *topNode)
 
   _b_particle_n = 0;
   
-  PHG4TruthInfoContainer* truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode,"G4TruthInfo");
+  PHG4TruthInfoContainer* truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode,"G4TruthInfo"); //eventually we want to be able to do this without using this class
   PHG4TruthInfoContainer::Range range = truthinfo->GetPrimaryParticleRange();
   
   for ( PHG4TruthInfoContainer::ConstIterator iter = range.first; iter != range.second; ++iter ) {
@@ -127,51 +127,50 @@ int PhotonIsolationMaker::process_event(PHCompositeNode *topNode)
       _b_particle_calo_iso_2[ _b_particle_n ] = 0;
 
       {
-	RawTowerContainer::ConstRange begin_end = towersEM3old->getTowers();
-	for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
-	  RawTower *tower = rtiter->second; 
-	  RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
+        RawTowerContainer::ConstRange begin_end = towersEM3old->getTowers();
+        for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
+      	  RawTower *tower = rtiter->second; 
+      	  RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
 
-	  float this_phi = tower_geom->get_phi();
-	  float this_eta = tower_geom->get_eta();//eta of the tower which gets compared to truth eta 
-	  float this_ET = tower->get_energy() / cosh( this_eta );
+      	  float this_phi = tower_geom->get_phi();
+      	  float this_eta = tower_geom->get_eta();//eta of the tower which gets compared to truth eta 
+      	  float this_ET = tower->get_energy() / cosh( this_eta );
 
-	  if ( deltaR( truth_eta, this_eta, truth_phi, this_phi ) < 0.3 )//if this tower is within .3 of the truth photon add its ET to the isolated calorimeter
-	    _b_particle_calo_iso_0[ _b_particle_n ] += this_ET;
-	}
+      	  if ( deltaR( truth_eta, this_eta, truth_phi, this_phi ) < 0.3 ){//if this tower is within .3 of the truth photon add its ET to the isolated calorimeter
+      	    _b_particle_calo_iso_0[ _b_particle_n ] += this_ET;
+          }
+      	}
       }
       {
-	RawTowerContainer::ConstRange begin_end = towersIH3->getTowers();
-	for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
-	  RawTower *tower = rtiter->second;
-	  RawTowerGeom *tower_geom = geomIH->get_tower_geometry(tower->get_key());
+      	RawTowerContainer::ConstRange begin_end = towersIH3->getTowers();
+      	for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
+      	  RawTower *tower = rtiter->second;
+      	  RawTowerGeom *tower_geom = geomIH->get_tower_geometry(tower->get_key());
 
-	  float this_phi = tower_geom->get_phi();
-	  float this_eta = tower_geom->get_eta();
-	  float this_ET = tower->get_energy() / cosh( this_eta );
+      	  float this_phi = tower_geom->get_phi();
+      	  float this_eta = tower_geom->get_eta();
+      	  float this_ET = tower->get_energy() / cosh( this_eta );
 
-	  if ( deltaR( truth_eta, this_eta, truth_phi, this_phi ) < 0.3 )
-	    _b_particle_calo_iso_1[ _b_particle_n ] += this_ET;
-
-	}
+      	  if ( deltaR( truth_eta, this_eta, truth_phi, this_phi ) < 0.3 ){
+      	    _b_particle_calo_iso_1[ _b_particle_n ] += this_ET;
+          }
+      	}
       }
       {
-	RawTowerContainer::ConstRange begin_end = towersOH3->getTowers();
-	for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
-	  RawTower *tower = rtiter->second;
-	  RawTowerGeom *tower_geom = geomOH->get_tower_geometry(tower->get_key());
+      	RawTowerContainer::ConstRange begin_end = towersOH3->getTowers();
+      	for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
+      	  RawTower *tower = rtiter->second;
+      	  RawTowerGeom *tower_geom = geomOH->get_tower_geometry(tower->get_key());
 
-	  float this_phi = tower_geom->get_phi();
-	  float this_eta = tower_geom->get_eta();
-	  float this_ET = tower->get_energy() / cosh( this_eta );
+      	  float this_phi = tower_geom->get_phi();
+      	  float this_eta = tower_geom->get_eta();
+      	  float this_ET = tower->get_energy() / cosh( this_eta );
 
-	  if ( deltaR( truth_eta, this_eta, truth_phi, this_phi ) < 0.3 )
-	    _b_particle_calo_iso_2[ _b_particle_n ] += this_ET;
-
-	}
+      	  if ( deltaR( truth_eta, this_eta, truth_phi, this_phi ) < 0.3 ){
+      	    _b_particle_calo_iso_2[ _b_particle_n ] += this_ET;
+          }
+      	}
       }
-
-      // 
 
       std::cout << " --> truth photon at #" << _b_particle_n << ", pt / eta / phi = " << truth_pt << " / " << truth_eta << " / " << truth_phi << ", PID " << truth_pid << ", embed = " <<  truthinfo->isEmbeded( g4particle->get_track_id() ) << '\n';
       std::cout << " --> --> calo iso in layers = " << _b_particle_calo_iso_0[ _b_particle_n ] << " / " << _b_particle_calo_iso_1[ _b_particle_n ] << " / " << _b_particle_calo_iso_2[ _b_particle_n ] <<'\n';
