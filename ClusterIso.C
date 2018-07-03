@@ -32,17 +32,11 @@ ClusterIso::ClusterIso(const std::string &name) : SubsysReco("TRIGGERTEST")
 int ClusterIso::Init(PHCompositeNode *topNode)
 {
 
-  _f = new TFile( _foutname.c_str(), "RECREATE");
-
-  _tree = new TTree("ttree","a succulent orange tree");
-
-  _tree->Branch("cluster_iso", &_b_cluster_isoEt,"cluster_iso/F");
-
   return 0;
 }
 
 bool towerInCluster(RawCluster* cluster, RawTower* tower){
-  return cluster->get_towermap().cend() == cluster->get_towermap().find(tower->get_key());
+  return cluster->get_towermap().cend() != cluster->get_towermap().find(tower->get_key());
 }
 
 int ClusterIso::process_event(PHCompositeNode *topNode, float pTCut, float coneSize)
@@ -99,6 +93,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode, float pTCut, float coneS
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
           if(clusterInTower(cluster,tower)) continue;
+          tower_geom->set_center_z();
           float this_phi = tower_geom->get_phi();
           float this_eta = tower_geom->get_eta();//check if global vertex is calculated 
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
@@ -112,6 +107,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode, float pTCut, float coneS
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
           float this_phi = tower_geom->get_phi();
+          tower_geom->set_center_z();
           float this_eta = tower_geom->get_eta();//check if global vertex is calculated 
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
@@ -124,6 +120,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode, float pTCut, float coneS
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
           float this_phi = tower_geom->get_phi();
+          tower_geom->set_center_z();
           float this_eta = tower_geom->get_eta();//check if global vertex is calculated 
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
@@ -134,8 +131,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode, float pTCut, float coneS
       std::cout << " cluster (CEMC) # " << _b_cluster_n << '\n';
       
       _b_cluster_n++;
-      _b_cluster_isoEt=isoEt
-      _tree->Fill(); //may need to turn this into an array and fill on the outside 
+      cluster->set_et_iso(isoEt);
     }
   }
 
