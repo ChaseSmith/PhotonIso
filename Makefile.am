@@ -9,20 +9,27 @@ libTreeMaker_la_LDFLAGS = \
   -nodefaultlibs \
   -L$(libdir) \
   -L$(OFFLINE_MAIN)/lib \
+ `root-config --libs`
+libClusterIso_la_LDFLAGS = \
+  -nodefaultlibs \
+  -L$(libdir) \
+  -L$(OFFLINE_MAIN)/lib \
   `root-config --libs`
+
 
 lib_LTLIBRARIES = \
   libTreeMaker.la
-
+  libClusterIso.la
 include_HEADERS = \
   ClusterIso.h \
   TreeMaker.h
   
 libTreeMaker_la_SOURCES = \
-  ClusterIso.C \
   TreeMaker.C
+libClusterIso_la_SOURCES = \
+  ClusterIso.C 
 
-libTreeMaker_la_LIBADD = \
+libClusterIso_la_LIBADD = \
   -lg4dst \
   -lg4eval \
   -lcalotrigger \
