@@ -2,7 +2,9 @@
 // --- need to check all these includes...
 #include <fun4all/SubsysReco.h>
 #include <vector>
-
+#include <calobase/RawTowerGeom.h>
+#include <calobase/RawTower.h>
+#include "TMath.h"
 class PHCompositeNode;
 
 class ClusterIso: public SubsysReco
@@ -32,7 +34,7 @@ class ClusterIso: public SubsysReco
     if ( dphi > 3.14159 ) dphi -= 2 * 3.14159;
     if ( dphi < -3.14159 ) dphi += 2 * 3.14159;
 
-    return sqrt( pow( deta, 2 ) + pow( dphi, 2 ) );
+    return TMath::Pow(( deta*deta + dphi*dphi),.5);
 
   }
   bool towerInCluster(RawCluster* cluster, RawTower* tower){

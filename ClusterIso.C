@@ -13,8 +13,6 @@
 #include <calobase/RawCluster.h>
 #include <calobase/RawClusterUtility.h>
 
-#include <calobase/RawTowerGeom.h>
-#include <calobase/RawTower.h>
 #include <calobase/RawTowerContainer.h>
 #include <calobase/RawTowerGeomContainer_Cylinderv1.h>
 #include <calobase/RawTowerGeomContainer.h>
