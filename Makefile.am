@@ -15,12 +15,12 @@ lib_LTLIBRARIES = \
   libTreeMaker.la
 
 include_HEADERS = \
-  PhotonIsolationMaker.h \
-  PhotonIsolationMakerLinkDef.h
+  ClusterIso.h \
+  ClusterIso.h
 
 libTreeMaker_la_SOURCES = \
-  PhotonIsolationMaker.C \
-  PhotonIsolationMaker_Dict.C
+  ClusterIso.C \
+  ClusterIso.C
 
 libTreeMaker_la_LIBADD = \
   -lg4dst \
@@ -30,15 +30,15 @@ libTreeMaker_la_LIBADD = \
   -lphool
 
 BUILT_SOURCES = \
-  testexternals.C
+  testClusterIso.C
 
 noinst_PROGRAMS = \
-  testexternals
+  testClusterIso
 
 testexternals_LDADD = \
-  libTreeMaker.la
+  libClusterIso.la
 
-testexternals.C:
+testClusterIso.C:
 	echo "//*** this is a generated file. Do not commit, do not edit" > $@
 	echo "int main()" >> $@
 	echo "{" >> $@
@@ -53,5 +53,4 @@ testexternals.C:
 
 clean-local:
 	rm -f *Dict* testexternals.C
-
-testexternals_SOURCES = testexternals.C
+testClusterIso_SOURCES = testClusterIso.C
