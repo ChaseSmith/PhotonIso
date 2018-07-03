@@ -87,7 +87,6 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
     RawClusterContainer::ConstIterator rtiter;
     
     std::cout << " ClusterIso sees " << clusters->size() << " clusters " << '\n';
-    _b_cluster_n=0;
     
     //declare new vertex to get correct cluster and tower eta
     GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
@@ -136,7 +135,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         RawTowerContainer::ConstRange begin_end = towersIH3->getTowers();
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
-          RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
+          RawTowerGeom *tower_geom = geomIH->get_tower_geometry(tower->get_key());
           float this_phi = tower_geom->get_phi();
           float this_eta = getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
@@ -148,7 +147,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         RawTowerContainer::ConstRange begin_end = towersOH3->getTowers();
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
-          RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
+          RawTowerGeom *tower_geom = geomOH->get_tower_geometry(tower->get_key());
           float this_phi = tower_geom->get_phi();
           float this_eta = getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
@@ -157,9 +156,6 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         }
       }
       
-      std::cout << " cluster (CEMC) # " << _b_cluster_n << '\n';
-      
-      _b_cluster_n++;
       cluster->set_et_iso(isoEt);
     }
   }
