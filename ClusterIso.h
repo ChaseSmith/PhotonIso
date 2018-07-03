@@ -21,6 +21,9 @@ class ClusterIso: public SubsysReco
   float getConeSize();
 
  private:
+  float _b_vx;
+  float _b_vy;
+  float _b_vz;
 
   float deltaR( float eta1, float eta2, float phi1, float phi2 ) {
 
