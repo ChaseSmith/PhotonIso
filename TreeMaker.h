@@ -31,3 +31,4 @@ class TreeMaker: public SubsysReco
   double _b_et_iso;
 
 };
+#endif
