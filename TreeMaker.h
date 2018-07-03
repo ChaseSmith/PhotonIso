@@ -1,3 +1,6 @@
+#ifndef TreeMaker_h 
+#define TreeMaker_h
+
 class PHCompositeNode;
 
 class TreeMaker: public SubsysReco
