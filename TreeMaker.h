@@ -1,6 +1,7 @@
 #include <fun4all/SubsysReco.h>
 #include "TTree.h"
 #include "TFile.h"
+#include <string>
 class PHCompositeNode;
 
 class TreeMaker: public SubsysReco
