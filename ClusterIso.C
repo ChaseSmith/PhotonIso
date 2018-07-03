@@ -13,16 +13,19 @@
 #include <calobase/RawCluster.h>
 #include <calobase/RawClusterUtility.h>
 
-#include <calobase/RawTowerGeom.h>
-#include <calobase/RawTower.h>
 #include <calobase/RawTowerContainer.h>
 #include <calobase/RawTowerGeomContainer_Cylinderv1.h>
 #include <calobase/RawTowerGeomContainer.h>
 
 #include <g4main/PHG4Particle.h>
 
+#include <g4main/PHG4VtxPoint.h>
 
-ClusterIso::ClusterIso(const std::string &name) : SubsysReco("ClusterIso"), pTCut(pTCut), coneSize(coneSize){}
+#include <g4vertex/GlobalVertex.h>
+#include <g4vertex/GlobalVertexMap.h>
+
+
+ClusterIso::ClusterIso(const std::string &name, float pTCut, float coneSize) : SubsysReco("ClusterIso"), pTCut(pTCut), coneSize(coneSize){}
 
 int ClusterIso::Init(PHCompositeNode *topNode)
 {
@@ -37,26 +40,24 @@ void ClusterIso::setConeSize(float coneSize){
   this->coneSize=coneSize;
 }
 
-float ClusterIso::getpTCut(float pTCut){
+float ClusterIso::getpTCut(){
   return pTCut;
 }
 
-float ClusterIso::getConeSize(float coneSize){
+float ClusterIso::getConeSize(){
   return coneSize;
 }
 
-double getTowerEta(RawTowerGeom tower_geom, float _b_vx, float _b_vx, float _b_vx)
+double getTowerEta(RawTowerGeom tower_geom, float vx, float vy, float vz)
 {
-  tower_geom.set_center_x(_b_vx);
-  tower_geom.set_center_y(_b_vy);
-  tower_geom.set_center_z(_b_vz);
+  tower_geom.set_center_x(vx);
+  tower_geom.set_center_y(vy);
+  tower_geom.set_center_z(vz);
   return tower_geom.get_eta();
 }
 
 int ClusterIso::process_event(PHCompositeNode *topNode)
 {
-
-  std::cout << "DVP : at process_event, tree size is: " << _tree->GetEntries() << std::endl;
 
   RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
   //RawTowerContainer *towersEM3 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC_RETOWER");
@@ -86,21 +87,20 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
     RawClusterContainer::ConstIterator rtiter;
     
     std::cout << " ClusterIso sees " << clusters->size() << " clusters " << '\n';
-    _b_cluster_n=0;
     
     //declare new vertex to get correct cluster and tower eta
     GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
-     _b_vx = NAN;
-     _b_vy = NAN;
-     _b_vz = NAN;
+    vx = NAN;
+    vy = NAN;
+    vz = NAN;
      if (vertexmap)
      {
         if (!vertexmap->empty())
         {
            GlobalVertex* vertex = (vertexmap->begin()->second);
-           _b_vx = vertex->get_x();
-           _b_vy = vertex->get_y();
-           _b_vz = vertex->get_z();
+           vx = vertex->get_x();
+           vy = vertex->get_y();
+           vz = vertex->get_z();
         }
      }
   for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) {
@@ -108,7 +108,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
      
       RawCluster *cluster = rtiter->second;
       
-      CLHEP::Hep3Vector vertex( _b_vx, _b_vy, _b_vz); //set new correct vertex for eta calculation
+      CLHEP::Hep3Vector vertex( vx, vy, vz); //set new correct vertex for eta calculation
       CLHEP::Hep3Vector E_vec_cluster = RawClusterUtility::GetEVec(*cluster, vertex);
       float cluster_energy = E_vec_cluster.mag();
       float cluster_eta = E_vec_cluster.pseudoRapidity(); //may need to chagne the eta after it is set.  Needs to be in same reference frame as the towers 
@@ -125,7 +125,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
           RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
           if(clusterInTower(cluster,tower)) continue;
           float this_phi = tower_geom->get_phi();
-          float this_eta = getTowerEta(*tower_geom,_b_vx,_b_vx,_b_vx); //get tower eta using new vertex
+          float this_eta = getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
           }
@@ -135,9 +135,9 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         RawTowerContainer::ConstRange begin_end = towersIH3->getTowers();
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
-          RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
+          RawTowerGeom *tower_geom = geomIH->get_tower_geometry(tower->get_key());
           float this_phi = tower_geom->get_phi();
-          float this_eta = getTowerEta(*tower_geom,_b_vx,_b_vx,_b_vx); //get tower eta using new vertex
+          float this_eta = getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
           }
@@ -147,18 +147,15 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         RawTowerContainer::ConstRange begin_end = towersOH3->getTowers();
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
-          RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
+          RawTowerGeom *tower_geom = geomOH->get_tower_geometry(tower->get_key());
           float this_phi = tower_geom->get_phi();
-          float this_eta = getTowerEta(*tower_geom,_b_vx,_b_vx,_b_vx); //get tower eta using new vertex
+          float this_eta = getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
           }
         }
       }
       
-      std::cout << " cluster (CEMC) # " << _b_cluster_n << '\n';
-      
-      _b_cluster_n++;
       cluster->set_et_iso(isoEt);
     }
   }
