@@ -4,6 +4,9 @@
 #include <vector>
 #include <calobase/RawTowerGeom.h>
 #include <calobase/RawTower.h>
+#include <calobase/RawClusterContainer.h>
+#include <calobase/RawCluster.h>
+#include <calobase/RawClusterUtility.h>
 #include "TMath.h"
 class PHCompositeNode;
 
@@ -34,7 +37,7 @@ class ClusterIso: public SubsysReco
     if ( dphi > 3.14159 ) dphi -= 2 * 3.14159;
     if ( dphi < -3.14159 ) dphi += 2 * 3.14159;
 
-    return TMath::Pow(( deta*deta + dphi*dphi),.5);
+    return TMath::Power(( deta*deta + dphi*dphi),.5);
 
   }
   bool towerInCluster(RawCluster* cluster, RawTower* tower){
