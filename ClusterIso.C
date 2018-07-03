@@ -81,7 +81,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
     _b_cluster_n=0;
     
     //declare new vertex to get correct cluster and tower eta
-    GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, “GlobalVertexMap”); 
+    GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
      _b_vx = NAN;
      _b_vy = NAN;
      _b_vz = NAN;
