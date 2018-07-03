@@ -25,6 +25,7 @@
 #include <g4vertex/GlobalVertexMap.h>
 
 
+
 ClusterIso::ClusterIso(const std::string &name, float pTCut, float coneSize) : SubsysReco("ClusterIso"), pTCut(pTCut), coneSize(coneSize){}
 
 int ClusterIso::Init(PHCompositeNode *topNode)
