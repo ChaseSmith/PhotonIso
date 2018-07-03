@@ -91,9 +91,9 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
     
     //declare new vertex to get correct cluster and tower eta
     GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
-     vx = NAN;
-     vy = NAN;
-     vz = NAN;
+    vx = NAN;
+    vy = NAN;
+    vz = NAN;
      if (vertexmap)
      {
         if (!vertexmap->empty())
@@ -124,7 +124,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
-          if(clusterInTower(cluster,tower)) continue;
+          if(towerInCluster(cluster,tower)) continue;
           float this_phi = tower_geom->get_phi();
           float this_eta = getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter

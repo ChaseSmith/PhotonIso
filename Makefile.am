@@ -16,11 +16,11 @@ lib_LTLIBRARIES = \
 
 include_HEADERS = \
   ClusterIso.h \
-  ClusterIso.h
-
+  TreeMaker.h
+  
 libTreeMaker_la_SOURCES = \
   ClusterIso.C \
-  ClusterIso.C
+  TreeMaker.C
 
 libTreeMaker_la_LIBADD = \
   -lg4dst \
@@ -31,14 +31,15 @@ libTreeMaker_la_LIBADD = \
 
 BUILT_SOURCES = \
   testClusterIso.C
-
+	testTreeMaker.C
 noinst_PROGRAMS = \
   testClusterIso
-
+	testTreeMaker
 testexternals_LDADD = \
   libClusterIso.la
-
+	libTreeMaker.la
 testClusterIso.C:
+testTreeMaker.C:
 	echo "//*** this is a generated file. Do not commit, do not edit" > $@
 	echo "int main()" >> $@
 	echo "{" >> $@
@@ -54,3 +55,4 @@ testClusterIso.C:
 clean-local:
 	rm -f *Dict* testexternals.C
 testClusterIso_SOURCES = testClusterIso.C
+testTreeMaker_SOURCES = testTreeMaker.C
