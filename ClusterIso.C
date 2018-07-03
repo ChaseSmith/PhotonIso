@@ -73,11 +73,27 @@ int ClusterIso::process_event(PHCompositeNode *topNode, float pTCut, float coneS
     
     std::cout << " ClusterIso sees " << clusters->size() << " clusters " << '\n';
     _b_cluster_n=0;
+    
+    GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, “GlobalVertexMap”);
 
-    for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) {
+     _b_vx = NAN;
+     _b_vy = NAN;
+     _b_vz = NAN;
+     if (vertexmap)
+     {
+        if (!vertexmap->empty())
+        {
+           GlobalVertex* vertex = (vertexmap->begin()->second);
+           _b_vx = vertex->get_x();
+           _b_vy = vertex->get_y();
+           _b_vz = vertex->get_z();
+        }
+     }
+    
+     
       RawCluster *cluster = rtiter->second;
       
-      CLHEP::Hep3Vector vertex( 0, 0, 0 ); //Note these need to be changed to get the right vertex
+      CLHEP::Hep3Vector vertex( _b_vx, _b_vy, _b_vz); //Note these need to be changed to get the right vertex
       CLHEP::Hep3Vector E_vec_cluster = RawClusterUtility::GetEVec(*cluster, vertex);
       float cluster_energy = E_vec_cluster.mag();
       float cluster_eta = E_vec_cluster.pseudoRapidity(); //may need to chagne the eta after it is set.  Needs to be in same reference frame as the towers 
