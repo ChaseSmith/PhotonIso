@@ -32,7 +32,6 @@ libTreeMaker_la_SOURCES = \
   TreeMaker.C \
   TreeMaker_Dict.C
 
-
 libClusterIso_la_LIBADD = \
   -lg4dst \
   -lg4eval \

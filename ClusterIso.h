@@ -51,3 +51,4 @@ class ClusterIso: public SubsysReco
   float coneSize;
 
 };
+#endif
