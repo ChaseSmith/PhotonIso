@@ -64,7 +64,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     _b_et_iso = cluster->get_et_iso();
     _tree->Fill();
   }
-
+  return 0; 
 }
 
 int TreeMaker::End(PHCompositeNode *topNode)
