@@ -59,8 +59,6 @@ double getTowerEta(RawTowerGeom tower_geom, float vx, float vy, float vz)
 int ClusterIso::process_event(PHCompositeNode *topNode)
 {
 
-  std::cout << "DVP : at process_event, tree size is: " << _tree->GetEntries() << std::endl;
-
   RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
   //RawTowerContainer *towersEM3 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC_RETOWER");
   //RawTowerContainer *towersEM4 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC_RETOWER_SUB1");
@@ -92,7 +90,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
     _b_cluster_n=0;
     
     //declare new vertex to get correct cluster and tower eta
-    GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, “GlobalVertexMap”); 
+    GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
      _b_vx = NAN;
      _b_vy = NAN;
      _b_vz = NAN;

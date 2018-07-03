@@ -19,8 +19,8 @@ class ClusterIso: public SubsysReco
   int End(PHCompositeNode*);
   void setpTCut(float&);
   void setConeSize(float&);
-  float getpTCut();
-  float getConeSize();
+  float getpTCut(float&);
+  float getConeSize(float&);
 
  private:
   float _b_vx;
