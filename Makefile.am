@@ -18,19 +18,19 @@ libClusterIso_la_LDFLAGS = \
 
 
 lib_LTLIBRARIES = \
-  libTreeMaker.la
-  libClusterIso.la
+	libTreeMaker.la
+	libClusterIso.la
 include_HEADERS = \
-  ClusterIso.h \
-  TreeMaker.h \
-  ClusterIsoLinkDef.h \
-  TreeMakerLinkDef.h
+	ClusterIso.h \
+	TreeMaker.h \
+	ClusterIsoLinkDef.h \
+	TreeMakerLinkDef.h
 
 libTreeMaker_la_SOURCES = \
-  ClusterIso.C \
-  ClusterIso_Dict.C \
-  TreeMaker.C \
-  TreeMaker_Dict.C
+	ClusterIso.C \
+	ClusterIso_Dict.C \
+	TreeMaker.C \
+	TreeMaker_Dict.C
 
 libClusterIso_la_LIBADD = \
   -lg4dst \
@@ -40,26 +40,26 @@ libClusterIso_la_LIBADD = \
   -lphool
 
 BUILT_SOURCES = \
-  testexternals.C
+	testexternals.C
 
 noinst_PROGRAMS = \
-  testexternals
+	testexternals
 
 testexternals_LDADD = \
-  libTreeMaker.la
+	libTreeMaker.la
 
 testexternals.C:
-  echo "//*** this is a generated file. Do not commit, do not edit" > $@
-  echo "int main()" >> $@
-  echo "{" >> $@
-  echo "  return 0;" >> $@
-  echo "}" >> $@
+	echo "//*** this is a generated file. Do not commit, do not edit" > $@
+	echo "int main()" >> $@
+	echo "{" >> $@
+	echo "  return 0;" >> $@
+	echo "}" >> $@
 
 ##############################################
 # please add new classes in alphabetical order
 # Rule for generating CINT dictionaries from class headers.
 %_Dict.C: %.h %LinkDef.h
-  rootcint -f $@ -c $(CINTFLAGS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $^
+	rootcint -f $@ -c $(CINTFLAGS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $^
 
 clean-local:
   rm -f *Dict* testexternals.C
