@@ -74,8 +74,8 @@ int ClusterIso::process_event(PHCompositeNode *topNode, float pTCut, float coneS
     std::cout << " ClusterIso sees " << clusters->size() << " clusters " << '\n';
     _b_cluster_n=0;
     
-    GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, “GlobalVertexMap”);
-
+    //declare new vertex to get correct cluster and tower eta
+    GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, “GlobalVertexMap”); 
      _b_vx = NAN;
      _b_vy = NAN;
      _b_vz = NAN;
@@ -93,7 +93,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode, float pTCut, float coneS
      
       RawCluster *cluster = rtiter->second;
       
-      CLHEP::Hep3Vector vertex( _b_vx, _b_vy, _b_vz); //Note these need to be changed to get the right vertex
+      CLHEP::Hep3Vector vertex( _b_vx, _b_vy, _b_vz); //set new correct vertex for eta calculation
       CLHEP::Hep3Vector E_vec_cluster = RawClusterUtility::GetEVec(*cluster, vertex);
       float cluster_energy = E_vec_cluster.mag();
       float cluster_eta = E_vec_cluster.pseudoRapidity(); //may need to chagne the eta after it is set.  Needs to be in same reference frame as the towers 
@@ -109,7 +109,10 @@ int ClusterIso::process_event(PHCompositeNode *topNode, float pTCut, float coneS
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
           if(clusterInTower(cluster,tower)) continue;
-          tower_geom->set_center_z();
+          //sert each tower to correct vertex
+          tower_geom->set_center_x(_b_vx);
+          tower_geom->set_center_y(_b_vy);
+          tower_geom->set_center_z(_b_vz);
           float this_phi = tower_geom->get_phi();
           float this_eta = tower_geom->get_eta();//check if global vertex is calculated 
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
