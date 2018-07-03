@@ -3,9 +3,6 @@
 #include <fun4all/SubsysReco.h>
 #include <vector>
 
-#include "TTree.h"
-#include "TFile.h"
-
 class PHCompositeNode;
 
 class ClusterIso: public SubsysReco
@@ -13,11 +10,15 @@ class ClusterIso: public SubsysReco
 
  public:
 
-  ClusterIso(const std::string &name="ClusterIso.root");
+  ClusterIso(const std::string& ,float& pTCut, float& coneSize);
 
   int Init(PHCompositeNode*);
   int process_event(PHCompositeNode*);
   int End(PHCompositeNode*);
+  void setpTCut(float&);
+  void setConeSize(float&);
+  float getpTCut();
+  float getConeSize();
 
  private:
 
@@ -31,26 +32,11 @@ class ClusterIso: public SubsysReco
     return sqrt( pow( deta, 2 ) + pow( dphi, 2 ) );
 
   }
+  bool towerInCluster(RawCluster* cluster, RawTower* tower){
+    return cluster->get_towermap().cend() != cluster->get_towermap().find(tower->get_key());
+  }
 
-  TFile *_f;
-
-  TTree *_tree;
-
-  std::string _foutname;
-
-  int _b_cluster_n;
-  float _b_cluster_pt[500];
-  float _b_cluster_eta[500];
-  float _b_cluster_phi[500];
-
-  int _b_particle_n;
-  float _b_particle_pt[1000];
-  float _b_particle_eta[1000];
-  float _b_particle_phi[1000];
-  int _b_particle_pid[1000];
-  float _b_particle_calo_iso_0[1000];
-  float _b_particle_calo_iso_1[1000];
-  float _b_particle_calo_iso_2[1000];
+  float pTCut;
+  float coneSize;
 
 };
-
