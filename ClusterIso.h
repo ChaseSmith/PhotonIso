@@ -1,3 +1,5 @@
+#ifndef ClusterIso_h 
+#define ClusterIso_h
 
 // --- need to check all these includes...
 #include <fun4all/SubsysReco.h>
@@ -9,6 +11,7 @@
 #include <calobase/RawClusterUtility.h>
 #include "TMath.h"
 class PHCompositeNode;
+
 
 class ClusterIso: public SubsysReco
 {
