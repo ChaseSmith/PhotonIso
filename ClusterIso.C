@@ -22,21 +22,27 @@
 #include <g4main/PHG4Particle.h>
 
 
-ClusterIso::ClusterIso(const std::string &name) : SubsysReco("TRIGGERTEST")
-{
-
-  _foutname = name;
-
-}
+ClusterIso::ClusterIso(const std::string &name) : SubsysReco("ClusterIso"), pTCut(pTCut), coneSize(coneSize){}
 
 int ClusterIso::Init(PHCompositeNode *topNode)
 {
-
   return 0;
 }
 
-bool towerInCluster(RawCluster* cluster, RawTower* tower){
-  return cluster->get_towermap().cend() != cluster->get_towermap().find(tower->get_key());
+void ClusterIso::setpTCut(float pTCut){
+  this->pTCut = pTCut;
+}
+
+void ClusterIso::setConeSize(float coneSize){
+  this->coneSize=coneSize;
+}
+
+float ClusterIso::getpTCut(float pTCut){
+  return pTCut;
+}
+
+float ClusterIso::getConeSize(float coneSize){
+  return coneSize;
 }
 
 double getTowerEta(RawTowerGeom tower_geom, float _b_vx, float _b_vx, float _b_vx)
@@ -47,7 +53,7 @@ double getTowerEta(RawTowerGeom tower_geom, float _b_vx, float _b_vx, float _b_v
   return tower_geom.get_eta();
 }
 
-int ClusterIso::process_event(PHCompositeNode *topNode, float pTCut, float coneSize)
+int ClusterIso::process_event(PHCompositeNode *topNode)
 {
 
   std::cout << "DVP : at process_event, tree size is: " << _tree->GetEntries() << std::endl;
@@ -164,10 +170,6 @@ int ClusterIso::process_event(PHCompositeNode *topNode, float pTCut, float coneS
 
 int ClusterIso::End(PHCompositeNode *topNode)
 {
-
-  _f->Write();
-  _f->Close();
-
   return 0;
 }
 
