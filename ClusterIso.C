@@ -15,7 +15,7 @@
 
 #include <calobase/RawTowerContainer.h>
 #include <calobase/RawTowerGeomContainer_Cylinderv1.h>
-#include <calobase/RawTowerGeomContainer.h>
+#include <calobase/RawTowerGeomContainerv1.h>
 
 #include <g4main/PHG4Particle.h>
 

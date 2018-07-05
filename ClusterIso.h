@@ -4,7 +4,7 @@
 // --- need to check all these includes...
 #include <fun4all/SubsysReco.h>
 #include <vector>
-#include <calobase/RawTowerGeom.h>
+#include <calobase/RawTowerGeomv1.h>
 #include <calobase/RawTower.h>
 #include <calobase/RawClusterContainer.h>
 #include <calobase/RawCluster.h>
