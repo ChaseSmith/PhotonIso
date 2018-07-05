@@ -4,7 +4,7 @@
 // --- need to check all these includes...
 #include <fun4all/SubsysReco.h>
 #include <vector>
-#include <calobase/RawTowerGeomv1.h>
+#include <calobase/RawTowerGeom.h>
 #include <calobase/RawTower.h>
 #include <calobase/RawClusterContainer.h>
 #include <calobase/RawCluster.h>
@@ -43,7 +43,7 @@ protected:
   bool towerInCluster(RawCluster* cluster, RawTower* tower){
     return cluster->get_towermap().cend() != cluster->get_towermap().find(tower->get_key());
   }
-  double getTowerEta(RawTowerGeomv1 tower_geom, double vx, double vy, double vz)
+  double getTowerEta(RawTowerGeom tower_geom, double vx, double vy, double vz) // need to transpose the eta 
   {
     double radius = sqrt((tower_geom.get_center_x()-vx)*(tower_geom.get_center_x()-vx)+(tower_geom.get_center_y()-vy)*(tower_geom.get_center_y()-vy));
     double theta = atan2(radius,tower_geom.get_center_z()-vz);
