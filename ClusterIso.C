@@ -27,7 +27,7 @@
 
 
 ClusterIso::ClusterIso(const std::string &name, float pTCut, float coneSize) : SubsysReco("ClusterIso"), pTCut(pTCut), coneSize(coneSize){
-  cout<<"Begining Cluster Isolation Energy Calculation"<<'\n';
+  std::out<<"Begining Cluster Isolation Energy Calculation"<<'\n';
 }
 
 int ClusterIso::Init(PHCompositeNode *topNode)
