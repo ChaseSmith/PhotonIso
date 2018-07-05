@@ -112,8 +112,8 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
       float cluster_eta = E_vec_cluster.pseudoRapidity(); //may need to chagne the eta after it is set.  Needs to be in same reference frame as the towers 
       float cluster_phi = E_vec_cluster.phi();
       float pt = cluster_energy / cosh( cluster_eta );
-      float isoEt=0;
-      if (pt < pTCut) continue; 
+      float isoEt=NAN;
+      //if (pt < pTCut) continue; 
       //for each cluster go through all of the towers that are not in that cluster 
       //if the towers are within the iso cone add their energy to the sum 
       {
