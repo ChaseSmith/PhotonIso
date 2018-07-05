@@ -27,7 +27,7 @@
 
 
 ClusterIso::ClusterIso(const std::string &name, float pTCut, float coneSize) : SubsysReco("ClusterIso"), pTCut(pTCut), coneSize(coneSize){
-  cout<<"Begining Cluster Isolation Energy Calculation"<<'\n';
+  std::cout<<"Begining Cluster Isolation Energy Calculation"<<'\n';
 }
 
 int ClusterIso::Init(PHCompositeNode *topNode)
@@ -49,7 +49,7 @@ float ClusterIso::getpTCut(){
 
 float ClusterIso::getConeSize(){
   return coneSize;
-}d
+}
 
 int ClusterIso::process_event(PHCompositeNode *topNode)
 {
@@ -97,8 +97,9 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
       float cluster_eta = E_vec_cluster.pseudoRapidity(); 
       float cluster_phi = E_vec_cluster.phi();
       float et = cluster_energy / cosh( cluster_eta );
+      std::cout<<"Et:"<<et<<'\n';
       float isoEt=0;
-      //if (pt < pTCut) continue; 
+      //if (et < pTCut) continue; 
       //for each cluster go through all of the towers that are not in that cluster 
       //if the towers are within the iso cone add their energy to the sum 
       {
