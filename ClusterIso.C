@@ -49,7 +49,7 @@ float ClusterIso::getpTCut(){
 
 float ClusterIso::getConeSize(){
   return coneSize;
-}d
+}
 
 int ClusterIso::process_event(PHCompositeNode *topNode)
 {
@@ -104,7 +104,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
       float cluster_eta = E_vec_cluster.pseudoRapidity(); //may need to chagne the eta after it is set.  Needs to be in same reference frame as the towers 
       float cluster_phi = E_vec_cluster.phi();
       float pt = cluster_energy / cosh( cluster_eta );
-      std::cout<<pt<<'\n';
+      std::cout<<"Pt:"<<pt<<'\n';
       float isoEt=NAN;
       //if (pt < pTCut) continue; 
       //for each cluster go through all of the towers that are not in that cluster 
