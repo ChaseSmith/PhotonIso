@@ -15,7 +15,7 @@
 
 #include <calobase/RawTowerContainer.h>
 #include <calobase/RawTowerGeomContainer_Cylinderv1.h>
-#include <calobase/RawTowerGeomContainerv1.h>
+#include <calobase/RawTowerGeomContainer.h>
 
 #include <g4main/PHG4Particle.h>
 
@@ -71,9 +71,9 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
   std::cout << "ClusterIso::process_event: " << towersOH3->size() << " TOWER_CALIB_HCALOUT towers" << std::endl;
   //std::cout << "ClusterIso::process_event: " << towersOH4->size() << " TOWER_CALIB_HCALOUT_SUB1 towers" << std::endl;
 
-  RawTowerGeomContainerv1 *geomEM = findNode::getClass<RawTowerGeomContainerv1>(topNode, "TOWERGEOM_CEMC");
-  RawTowerGeomContainerv1 *geomIH = findNode::getClass<RawTowerGeomContainerv1>(topNode, "TOWERGEOM_HCALIN");
-  RawTowerGeomContainerv1 *geomOH = findNode::getClass<RawTowerGeomContainerv1>(topNode, "TOWERGEOM_HCALOUT");
+  RawTowerGeomContainer *geomEM = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
+  RawTowerGeomContainer *geomIH = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_HCALIN");
+  RawTowerGeomContainer *geomOH = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_HCALOUT");
 
   {
     RawClusterContainer *clusters = findNode::getClass<RawClusterContainer>(topNode,"CLUSTER_CEMC");
@@ -112,7 +112,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         RawTowerContainer::ConstRange begin_end = towersEM3old->getTowers();
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
-          RawTowerGeomv1 *tower_geom = geomEM->get_tower_geometry(tower->get_key());
+          RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
           if(towerInCluster(cluster,tower)){
             std::cout<<"Tower in cluster"<<'\n';
             continue;
@@ -128,7 +128,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         RawTowerContainer::ConstRange begin_end = towersIH3->getTowers();
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
-          RawTowerGeomv1 *tower_geom = geomIH->get_tower_geometry(tower->get_key());
+          RawTowerGeom *tower_geom = geomIH->get_tower_geometry(tower->get_key());
           float this_phi = tower_geom->get_phi();
           float this_eta = getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
@@ -140,7 +140,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         RawTowerContainer::ConstRange begin_end = towersOH3->getTowers();
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
-          RawTowerGeomv1 *tower_geom = geomOH->get_tower_geometry(tower->get_key());
+          RawTowerGeom *tower_geom = geomOH->get_tower_geometry(tower->get_key());
           float this_phi = tower_geom->get_phi();
           float this_eta = getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
@@ -162,4 +162,3 @@ int ClusterIso::End(PHCompositeNode *topNode)
 {
   return 0;
 }
-
