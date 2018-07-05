@@ -30,7 +30,7 @@ LT_INIT
 if test $ac_cv_prog_gxx = yes; then
   CXXFLAGS="$CXXFLAGS -Wall -Werror"
 fi
-
+CXXFLAGS="$CXXFLAGS -frtti"
 ROOTLIBS=`root-config --libs`
 AC_SUBST(ROOTLIBS)
 
