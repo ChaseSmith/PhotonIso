@@ -56,4 +56,4 @@ testexternals.C:
 	rootcint -f $@ -c $(CINTFLAGS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $^
 
 clean-local:
-  rm -f *Dict* testexternals.C
+	rm -f *Dict* testexternals.C
