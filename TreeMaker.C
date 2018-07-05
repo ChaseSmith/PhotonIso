@@ -26,7 +26,7 @@
 
 
 
-TreeMaker::TreeMaker(const std::string &name, int embed_id) : SubsysReco("TRIGGERTEST")
+TreeMaker::TreeMaker(const std::string &name, int embed_id) : SubsysReco("IsoTree")
 {
 
   _foutname = name;
@@ -62,6 +62,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
   {
     RawCluster *cluster = rtiter->second;
     _b_et_iso = cluster->get_et_iso();
+    std::cout<<"Read:"<<_b_et_iso<<'\n';
     _tree->Fill();
   }
   return 0; 

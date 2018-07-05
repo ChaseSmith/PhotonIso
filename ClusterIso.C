@@ -161,7 +161,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
           }
         }
       }
-      
+      std::cout<<"Set:"<<isoEt<<'\n';
       cluster->set_et_iso(isoEt);
     }
   }
