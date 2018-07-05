@@ -97,7 +97,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
       float cluster_phi = E_vec_cluster.phi();
       float pt = cluster_energy / cosh( cluster_eta );
       std::cout<<"Pt:"<<pt<<'\n';
-      float isoEt=NAN;
+      float isoEt=0;
       //if (pt < pTCut) continue; 
       //for each cluster go through all of the towers that are not in that cluster 
       //if the towers are within the iso cone add their energy to the sum 
