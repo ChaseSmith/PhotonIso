@@ -49,15 +49,7 @@ float ClusterIso::getpTCut(){
 
 float ClusterIso::getConeSize(){
   return coneSize;
-}
-
-double getTowerEta(RawTowerGeom tower_geom, float vx, float vy, float vz)
-{
-  tower_geom.set_center_x(vx);
-  tower_geom.set_center_y(vy);
-  tower_geom.set_center_z(vz);
-  return tower_geom.get_eta();
-}
+}d
 
 int ClusterIso::process_event(PHCompositeNode *topNode)
 {
