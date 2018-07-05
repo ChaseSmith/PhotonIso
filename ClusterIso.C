@@ -94,15 +94,12 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
     //declare new vertex to get correct cluster and tower eta
     GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
     vx=vy=vz=0;
-     if (vertexmap)
+     if (vertexmap&&!vertexmap->empty())
      {
-        if (!vertexmap->empty())
-        {
-           GlobalVertex* vertex = (vertexmap->begin()->second);
-           vx = vertex->get_x();
-           vy = vertex->get_y();
-           vz = vertex->get_z();
-        }
+        GlobalVertex* vertex = (vertexmap->begin()->second);
+        vx = vertex->get_x();
+        vy = vertex->get_y();
+        vz = vertex->get_z();
      }
   for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) {
 
