@@ -10,16 +10,10 @@ libTreeMaker_la_LDFLAGS = \
   -L$(libdir) \
   -L$(OFFLINE_MAIN)/lib \
  `root-config --libs`
-libClusterIso_la_LDFLAGS = \
-  -nodefaultlibs \
-  -L$(libdir) \
-  -L$(OFFLINE_MAIN)/lib \
-  `root-config --libs`
-
 
 lib_LTLIBRARIES = \
 	libTreeMaker.la
-	libClusterIso.la
+  
 include_HEADERS = \
 	ClusterIso.h \
 	TreeMaker.h \
