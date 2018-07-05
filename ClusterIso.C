@@ -106,10 +106,10 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
-          if(towerInCluster(cluster,tower)){
+          /*if(towerInCluster(cluster,tower)){ // dont believe this is working either 
             std::cout<<"Tower in cluster"<<'\n';
             continue;
-          } 
+          } */
           float this_phi = tower_geom->get_phi();
           float this_eta = tower_geom->get_eta();//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
@@ -141,6 +141,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
           }
         }
       }
+      isoEt-=cluster->get_energy();
       std::cout<<"Set:"<<isoEt<<'\n';
       cluster->set_et_iso(isoEt);
     }
