@@ -84,6 +84,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         vx = vertex->get_x();
         vy = vertex->get_y();
         vz = vertex->get_z();
+        cout<<"Event Vertex Calculated"<<'\n';
      }
   for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) {
 
@@ -95,8 +96,8 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
       float cluster_energy = E_vec_cluster.mag();
       float cluster_eta = E_vec_cluster.pseudoRapidity(); 
       float cluster_phi = E_vec_cluster.phi();
-      float pt = cluster_energy / cosh( cluster_eta );
-      float isoEt=NAN;
+      float et = cluster_energy / cosh( cluster_eta );
+      float isoEt=0;
       //if (pt < pTCut) continue; 
       //for each cluster go through all of the towers that are not in that cluster 
       //if the towers are within the iso cone add their energy to the sum 
@@ -140,7 +141,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
           }
         }
       }
-      isoEt-=cluster->get_energy();
+      isoEt-=et;
       std::cout<<"Set:"<<isoEt<<'\n';
       cluster->set_et_iso(isoEt);
     }
