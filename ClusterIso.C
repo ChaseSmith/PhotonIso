@@ -26,7 +26,9 @@
 
 
 
-ClusterIso::ClusterIso(const std::string &name, float pTCut, float coneSize) : SubsysReco("ClusterIso"), pTCut(pTCut), coneSize(coneSize){}
+ClusterIso::ClusterIso(const std::string &name, float pTCut, float coneSize) : SubsysReco("ClusterIso"), pTCut(pTCut), coneSize(coneSize){
+  cout<<"Begining Cluster Isolation Energy Calculation"<<'\n';
+}
 
 int ClusterIso::Init(PHCompositeNode *topNode)
 {
@@ -63,13 +65,13 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
   RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
   //RawTowerContainer *towersEM3 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC_RETOWER");
   //RawTowerContainer *towersEM4 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC_RETOWER_SUB1");
-  std::cout << "ClusterIso::process_event: " << towersEM3old->size() << " TOWER_CALIB_CEMC towers" << std::endl;
+  std::cout << "ClusterIso::process_event: " << towersEM3old->size() << " TOWER_CALIB_CEMC towers" << '\n';
   //std::cout << "ClusterIso::process_event: " << towersEM3->size() << " TOWER_CALIB_CEMC_RETOWER towers" << std::endl;
   //std::cout << "ClusterIso::process_event: " << towersEM4->size() << " TOWER_CALIB_CEMC_RETOWER_SUB1 towers" << std::endl;
 
   RawTowerContainer *towersIH3 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_HCALIN");
   //RawTowerContainer *towersIH4 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_HCALIN_SUB1");
-  std::cout << "ClusterIso::process_event: " << towersIH3->size() << " TOWER_CALIB_HCALIN towers" << std::endl;
+  std::cout << "ClusterIso::process_event: " << towersIH3->size() << " TOWER_CALIB_HCALIN towers" << '\n';
   //std::cout << "ClusterIso::process_event: " << towersIH4->size() << " TOWER_CALIB_HCALIN_SUB1 towers" << std::endl;
 
   RawTowerContainer *towersOH3 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_HCALOUT");
@@ -103,6 +105,9 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
            vy = vertex->get_y();
            vz = vertex->get_z();
         }
+     }
+     else{
+        vx=vy=vz=0;
      }
   for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) {
 

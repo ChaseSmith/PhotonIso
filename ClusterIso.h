@@ -16,7 +16,7 @@ class PHCompositeNode;
 class ClusterIso: public SubsysReco
 {
 
- public:
+public:
 
   ClusterIso(const std::string& ,float pTCut, float coneSize);
 
@@ -28,11 +28,8 @@ class ClusterIso: public SubsysReco
   float getpTCut();
   float getConeSize();
 
- private:
-  float vx;
-  float vy;
-  float vz;
 
+protected:
   float deltaR( float eta1, float eta2, float phi1, float phi2 ) {
 
     float deta = eta1 - eta2;
@@ -50,5 +47,10 @@ class ClusterIso: public SubsysReco
   float pTCut;
   float coneSize;
 
+private:
+  float vx;
+  float vy;
+  float vz;
+
 };
-#endif
+#endif //ClusterIso_h
