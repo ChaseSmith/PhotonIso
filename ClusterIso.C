@@ -112,7 +112,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
             continue;
           } 
           float this_phi = tower_geom->get_phi();
-          float this_eta = getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+          float this_eta = getTowerEta(*tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
           }
@@ -128,7 +128,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
               continue;
           }
           float this_phi = tower_geom->get_phi();
-          float this_eta = getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+          float this_eta = getTowerEta(*tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
           }
@@ -144,7 +144,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
               continue;
           }
           float this_phi = tower_geom->get_phi();
-          float this_eta = getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+          float this_eta = getTowerEta(*tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
           }

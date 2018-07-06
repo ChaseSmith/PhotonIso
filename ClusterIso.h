@@ -58,7 +58,7 @@ protected:
         radiusToTower = 182.0; //1820mm, sPHENIX OHCal 
         break;
       default:
-        cout<<"Did not select a valid tower towerType"<<endl;
+        std::cout<<"Did not select a valid tower towerType"<<std::endl;
         return -99;
     }
     float newEta;
