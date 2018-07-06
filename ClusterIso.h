@@ -18,14 +18,14 @@ class ClusterIso: public SubsysReco
 
 public:
 
-  ClusterIso(const std::string& ,float pTCut, float coneSize);
+  ClusterIso(const std::string& ,float eTCut, float coneSize);
 
   int Init(PHCompositeNode*);
   int process_event(PHCompositeNode*);
   int End(PHCompositeNode*);
-  void setpTCut(float x);
+  void seteTCut(float x);
   void setConeSize(float x);
-  float getpTCut();
+  float geteTCut();
   float getConeSize();
 
 
@@ -50,7 +50,7 @@ protected:
     return -log(tan(theta/2.));
   }
 
-  float pTCut;
+  float eTCut;
   float coneSize;
 
 private:

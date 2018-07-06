@@ -26,7 +26,7 @@
 
 
 
-ClusterIso::ClusterIso(const std::string &name, float pTCut, float coneSize) : SubsysReco("ClusterIso"), pTCut(pTCut), coneSize(coneSize){
+ClusterIso::ClusterIso(const std::string &name, float eTCut, float coneSize) : SubsysReco("ClusterIso"), eTCut(eTCut), coneSize(coneSize){
   std::cout<<"Begining Cluster Isolation Energy Calculation"<<'\n';
 }
 
@@ -35,16 +35,16 @@ int ClusterIso::Init(PHCompositeNode *topNode)
   return 0;
 }
 
-void ClusterIso::setpTCut(float pTCut){
-  this->pTCut = pTCut;
+void ClusterIso::setpTCut(float eTCut){
+  this->eTCut = eTCut;
 }
 
 void ClusterIso::setConeSize(float coneSize){
   this->coneSize=coneSize;
 }
 
-float ClusterIso::getpTCut(){
-  return pTCut;
+float ClusterIso::geteTCut(){
+  return eTCut;
 }
 
 float ClusterIso::getConeSize(){
@@ -84,7 +84,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         vx = vertex->get_x();
         vy = vertex->get_y();
         vz = vertex->get_z();
-        cout<<"Event Vertex Calculated"<<'\n';
+        std::cout<<"Event Vertex Calculated"<<'\n';
      }
   for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) {
 
@@ -107,10 +107,10 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
-          /*if(towerInCluster(cluster,tower)){ // dont believe this is working either 
+          if(towerInCluster(cluster,tower)){ // dont believe this is working either 
             std::cout<<"Tower in cluster"<<'\n';
             continue;
-          } */
+          } 
           float this_phi = tower_geom->get_phi();
           float this_eta = tower_geom->get_eta();//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
