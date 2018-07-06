@@ -107,7 +107,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
-          if(towerInCluster(cluster,tower)){ // dont believe this is working either 
+          if(towerInCluster(cluster,tower)){ 
             std::cout<<"Tower in cluster"<<'\n';
             continue;
           } 
