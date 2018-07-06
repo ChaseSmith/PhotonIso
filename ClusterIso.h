@@ -81,7 +81,7 @@ protected:
   }
   inline double getTowerEta(RawTowerGeom* tower_geom, double vx, double vy, double vz) // need to transpose the eta 
   {
-    double r= tower_geom.get_center_radius();
+    double r= tower_geom->get_center_radius();
     double x = r*cos(tower_geom->get_phi())-vx;
     double y = r*sin(tower_geom->get_phi())-vy;
     double z = r/tan(2*atan2(exp(-1*tower_geom->get_eta()),1))-vz;

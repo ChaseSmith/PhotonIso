@@ -114,6 +114,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
             continue;
           } 
           float this_phi = tower_geom->get_phi();
+          float this_eta;
           if (trivialVertex)
           {
             this_eta = tower_geom->get_eta();
@@ -162,6 +163,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
               continue;
           }
           float this_phi = tower_geom->get_phi();
+          float this_eta; 
           if (trivialVertex)
           {
             this_eta = tower_geom->get_eta();
