@@ -35,7 +35,7 @@ int ClusterIso::Init(PHCompositeNode *topNode)
   return 0;
 }
 
-void ClusterIso::setpTCut(float eTCut){
+void ClusterIso::seteTCut(float eTCut){
   this->eTCut = eTCut;
 }
 
