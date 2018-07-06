@@ -119,7 +119,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
             this_eta = tower_geom->get_eta();
           }
           else{
-            this_eta = getTowerEta(*tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+            this_eta = getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
 
           }     
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
@@ -144,7 +144,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
             this_eta = tower_geom->get_eta();
           }
           else{
-            this_eta = getTowerEta(*tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+            this_eta = getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(tower_geom,vx,vy,vz); //get tower eta using new vertex
 
           }
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
@@ -167,7 +167,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
             this_eta = tower_geom->get_eta();
           }
           else{
-            this_eta = getTowerEta(*tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+            this_eta = getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(tower_geom,vx,vy,vz); //get tower eta using new vertex
 
           }          
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
