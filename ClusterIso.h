@@ -58,7 +58,7 @@ protected:
         radiusToTower = 182.0; //1820mm, sPHENIX OHCal 
         break;
       default:
-        cout<<"Did not select a valid tower towerType"<<endl;
+        std::cout<<"Did not select a valid tower towerType"<<std::endl;
         return -99;
     }
     float newEta;
@@ -81,10 +81,10 @@ protected:
   }
   inline double getTowerEta(RawTowerGeom tower_geom, double vx, double vy, double vz) // need to transpose the eta 
   {
-    double r= tower_geom->get_center_radius();
-    double x = r*tower_geom->cos(tower_geom->get_phi())-vx;
-    double y = r*tower_geom->sin(tower_geom->get_phi())-vy;
-    double z = r/tan(2*atan2(e(-1*tower_geom->get_eta())))-vz;
+    double r= tower_geom.get_center_radius();
+    double x = r*cos(tower_geom.get_phi())-vx;
+    double y = r*sin(tower_geom.get_phi())-vy;
+    double z = r/tan(2*atan2(exp(-1*tower_geom.get_eta()),1))-vz;
     r= sqrt(x*x+y*y);
     return -log(tan(atan2(r,z)/2.));
   }
