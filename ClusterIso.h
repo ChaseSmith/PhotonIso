@@ -81,9 +81,12 @@ protected:
   }
   inline double getTowerEta(RawTowerGeom tower_geom, double vx, double vy, double vz) // need to transpose the eta 
   {
-    double radius = sqrt((tower_geom.get_center_x()-vx)*(tower_geom.get_center_x()-vx)+(tower_geom.get_center_y()-vy)*(tower_geom.get_center_y()-vy));
-    double theta = atan2(radius,tower_geom.get_center_z()-vz);
-    return -log(tan(theta/2.));
+    double r= tower_geom->get_center_radius();
+    double x = r*tower_geom->cos(tower_geom->get_phi())-vx;
+    double y = r*tower_geom->sin(tower_geom->get_phi())-vy;
+    double z = r/tan(2*atan2(e(-1*tower_geom->get_eta())))-vz;
+    r= sqrt(x*x+y*y);
+    return -log(tan(atan2(r,z)/2.));
   }
 
   float eTCut;
