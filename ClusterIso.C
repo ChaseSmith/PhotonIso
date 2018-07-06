@@ -35,7 +35,7 @@ int ClusterIso::Init(PHCompositeNode *topNode)
   return 0;
 }
 
-void ClusterIso::setpTCut(float eTCut){
+void ClusterIso::seteTCut(float eTCut){
   this->eTCut = eTCut;
 }
 
@@ -84,7 +84,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         vx = vertex->get_x();
         vy = vertex->get_y();
         vz = vertex->get_z();
-        std::cout<<"Event Vertex Calculated"<<'\n';
+        std::cout<<"Event Vertex Calculated in ClusterIso x:"<<vx<<" y:"<<vy<<" z:"<<vz<<'\n';
      }
   for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) {
 
@@ -112,7 +112,7 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
             continue;
           } 
           float this_phi = tower_geom->get_phi();
-          float this_eta = tower_geom->get_eta();//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+          float this_eta = getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
           }
@@ -123,8 +123,12 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomIH->get_tower_geometry(tower->get_key());
+          if(towerInCluster(cluster,tower)){ // correctly identifies which towers are in cluster but the overall hueristic does seem to work and energy subtraction is better
+              std::cout<<"ITower in cluster"<<'\n';
+              continue;
+          }
           float this_phi = tower_geom->get_phi();
-          float this_eta = tower_geom->get_eta();//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+          float this_eta = getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
           }
@@ -135,14 +139,18 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomOH->get_tower_geometry(tower->get_key());
+          if(towerInCluster(cluster,tower)){ // correctly identifies which towers are in cluster but the overall hueristic does seem to work and energy subtraction is better
+              std::cout<<"Tower in cluster"<<'\n';
+              continue;
+          }
           float this_phi = tower_geom->get_phi();
-          float this_eta = tower_geom->get_eta();//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+          float this_eta = getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
           }
         }
       }
-      isoEt-=et;
+      //isoEt-=et; // instead of checking which towers are in the cluster sum all tower et then subtract the cluster 
       std::cout<<"Set:"<<isoEt<<'\n';
       cluster->set_et_iso(isoEt);
     }
