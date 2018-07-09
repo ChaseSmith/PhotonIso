@@ -99,13 +99,14 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
       float et = cluster_energy / cosh( cluster_eta );
       std::cout<<"Et:"<<et<<'\n';
       float isoEt=0;
-      if (et < pTCut) continue; 
+//      if (et < eTCut) continue; 
       //for each cluster go through all of the towers that are not in that cluster 
       //if the towers are within the iso cone add their energy to the sum 
       {
         RawTowerContainer::ConstRange begin_end = towersEM3old->getTowers();
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
-          RawTower *tower = rtiter->second; 
+         RawTower *tower = rtiter->second; 
+         RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
          float this_phi = tower_geom->get_phi();
          float this_eta= getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
 
