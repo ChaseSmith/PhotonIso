@@ -78,7 +78,6 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
     //declare new vertex to get correct cluster and tower eta
     GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
     vx=vy=vz=0;
-    bool trivialVertex=true;
      if (vertexmap&&!vertexmap->empty())
      {
         GlobalVertex* vertex = (vertexmap->begin()->second);
@@ -86,7 +85,6 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         vy = vertex->get_y();
         vz = vertex->get_z();
         std::cout<<"Event Vertex Calculated in ClusterIso x:"<<vx<<" y:"<<vy<<" z:"<<vz<<'\n';
-        trivialVertex=false;
      }
   for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) {
 
