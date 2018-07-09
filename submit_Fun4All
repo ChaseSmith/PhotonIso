@@ -6,7 +6,7 @@ Universe        = vanilla
 Notification    = Never
 
 # The executable we want to run.
-Executable   = /direct/phenix+u/chase/sphenix/sphenixwork/G4_CondorShell.csh
+Executable   = /direct/phenix+u/vassalli/sphenix/PhotonIso/ClusterTest.csh
 
 # The argument to pass to the executable.
 Arguments       = $(Process) 
@@ -24,11 +24,11 @@ Rank            = CPU_Speed
 
 # Jobs with higher numerical priority will run before jobs
 # with lower numerical priority (-20 to 20).
-Priority        = +18
+Priority        = +10
 
 # Used to give jobs a directory with respect to file input
 # and output.
-Initialdir   = /direct/phenix+u/chase/sphenix/sphenixwork
+Initialdir   = /direct/phenix+u/vassalli/sphenix/PhotonIso
 
 # Input file given to the job.
 Input           = /dev/null
