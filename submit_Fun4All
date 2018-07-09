@@ -34,16 +34,16 @@ Initialdir   = /direct/phenix+u/vassalli/sphenix/PhotonIso
 Input           = /dev/null
 
 # The job’s stdout is sent to this file.
-Output       =/gpfs/mnt/gpfs04/sphenix/user/chase/HEPsimout/condor_logs/out.$(Process)
+Output       =/direct/phenix+u/vassalli/sphenix/PhotonIso/condor_logs/out.$(Process)
 
 # The job’s stderr is sent to this file.
-Error        =/gpfs/mnt/gpfs04/sphenix/user/chase/HEPsimout/condor_logs/err.$(Process))
+Error        =/direct/phenix+u/vassalli/sphenix/PhotonIso/condor_logs/err.$(Process))
 
 # The condor log file for this job, useful when debuggin
-Log          =/gpfs/mnt/gpfs04/sphenix/user/chase/HEPsimout/condor_logs/log.$(Process)
+Log          =/direct/phenix+u/vassalli/sphenix/PhotonIso/condor_logs/log.$(Process)
 
 # Email address to send notification to.
-Notify_user     = chsm5267@colorado.edu
+Notify_user     = frva5829@colorado.edu
 
 # These are job flags which are non-Condor specific.
 # The “Experiment” flag should be set to the user’s experiment:
@@ -51,11 +51,11 @@ Notify_user     = chsm5267@colorado.edu
 +Experiment     = "phenix"
 
 # Since this is an analysis job we set this to “cas”.
-+Job_Type       = "cas"
++Job_Type       = "highmem"
 
 # This should be the last command and tells condor to queue the
 # job.  If a number is placed after the command (i.e. Queue 15)
 # then the job will be submitted N times.  Use the $(Process)
 # macro to make your input/output and log files unique.
 
-Queue 700
+Queue 10

@@ -2,7 +2,7 @@
 using namespace std;
 
 int Fun4All_G4_sPHENIX(
-    const int nEvents = 10,
+    const int nEvents = 1,
     const char *inputFile = "/sphenix/user/vassalli/XjPhi3/XjPhi3_pT5_441.dat",
     const char *outputFile = "XjPhi3_pT5_441_DST.root",
     //const char *outputFile = "G4sPHENIX.root",
