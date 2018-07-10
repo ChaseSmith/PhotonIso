@@ -2,7 +2,7 @@
 #define ClusterIso_h
 
 // --- need to check all these includes...
-//#include <fun4all/Fun4AllServer.h>  //can't find
+#include <fun4all/Fun4AllServer.h>  //can't find
 #include <phool/getClass.h>         //good
 #include <phool/PHCompositeNode.h>  //good
 
