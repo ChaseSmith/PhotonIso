@@ -21,7 +21,7 @@ include_HEADERS = \
 	TreeMakerLinkDef.h
 
 libTreeMaker_la_SOURCES = \
-	ClusterIso.C \
+	ClusterIso.cc \
 	ClusterIso_Dict.C \
 	TreeMaker.C \
 	TreeMaker_Dict.C
