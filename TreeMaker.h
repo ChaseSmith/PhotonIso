@@ -27,8 +27,13 @@ class TreeMaker: public SubsysReco
 
   std::string _foutname;
 
+  float vx;
+  float vy;
+  float vz;
+
   int _embed_id;
   double _b_et_iso;
+  double _b_clsuter_eta
 
 };
 #endif

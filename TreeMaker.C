@@ -42,6 +42,7 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _tree = new TTree("ttree","a quite imposing pine tree");
 
   _tree->Branch("et_iso",&_b_et_iso, "et_iso/D");
+  _tree->Branch("cluster_eta",&_b_clsuter_eta, "cluster_eta/D");
  return 0;
 }
 
@@ -58,11 +59,29 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     
   RawClusterContainer::ConstRange begin_end = clusters->getClusters();
   RawClusterContainer::ConstIterator rtiter;
+
+  GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
+  vx=vy=vz=0;
+  if (vertexmap&&!vertexmap->empty())
+  {
+     GlobalVertex* vertex = (vertexmap->begin()->second);
+     vx = vertex->get_x();
+     vy = vertex->get_y();
+     vz = vertex->get_z();
+     std::cout<<"Event Vertex Calculated in ClusterIso x:"<<vx<<" y:"<<vy<<" z:"<<vz<<'\n';
+  }
+
   for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) 
   {
     RawCluster *cluster = rtiter->second;
+    CLHEP::Hep3Vector vertex( vx, vy, vz); //set new correct vertex for eta calculation
+    CLHEP::Hep3Vector E_vec_cluster = RawClusterUtility::GetEVec(*cluster, vertex);
+    //double cluster_energy = E_vec_cluster.mag();
+    double cluster_eta = E_vec_cluster.pseudoRapidity(); 
+    //double cluster_phi = E_vec_cluster.phi();
+    //double et = cluster_energy / cosh( cluster_eta );
+    _b_clsuter_eta = cluster_eta;
     _b_et_iso = cluster->get_et_iso();
-    std::cout<<"Read:"<<_b_et_iso<<'\n';
     _tree->Fill();
   }
   return 0; 
