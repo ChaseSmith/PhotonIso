@@ -5,3 +5,4 @@ The Treemaker class is an anaylsis/output module for Fun4All.  It is complied wi
 PhotonIsolationMaker is currently deprecated however in further production will be a class to recontructed isolated photons from Au+Au G4 
 The config autogen and make files are working on RCF.
 A Manager is being made to call the classes in a Fun4All system of this. 
+The .csh and submit files can be used to make condor tests.  The sPHENIX simulation is run my Fun4All_G4_sPHENIX.C which is editted to use the TreeMaker and ClusterIso. 
