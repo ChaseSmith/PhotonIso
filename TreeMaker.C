@@ -42,7 +42,7 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _tree = new TTree("ttree","a quite imposing pine tree");
 
   _tree->Branch("et_iso",&_b_et_iso, "et_iso/D");
-  _tree->Branch("cluster_eta",&_b_clsuter_eta, "cluster_eta/D");
+  _tree->Branch("cluster_eta",&_b_cluster_eta, "cluster_eta/D");
  return 0;
 }
 
