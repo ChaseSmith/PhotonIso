@@ -3,6 +3,7 @@
 void drawEnergy(TH1D* isoEnergy){
 	TCanvas *tc = new TCanvas();
 	gPad->SetLogy();
+	isoEnergy->Scale(1/isoEnergy->Integral());
 	isoEnergy->Draw();
 	axisTitles(isoEnergy,"et_iso","count");
 }
