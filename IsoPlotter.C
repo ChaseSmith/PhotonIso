@@ -4,6 +4,7 @@ void drawEnergy(TH1D* isoEnergy){
 	TCanvas *tc = new TCanvas();
 	gPad->SetLogy();
 	isoEnergy->Draw();
+	axisTitles(isoEnergy,"et_iso","count");
 }
 
 
