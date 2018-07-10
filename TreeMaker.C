@@ -80,7 +80,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     double cluster_eta = E_vec_cluster.pseudoRapidity(); 
     //double cluster_phi = E_vec_cluster.phi();
     //double et = cluster_energy / cosh( cluster_eta );
-    _b_clsuter_eta = cluster_eta;
+    _b_cluster_eta = cluster_eta;
     _b_et_iso = cluster->get_et_iso();
     _tree->Fill();
   }
