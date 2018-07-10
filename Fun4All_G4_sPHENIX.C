@@ -516,7 +516,7 @@ int Fun4All_G4_sPHENIX(
   if (do_dst_compress) DstCompress(out);
   se->registerOutputManager(out);
 
-  ClusterIso *clusterIso = new ClusterIso(outputFile, 5, .3);
+  ClusterIso *clusterIso = new ClusterIso(outputFile, .5, .3);
   se->registerSubsystem(clusterIso); 
 
   TreeMaker *tt = new TreeMaker( outputFile );
