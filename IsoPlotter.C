@@ -1,6 +1,6 @@
-#include "TH1F.h"
+#include "TH1D.h"
 
-void drawEnergy(TH1F* isoEnergy){
+void drawEnergy(TH1D* isoEnergy){
 	TCanvas *tc = new TCanvas();
 	gPad->SetLogy();
 	isoEnergy->Draw();
@@ -8,15 +8,19 @@ void drawEnergy(TH1F* isoEnergy){
 
 
 void analyzeFiles(TChain *all){
-	float eT;
+	double eT;
 	all->SetBranchAddress("et_iso",&eT);
 
-	TH1F* isoEnergy = new TH1F("iso","",200,-5,15);
+	TH1D* isoEnergy = new TH1D("iso","",200,-2,23);
 
 	for (int i = 0; i < all->GetEntries(); ++i)
 	{
 		all->GetEntry(i);
-		isoEnergy->Fill(eT);
+		if (eT!=0)
+		{
+			//cout<<eT<<'\n';
+			isoEnergy->Fill(eT);	
+		}
 	}
 	drawEnergy(isoEnergy);
 }

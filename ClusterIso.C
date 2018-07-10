@@ -93,12 +93,12 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
       
       CLHEP::Hep3Vector vertex( vx, vy, vz); //set new correct vertex for eta calculation
       CLHEP::Hep3Vector E_vec_cluster = RawClusterUtility::GetEVec(*cluster, vertex);
-      float cluster_energy = E_vec_cluster.mag();
-      float cluster_eta = E_vec_cluster.pseudoRapidity(); 
-      float cluster_phi = E_vec_cluster.phi();
-      float et = cluster_energy / cosh( cluster_eta );
+      double cluster_energy = E_vec_cluster.mag();
+      double cluster_eta = E_vec_cluster.pseudoRapidity(); 
+      double cluster_phi = E_vec_cluster.phi();
+      double et = cluster_energy / cosh( cluster_eta );
       std::cout<<"Et:"<<et<<'\n';
-      float isoEt=0;
+      double isoEt=0;
       if (et < eTCut){
 
         continue; 
@@ -110,8 +110,8 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
          RawTower *tower = rtiter->second; 
          RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
-         float this_phi = tower_geom->get_phi();
-         float this_eta= getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+         double this_phi = tower_geom->get_phi();
+         double this_eta= getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
 
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
@@ -123,8 +123,8 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomIH->get_tower_geometry(tower->get_key());
-         float this_phi = tower_geom->get_phi();
-         float this_eta= getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+         double this_phi = tower_geom->get_phi();
+         double this_eta= getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
           }
@@ -135,8 +135,8 @@ int ClusterIso::process_event(PHCompositeNode *topNode)
         for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
           RawTower *tower = rtiter->second; 
           RawTowerGeom *tower_geom = geomOH->get_tower_geometry(tower->get_key());
-         float this_phi = tower_geom->get_phi();
-         float this_eta= getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
+         double this_phi = tower_geom->get_phi();
+         double this_eta= getTowerEta(tower_geom,vx,vy,vz);//needs be be recalculated getTowerEta(*tower_geom,vx,vy,vz); //get tower eta using new vertex
           if ( deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < coneSize){//if this tower is within .3 (ort the conse size) of the truth photon add its ET to the isolated calorimeter
               isoEt += tower->get_energy() / cosh( this_eta );
           }
