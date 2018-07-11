@@ -22,7 +22,7 @@ include_HEADERS = \
 
 libTreeMaker_la_SOURCES = \
 	ClusterIso.cc \
-	ClusterIso_Dict.C \
+	ClusterIso_Dict.cc \
 	TreeMaker.C \
 	TreeMaker_Dict.C
 
