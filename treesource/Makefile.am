@@ -5,24 +5,24 @@ INCLUDES = \
   -I$(OFFLINE_MAIN)/include \
   -I`root-config --incdir`
 
-libclusteriso_la_LDFLAGS = \
+libtreemaker_la_LDFLAGS = \
   -nodefaultlibs \
   -L$(libdir) \
   -L$(OFFLINE_MAIN)/lib \
  `root-config --libs`
 
 lib_LTLIBRARIES = \
-	libclusteriso.la
+	libtreemaker.la
   
 include_HEADERS = \
-	TestClusterIso.h \
-	TestClusterIsoLinkDef.h 
+	TreeMaker.h \
+	TreeMakerLinkDef.h 
 
-libclusteriso_la_SOURCES = \
-	TestClusterIso.cc \
-	TestClusterIso_Dict.C 
+libtreemaker_la_SOURCES = \
+	TreeMaker.cc \
+	TreeMaker_Dict.C 
 
-libclusteriso_la_LIBADD = \
+libtreemaker_la_LIBADD = \
   -lg4dst \
   -lg4eval \
   -lcalotrigger \
@@ -36,7 +36,7 @@ noinst_PROGRAMS = \
 	testexternals
 
 testexternals_LDADD = \
-	libclusteriso.la
+	libtreemaker.la
 
 testexternals.C:
 	echo "//*** this is a generated file. Do not commit, do not edit" > $@

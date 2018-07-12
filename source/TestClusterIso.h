@@ -1,6 +1,6 @@
 // This file is really -*- C++ -*-.
-#ifndef ClusterIso_h 
-#define ClusterIso_h
+#ifndef TestClusterIso_h 
+#define TestClusterIso_h
 
 #include <fun4all/SubsysReco.h>
 #include <CLHEP/Vector/ThreeVector.h>
@@ -17,13 +17,13 @@ class RawTowerGeom;
  * the cluster from the sum
  */
 
-class ClusterIso: public SubsysReco
+class TestClusterIso: public SubsysReco
 {
 public:
   /**
    * Constructor for ClusterIso Class
    */
-  ClusterIso(const std::string& ,float eTCut, float coneSize);
+  TestClusterIso(const std::string& ,float eTCut, float coneSize, bool eventSubtraction);
 
   virtual int Init(PHCompositeNode*);
   virtual int process_event(PHCompositeNode*);
@@ -31,8 +31,10 @@ public:
 
   void seteTCut(float x);
   void setConeSize(float x);
+  void setEventSubtraction(bool x);
   const float geteTCut();
   const float getConeSize();
+  const float isSubtracted();
   const CLHEP::Hep3Vector getVertex();
 
 private:
@@ -42,6 +44,7 @@ private:
   float m_vx; ///< new vertex x value  
   float m_vy; ///< new vertex y value 
   float m_vz; ///< new vertex z value
+  bool m_eventSubtraction; ///< whether or not to do event subtraction for isoEt
 };
 
 
