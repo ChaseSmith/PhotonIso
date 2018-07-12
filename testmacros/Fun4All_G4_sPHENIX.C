@@ -521,7 +521,7 @@ int Fun4All_G4_sPHENIX(
   if (do_dst_compress) DstCompress(out);
   se->registerOutputManager(out);
 
-  bool subtract_background = true;
+  bool subtract_background = false;
   TestClusterIso *testclusterIso = new TestClusterIso(outputFile, .0, .4, subtract_background);
   se->registerSubsystem(testclusterIso); 
 
