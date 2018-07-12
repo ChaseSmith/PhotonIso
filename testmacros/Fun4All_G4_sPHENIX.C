@@ -7,8 +7,8 @@ int Fun4All_G4_sPHENIX(
     //const char *outputFile = "G4sPHENIX.root",
 {
 
-    const int nEvents = 10;
-    const char *embed_input_file = "/sphenix/data/data02/review_2017-08-02/sHijing/fm_0-4.list";
+    const int nEvents = 1;
+    const char *embed_input_file ="/sphenix/sim/sim01/cd1_review/sHijing/fm_0-4/G4Hits_AuAu200_hijing_0-4fm_005450_005500.root";
   //===============
   // Input options
   //===============
@@ -33,7 +33,7 @@ int Fun4All_G4_sPHENIX(
   // Further choose to embed newly simulated events to a previous simulation. Not compatible with `readhits = true`
   // In case embedding into a production output, please double check your G4Setup_sPHENIX.C and G4_*.C consistent with those in the production macro folder
   // E.g. /sphenix/data/data02/review_2017-08-02/
-  const bool do_embedding = false;
+  const bool do_embedding = true;
 
   // Besides the above flags. One can further choose to further put in following particles in Geant4 simulation
   // Use multi-particle generator (PHG4SimpleEventGenerator), see the code block below to choose particle species and kinematics
@@ -41,9 +41,11 @@ int Fun4All_G4_sPHENIX(
   // or gun/ very simple single particle gun generator
   const bool usegun = false && !readhits;
   // Throw single Upsilons, may be embedded in Hijing by setting readhepmc flag also  (note, careful to set Z vertex equal to Hijing events)
+  //
   const bool upsilons = false && !readhits;
   // Event pile up simulation with collision rate in Hz MB collisions.
   // Note please follow up the macro to verify the settings for beam parameters
+  //
   const double pileup_collision_rate = 0;  // 100e3 for 100kHz nominal AuAu collision rate.
 
   //======================
@@ -113,13 +115,16 @@ int Fun4All_G4_sPHENIX(
   gSystem->Load("libg4hough.so");
   gSystem->Load("libg4eval.so");
 
-  gSystem->Load("libTreeMaker.so");
+  gSystem->Load("libtreemaker.so");
+  gSystem->Load("libclusteriso.so");
 
   // establish the geometry and reconstruction setup
+  //
   gROOT->LoadMacro("G4Setup_sPHENIX.C");
   G4Init(do_svtx, do_pstof, do_cemc, do_hcalin, do_magnet, do_hcalout, do_pipe, do_plugdoor);
 
   int absorberactive = 0;  // set to 1 to make all absorbers active volumes
+
   //  const string magfield = "1.5"; // if like float -> solenoidal field in T, if string use as fieldmap name (including path)
   const string magfield = "/phenix/upgrades/decadal/fieldmaps/sPHENIX.2d.root";  // if like float -> solenoidal field in T, if string use as fieldmap name (including path)
   const float magfield_rescale = -1.4 / 1.5;                                     // scale the map to a 1.4 T field
@@ -434,8 +439,8 @@ int Fun4All_G4_sPHENIX(
     gSystem->Load("libg4dst.so");
 
     Fun4AllDstInputManager *in1 = new Fun4AllNoSyncDstInputManager("DSTinEmbed");
-    //      in1->AddFile(embed_input_file); // if one use a single input file
-    in1->AddListFile(embed_input_file);  // RecommendedL: if one use a text list of many input files
+    in1->AddFile(embed_input_file); // if one use a single input file
+    //in1->AddListFile(embed_input_file);  // RecommendedL: if one use a text list of many input files
     se->registerInputManager(in1);
   }
 
@@ -516,8 +521,9 @@ int Fun4All_G4_sPHENIX(
   if (do_dst_compress) DstCompress(out);
   se->registerOutputManager(out);
 
-  ClusterIso *clusterIso = new ClusterIso(outputFile, .0, .4);
-  se->registerSubsystem(clusterIso); 
+  bool subtract_background = true;
+  TestClusterIso *testclusterIso = new TestClusterIso(outputFile, .0, .4, subtract_background);
+  se->registerSubsystem(testclusterIso); 
 
   TreeMaker *tt = new TreeMaker( outputFile );
   se->registerSubsystem( tt );
@@ -549,3 +555,4 @@ int Fun4All_G4_sPHENIX(
   delete se;
 
 }
+
