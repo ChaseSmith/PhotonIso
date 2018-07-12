@@ -63,7 +63,7 @@ void TestClusterIso::seteTCut(float eTCut){
 void TestClusterIso::setConeSize(float coneSize){
   this->m_coneSize=coneSize;
 }
-void TestClusterIso::setEventSubtraction(){
+void TestClusterIso::setEventSubtraction(bool eventSubtraction){
   this->m_eventSubtraction=eventSubtraction;
 }
 
