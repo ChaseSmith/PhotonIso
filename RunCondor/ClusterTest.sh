@@ -18,7 +18,7 @@ done
 # # Variable Defs                                                                                                                                      
 # #-------------------                                                                                                                                  
 
-SOURCE="/direct/phenix+u/chase/sphenix/PhotonIso/*"
+SOURCE="/direct/phenix+u/chase/sphenix/PhotonIso/testmacros/Fun4All_G4_sPHENIX.C"
 
 DESTINATION="/sphenix/user/chase/embedded_IsoAnalysis"
 
@@ -39,15 +39,15 @@ source /phenix/u/chase/.cshrc
 # #-------------------                                                                                                                                  
 
 mkdir $SCRATCH_AREA/chase_PhotonIso
-cp  $SOURCE_PHOTONMAKER $SCRATCH_AREA/chase_PhotonIso/
+cp  $SOURCE $SCRATCH_AREA/chase_PhotonIso/
 
 # #-------------------                                                                                                                                
 # # Run Executable  
 # #-------------------                                                                                                                                  
 
 cd $SCRATCH_AREA/chase_PhotonIso
-root -b -q Fun4All_G4_sPHENIX.C\(\"/sphenix/user/vassalli/XjPhi1/XjPhi1_pT5_${1}.dat\",\"Hijing.root\"\) 
-cp out${1}ClusterTree.root $DESTINATION
+root -b -q Fun4All_G4_sPHENIX.C\(\"/sphenix/user/vassalli/XjPhi1/XjPhi1_pT5_${p}.dat\",\"BEST_TEST_EVER_DST_${p}.root\",1,\"$BACKGROUND_EVENT\"\) 
+cp BEST_TEST_EVER_DST_${p}.root $DESTINATION
 
 
 rm -r $SCRATCH_AREA/chase_PhotonIso
