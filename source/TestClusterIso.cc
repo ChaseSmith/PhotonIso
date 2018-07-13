@@ -46,7 +46,7 @@ double TestClusterIso::getTowerEta(RawTowerGeom* tower_geom, double vx, double v
 }
 
 
-TestClusterIso::TestClusterIso(const std::string &kname, float m_eTCut, float m_coneSize, bool m_eventSubtraction) : SubsysReco("TestClusterIso"), m_eTCut(m_eTCut), m_coneSize(m_coneSize), m_eventSubtraction(m_eventSubtraction){
+TestClusterIso::TestClusterIso(const std::string &kname, float m_eTCut, float m_coneSize) : SubsysReco("TestClusterIso"), m_eTCut(m_eTCut), m_coneSize(m_coneSize){
   std::cout<<"Begining Cluster Isolation Energy Calculation"<<'\n';
   m_vx=m_vy=m_vz=0;
 }
@@ -63,9 +63,6 @@ void TestClusterIso::seteTCut(float eTCut){
 void TestClusterIso::setConeSize(float coneSize){
   this->m_coneSize=coneSize;
 }
-void TestClusterIso::setEventSubtraction(bool eventSubtraction){
-  this->m_eventSubtraction=eventSubtraction;
-}
 
 const float TestClusterIso::geteTCut(){
   return m_eTCut;
@@ -73,10 +70,6 @@ const float TestClusterIso::geteTCut(){
 
 const float TestClusterIso::getConeSize(){
   return m_coneSize;
-}
-
-const float TestClusterIso::isSubtracted(){
-  return m_eventSubtraction;
 }
 
 /**
@@ -101,7 +94,7 @@ const CLHEP::Hep3Vector TestClusterIso::getVertex(){
    * NOTE: that during the background event subtraction the EMCal towers are grouped 
    * together so we have to use the inner HCal geometry. 
    */
-  if(m_eventSubtraction)
+
   {
     ///get EMCal towers
     RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC_RETOWER_SUB1");
@@ -195,7 +188,7 @@ const CLHEP::Hep3Vector TestClusterIso::getVertex(){
         }
 
         isoEt-=et; //Subtract cluster eT from isoET
-        cluster->set_et_iso(isoEt);
+        cluster->set_et_iso(isoEt, (int) 10*m_coneSize,1);
       }
     }
   }
@@ -204,7 +197,7 @@ const CLHEP::Hep3Vector TestClusterIso::getVertex(){
    * If the event is not embedded in any kind of background we just use the original 
    * tower objects to get isolation energy.
    */
-  else
+
   {
     ///get EMCal towers
     RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
@@ -298,7 +291,7 @@ const CLHEP::Hep3Vector TestClusterIso::getVertex(){
         }
 
         isoEt-=et; //Subtract cluster eT from isoET
-        cluster->set_et_iso(isoEt);
+        cluster->set_et_iso(isoEt, (int) 10*m_coneSize,0);
       }
     }
   }

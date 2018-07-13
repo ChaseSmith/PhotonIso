@@ -23,7 +23,7 @@ public:
   /**
    * Constructor for ClusterIso Class
    */
-  TestClusterIso(const std::string& ,float eTCut, float coneSize, bool eventSubtraction);
+  TestClusterIso(const std::string& ,float eTCut = 0.0, float coneSize = 0.3);
 
   virtual int Init(PHCompositeNode*);
   virtual int process_event(PHCompositeNode*);
@@ -31,10 +31,8 @@ public:
 
   void seteTCut(float x);
   void setConeSize(float x);
-  void setEventSubtraction(bool x);
   const float geteTCut();
   const float getConeSize();
-  const float isSubtracted();
   const CLHEP::Hep3Vector getVertex();
 
 private:
@@ -44,7 +42,6 @@ private:
   float m_vx; ///< new vertex x value  
   float m_vy; ///< new vertex y value 
   float m_vz; ///< new vertex z value
-  bool m_eventSubtraction; ///< whether or not to do event subtraction for isoEt
 };
 
 
