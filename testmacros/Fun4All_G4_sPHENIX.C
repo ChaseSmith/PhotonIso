@@ -3,12 +3,11 @@ using namespace std;
 
 int Fun4All_G4_sPHENIX(
     const char *inputFile = "/sphenix/user/vassalli/XjPhi3/XjPhi3_pT5_441.dat",
-    const char *outputFile = "XjPhi3_pT5_441_DST.root")
+    const char *outputFile = "XjPhi3_pT5_441_DST.root",
     //const char *outputFile = "G4sPHENIX.root",
+    const int nEvents = 1,                                                                                                         
+    const char *embed_input_file ="/sphenix/sim/sim01/cd1_review/sHijing/fm_0-4/G4Hits_AuAu200_hijing_0-4fm_005450_005500.root")
 {
-
-    const int nEvents = 1;
-    const char *embed_input_file ="/sphenix/sim/sim01/cd1_review/sHijing/fm_0-4/G4Hits_AuAu200_hijing_0-4fm_005450_005500.root";
   //===============
   // Input options
   //===============
@@ -521,8 +520,8 @@ int Fun4All_G4_sPHENIX(
   if (do_dst_compress) DstCompress(out);
   se->registerOutputManager(out);
 
-  bool subtract_background = false;
-  TestClusterIso *testclusterIso = new TestClusterIso(outputFile, .0, .4, subtract_background);
+  bool subtracted_background = false;
+  TestClusterIso *testclusterIso = new TestClusterIso(outputFile, .0, .4, subtracted_background);
   se->registerSubsystem(testclusterIso); 
 
   TreeMaker *tt = new TreeMaker( outputFile );
