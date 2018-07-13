@@ -46,7 +46,7 @@ double TestClusterIso::getTowerEta(RawTowerGeom* tower_geom, double vx, double v
 }
 
 
-TestClusterIso::TestClusterIso(const std::string &kname, float m_eTCut = 0.0, float m_coneSize = 0.3) : SubsysReco("TestClusterIso"), m_eTCut(m_eTCut), m_coneSize(m_coneSize){
+TestClusterIso::TestClusterIso(const std::string &kname, float m_eTCut = 0.0, int coneSize = 3) : SubsysReco("TestClusterIso"), m_eTCut(m_eTCut), m_coneSize(coneSize){
   std::cout<<"Begining Cluster Isolation Energy Calculation"<<'\n';
   m_vx=m_vy=m_vz=0;
 }
