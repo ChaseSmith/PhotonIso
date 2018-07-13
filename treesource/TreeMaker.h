@@ -32,8 +32,15 @@ class TreeMaker: public SubsysReco
   float vz;
 
   int _embed_id;
-  double _b_et_iso;
   double _b_cluster_eta;
+  double _b_et_iso_calotower_sub_R01;
+  double _b_et_iso_calotower_R01;
+  double _b_et_iso_calotower_sub_R02;
+  double _b_et_iso_calotower_R02;
+  double _b_et_iso_calotower_sub_R03;
+  double _b_et_iso_calotower_R03;
+  double _b_et_iso_calotower_sub_R04;
+  double _b_et_iso_calotower_R04;
 
 };
 #endif

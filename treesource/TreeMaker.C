@@ -41,8 +41,16 @@ int TreeMaker::Init(PHCompositeNode *topNode)
 
   _tree = new TTree("ttree","a quite imposing pine tree");
 
-  _tree->Branch("et_iso",&_b_et_iso, "et_iso/D");
   _tree->Branch("cluster_eta",&_b_cluster_eta, "cluster_eta/D");
+  _tree->Branch("et_iso_calotower_sub_R01",&_b_et_iso_calotower_sub_R01, "et_iso_calotower_sub_R01/D");
+  _tree->Branch("et_iso_calotower_R01",&_b_et_iso_calotower_R01, "et_iso_calotower_R01/D");
+  _tree->Branch("et_iso_calotower_sub_R02",&_b_et_iso_calotower_sub_R02, "et_iso_calotower_sub_R02/D");
+  _tree->Branch("et_iso_calotower_R02",&_b_et_iso_calotower_R02, "et_iso_calotower_R02/D");
+  _tree->Branch("et_iso_calotower_sub_R03",&_b_et_iso_calotower_sub_R03, "et_iso_calotower_sub_R03/D");
+  _tree->Branch("et_iso_calotower_R03",&_b_et_iso_calotower_R03, "et_iso_calotower_R03/D");
+  _tree->Branch("et_iso_calotower_sub_R04",&_b_et_iso_calotower_sub_R04, "et_iso_calotower_sub_R04/D");
+  _tree->Branch("et_iso_calotower_R04",&_b_et_iso_calotower_R04, "et_iso_calotower_R04/D");
+
  return 0;
 }
 
@@ -81,7 +89,17 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     //double cluster_phi = E_vec_cluster.phi();
     //double et = cluster_energy / cosh( cluster_eta );
     _b_cluster_eta = cluster_eta;
-    _b_et_iso = cluster->get_et_iso();
+
+    //arguments are (cone radiusx10, subtract event = true, use calotowers for isolation = true)
+    _b_et_iso_calotower_sub_R01 = cluster->get_et_iso(1,1,1);
+    _b_et_iso_calotower_R01 = cluster->get_et_iso(1,0,1);
+    _b_et_iso_calotower_sub_R02 = cluster->get_et_iso(2,1,1);
+    _b_et_iso_calotower_R02 = cluster->get_et_iso(2,0,1);
+    _b_et_iso_calotower_sub_R03 = cluster->get_et_iso(3,1,1);
+    _b_et_iso_calotower_R03 = cluster->get_et_iso(3,0,1);
+    _b_et_iso_calotower_sub_R04 = cluster->get_et_iso(4,1,1);
+    _b_et_iso_calotower_R04 = cluster->get_et_iso(4,0,1);
+    
     _tree->Fill();
   }
   return 0; 

@@ -23,7 +23,7 @@ public:
   /**
    * Constructor for ClusterIso Class
    */
-  TestClusterIso(const std::string& ,float eTCut = 0.0, float coneSize = 0.3);
+  TestClusterIso(const std::string& ,float eTCut, float coneSize);
 
   virtual int Init(PHCompositeNode*);
   virtual int process_event(PHCompositeNode*);
