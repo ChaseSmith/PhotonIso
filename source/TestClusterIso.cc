@@ -188,7 +188,7 @@ const CLHEP::Hep3Vector TestClusterIso::getVertex(){
         }
 
         isoEt-=et; //Subtract cluster eT from isoET
-        cluster->set_et_iso(isoEt, (int) 10*m_coneSize,1);
+        cluster->set_et_iso(isoEt, (int) 10*m_coneSize,1,1);
       }
     }
   }
@@ -291,7 +291,7 @@ const CLHEP::Hep3Vector TestClusterIso::getVertex(){
         }
 
         isoEt-=et; //Subtract cluster eT from isoET
-        cluster->set_et_iso(isoEt, (int) 10*m_coneSize,0);
+        cluster->set_et_iso(isoEt, (int) 10*m_coneSize,0,1);
       }
     }
   }

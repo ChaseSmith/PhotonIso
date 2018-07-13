@@ -520,9 +520,17 @@ int Fun4All_G4_sPHENIX(
   if (do_dst_compress) DstCompress(out);
   se->registerOutputManager(out);
 
-  bool subtracted_background = false;
-  TestClusterIso *testclusterIso = new TestClusterIso(outputFile, .0, .4, subtracted_background);
-  se->registerSubsystem(testclusterIso); 
+  TestClusterIso *testclusterIso1 = new TestClusterIso(outputFile, .0, .1);
+  se->registerSubsystem(testclusterIso1); 
+
+  TestClusterIso *testclusterIso2 = new TestClusterIso(outputFile, .0, .2);
+  se->registerSubsystem(testclusterIso2);
+
+  TestClusterIso *testclusterIso3 = new TestClusterIso(outputFile, .0, .3);
+  se->registerSubsystem(testclusterIso3); 
+  
+  TestClusterIso *testclusterIso4 = new TestClusterIso(outputFile, .0, .4);
+  se->registerSubsystem(testclusterIso4); 
 
   TreeMaker *tt = new TreeMaker( outputFile );
   se->registerSubsystem( tt );
