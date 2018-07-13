@@ -61,7 +61,7 @@ void TestClusterIso::seteTCut(float eTCut){
 }
 
 void TestClusterIso::setConeSize(float coneSize){
-  this->m_coneSize=coneSize;
+  this->m_coneSize=coneSize/10.0;
 }
 
 const float TestClusterIso::geteTCut(){
@@ -69,7 +69,7 @@ const float TestClusterIso::geteTCut(){
 }
 
 const float TestClusterIso::getConeSize(){
-  return m_coneSize;
+  return (int) m_coneSize*10;
 }
 
 /**
