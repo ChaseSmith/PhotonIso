@@ -2,11 +2,11 @@
 using namespace std;
 
 int Fun4All_G4_sPHENIX(
-    const char *inputFile = "/sphenix/user/vassalli/XjPhi3/XjPhi3_pT5_441.dat",
-    const char *outputFile = "XjPhi3_pT5_441_DST.root",
+    const char *inputFile = "/sphenix/user/vassalli/XjPhi1/XjPhi1_pT5_0.dat",
+    const char *outputFile = "test_DST.root",
     //const char *outputFile = "G4sPHENIX.root",
     const int nEvents = 1,                                                                                                         
-    const char *embed_input_file ="/sphenix/sim/sim01/cd1_review/sHijing/fm_0-4/G4Hits_AuAu200_hijing_0-4fm_005450_005500.root")
+    const char *embed_input_file ="/sphenix/sim/sim01/cd1_review/sHijing/fm_0-4/G4Hits_AuAu200_hijing_0-4fm_000000_000050.root")
 {
   //===============
   // Input options
@@ -519,17 +519,18 @@ int Fun4All_G4_sPHENIX(
   Fun4AllDstOutputManager *out = new Fun4AllDstOutputManager("DSTOUT", outputFile );
   if (do_dst_compress) DstCompress(out);
   se->registerOutputManager(out);
-
-  TestClusterIso *testclusterIso1 = new TestClusterIso(outputFile, .0, .1);
+  
+  
+  TestClusterIso *testclusterIso1 = new TestClusterIso(outputFile, 5, 1);
   se->registerSubsystem(testclusterIso1); 
 
-  TestClusterIso *testclusterIso2 = new TestClusterIso(outputFile, .0, .2);
+  TestClusterIso *testclusterIso2 = new TestClusterIso(outputFile, 5, 2);
   se->registerSubsystem(testclusterIso2);
 
-  TestClusterIso *testclusterIso3 = new TestClusterIso(outputFile, .0, .3);
+  TestClusterIso *testclusterIso3 = new TestClusterIso(outputFile, 5, 3);
   se->registerSubsystem(testclusterIso3); 
   
-  TestClusterIso *testclusterIso4 = new TestClusterIso(outputFile, .0, .4);
+  TestClusterIso *testclusterIso4 = new TestClusterIso(outputFile, 5, 4);
   se->registerSubsystem(testclusterIso4); 
 
   TreeMaker *tt = new TreeMaker( outputFile );
