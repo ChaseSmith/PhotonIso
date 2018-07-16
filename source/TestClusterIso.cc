@@ -46,9 +46,11 @@ double TestClusterIso::getTowerEta(RawTowerGeom* tower_geom, double vx, double v
 }
 
 
-TestClusterIso::TestClusterIso(const std::string &kname, float m_eTCut = 0.0, int coneSize = 3) : SubsysReco("TestClusterIso"), m_eTCut(m_eTCut), m_coneSize(coneSize){
+TestClusterIso::TestClusterIso(const std::string &kname, float eTCut = 0.0, int coneSize = 3) : SubsysReco("TestClusterIso"){
   std::cout<<"Begining Cluster Isolation Energy Calculation"<<'\n';
   m_vx=m_vy=m_vz=0;
+  setConeSize(coneSize);
+  seteTCut(eTCut);
 }
 
  int TestClusterIso::Init(PHCompositeNode *topNode)
@@ -60,7 +62,7 @@ void TestClusterIso::seteTCut(float eTCut){
   this->m_eTCut = eTCut;
 }
 
-void TestClusterIso::setConeSize(float coneSize){
+void TestClusterIso::setConeSize(int coneSize){
   this->m_coneSize=coneSize/10.0;
 }
 
@@ -68,7 +70,7 @@ const float TestClusterIso::geteTCut(){
   return m_eTCut;
 }
 
-const float TestClusterIso::getConeSize(){
+const int TestClusterIso::getConeSize(){
   return (int) m_coneSize*10;
 }
 
@@ -106,7 +108,7 @@ const CLHEP::Hep3Vector TestClusterIso::getVertex(){
 
     ///get outerHCal towers
     RawTowerContainer *towersOH3 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_HCALOUT_SUB1");
-    std::cout << "TestClusterIso::process_event: " << towersOH3->size() << " TOWER_CALIB_HCALOUT towers" << std::endl;
+    std::cout << "TestClusterIso::process_event: " << towersOH3->size() << " TOWER_CALIB_HCALOUT_SUB1 towers" << std::endl;
 
     ///get geometry of calorimeter towers
     RawTowerGeomContainer *geomEM = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_HCALIN");
@@ -141,6 +143,7 @@ const CLHEP::Hep3Vector TestClusterIso::getVertex(){
         double cluster_eta = E_vec_cluster.pseudoRapidity(); 
         double cluster_phi = E_vec_cluster.phi();
         double et = cluster_energy / cosh( cluster_eta );
+        std::cout<<"Cluster Energy: "<<et<<std::endl;
         double isoEt=0;
 
         if (et < m_eTCut){continue;} //continue if cluster is under eT cut
@@ -245,6 +248,8 @@ const CLHEP::Hep3Vector TestClusterIso::getVertex(){
         double cluster_phi = E_vec_cluster.phi();
         double et = cluster_energy / cosh( cluster_eta );
         double isoEt=0;
+
+        std::cout<<"Cluster Energy: "<<et<<std::endl;
 
         if (et < m_eTCut){continue;} //continue if cluster is under eT cut
 

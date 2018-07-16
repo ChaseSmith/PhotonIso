@@ -521,16 +521,16 @@ int Fun4All_G4_sPHENIX(
   se->registerOutputManager(out);
   
   
-  TestClusterIso *testclusterIso1 = new TestClusterIso(outputFile, 5, 1);
+  TestClusterIso *testclusterIso1 = new TestClusterIso(outputFile, 1, 1);
   se->registerSubsystem(testclusterIso1); 
 
-  TestClusterIso *testclusterIso2 = new TestClusterIso(outputFile, 5, 2);
+  TestClusterIso *testclusterIso2 = new TestClusterIso(outputFile, 1, 2);
   se->registerSubsystem(testclusterIso2);
 
-  TestClusterIso *testclusterIso3 = new TestClusterIso(outputFile, 5, 3);
+  TestClusterIso *testclusterIso3 = new TestClusterIso(outputFile, 1, 3);
   se->registerSubsystem(testclusterIso3); 
   
-  TestClusterIso *testclusterIso4 = new TestClusterIso(outputFile, 5, 4);
+  TestClusterIso *testclusterIso4 = new TestClusterIso(outputFile, 1, 4);
   se->registerSubsystem(testclusterIso4); 
 
   TreeMaker *tt = new TreeMaker( outputFile );

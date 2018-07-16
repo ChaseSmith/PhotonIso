@@ -90,17 +90,21 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     //double et = cluster_energy / cosh( cluster_eta );
     _b_cluster_eta = cluster_eta;
 
-    //arguments are (cone radiusx10, subtract event = true, use calotowers for isolation = true)
-    _b_et_iso_calotower_sub_R01 = cluster->get_et_iso(1,1,1);
-    _b_et_iso_calotower_R01 = cluster->get_et_iso(1,0,1);
-    _b_et_iso_calotower_sub_R02 = cluster->get_et_iso(2,1,1);
-    _b_et_iso_calotower_R02 = cluster->get_et_iso(2,0,1);
-    _b_et_iso_calotower_sub_R03 = cluster->get_et_iso(3,1,1);
-    _b_et_iso_calotower_R03 = cluster->get_et_iso(3,0,1);
-    _b_et_iso_calotower_sub_R04 = cluster->get_et_iso(4,1,1);
-    _b_et_iso_calotower_R04 = cluster->get_et_iso(4,0,1);
-    
-    _tree->Fill();
+    if(cluster->get_energy() / cosh( cluster_eta ) > 1) 
+    {
+      //arguments are (cone radiusx10, subtract event = true, use calotowers for isolation = true)
+      _b_et_iso_calotower_sub_R01 = cluster->get_et_iso(1,1,1);
+      //std::cout<<"_b_et_iso_calotower_sub_R01: "<<_b_et_iso_calotower_sub_R01<<std::endl;
+      _b_et_iso_calotower_R01 = cluster->get_et_iso(1,0,1);
+      //std::cout<<"_b_et_iso_calotower_R01: "<<_b_et_iso_calotower_R01<<std::endl;
+      _b_et_iso_calotower_sub_R02 = cluster->get_et_iso(2,1,1);
+      _b_et_iso_calotower_R02 = cluster->get_et_iso(2,0,1);
+      _b_et_iso_calotower_sub_R03 = cluster->get_et_iso(3,1,1);
+      _b_et_iso_calotower_R03 = cluster->get_et_iso(3,0,1);
+      _b_et_iso_calotower_sub_R04 = cluster->get_et_iso(4,1,1);
+      _b_et_iso_calotower_R04 = cluster->get_et_iso(4,0,1);
+      _tree->Fill();
+    }
   }
   return 0; 
 }

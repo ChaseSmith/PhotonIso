@@ -30,9 +30,9 @@ public:
   virtual int End(PHCompositeNode*);
 
   void seteTCut(float x);
-  void setConeSize(float x);
+  void setConeSize(int x);
   const float geteTCut();
-  const float getConeSize();
+  const int getConeSize();
   const CLHEP::Hep3Vector getVertex();
 
 private:
