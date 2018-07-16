@@ -6,7 +6,7 @@ int Fun4All_G4_sPHENIX(
     const char *outputFile = "test_DST.root",
     //const char *outputFile = "G4sPHENIX.root",
     const int nEvents = 1,                                                                                                         
-    const char *embed_input_file ="/sphenix/sim/sim01/cd1_review/sHijing/fm_0-4/G4Hits_AuAu200_hijing_0-4fm_000000_000050.root")
+    const char *embed_input_file ="/sphenix/sim/sim01/cd1_review/sHijing/fm_0-4/G4Hits_AuAu200_hijing_0-4fm_005450_005500.root")
 {
   //===============
   // Input options
@@ -521,16 +521,16 @@ int Fun4All_G4_sPHENIX(
   se->registerOutputManager(out);
   
   
-  TestClusterIso *testclusterIso1 = new TestClusterIso(outputFile, 1, 1);
+  TestClusterIso *testclusterIso1 = new TestClusterIso(outputFile, 5, 1);
   se->registerSubsystem(testclusterIso1); 
 
-  TestClusterIso *testclusterIso2 = new TestClusterIso(outputFile, 1, 2);
+  TestClusterIso *testclusterIso2 = new TestClusterIso(outputFile, 5, 2);
   se->registerSubsystem(testclusterIso2);
 
-  TestClusterIso *testclusterIso3 = new TestClusterIso(outputFile, 1, 3);
+  TestClusterIso *testclusterIso3 = new TestClusterIso(outputFile, 5, 3);
   se->registerSubsystem(testclusterIso3); 
   
-  TestClusterIso *testclusterIso4 = new TestClusterIso(outputFile, 1, 4);
+  TestClusterIso *testclusterIso4 = new TestClusterIso(outputFile, 5, 4);
   se->registerSubsystem(testclusterIso4); 
 
   TreeMaker *tt = new TreeMaker( outputFile );

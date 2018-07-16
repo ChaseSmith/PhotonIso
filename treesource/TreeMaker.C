@@ -90,7 +90,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     //double et = cluster_energy / cosh( cluster_eta );
     _b_cluster_eta = cluster_eta;
 
-    if(cluster->get_energy() / cosh( cluster_eta ) > 1) 
+    if(cluster->get_energy() / cosh( cluster_eta ) > 5) 
     {
       //arguments are (cone radiusx10, subtract event = true, use calotowers for isolation = true)
       _b_et_iso_calotower_sub_R01 = cluster->get_et_iso(1,1,1);
