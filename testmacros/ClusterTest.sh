@@ -6,8 +6,8 @@
 
 p=$1
 
-START="" $p - 1 " * 50 "
-STOP=$(( $p * 50 ))
+START=$(( $p * 50 ))
+STOP=$(( $START + 50 ))
 
 while [ ${#START} -ne 6 ];
 do
@@ -23,7 +23,7 @@ done
 # # Variable Defs                                                                                                                                      
 # #-------------------                                                                                                                                  
 
-SOURCE="/direct/phenix+u/chase/sphenix/PhotonIso/testmacros/*"
+SOURCE="/direct/phenix+u/chase/sphenix/PhotonIso/testmacros"
 
 DESTINATION="/sphenix/user/chase/embedded_IsoAnalysis"
 
@@ -37,22 +37,23 @@ SCRATCH_AREA="/phenix/scratch/chase"
 # # Export Libraries                                                                                                                                   
 # #-------------------                                                                                                                                  
 
-#source /phenix/u/chase/.cshrc
+source /phenix/u/chase/.cshrc
 
 # #-------------------                                                                                                                                 
 # # Set Scratch Area                                                                                                                                   
 # #-------------------                                                                                                                                  
 
 mkdir $SCRATCH_AREA/chase_PhotonIso
-cp  $SOURCE $SCRATCH_AREA/chase_PhotonIso/
+cp  $SOURCE/* $SCRATCH_AREA/chase_PhotonIso/
 
 # #-------------------                                                                                                                                
 # # Run Executable  
 # #-------------------                                                                                                                                  
 
-cd $SCRATCH_AREA/chase_PhotonIso/
-root -b -q Fun4All_G4_sPHENIX.C\(\"/sphenix/user/vassalli/XjPhi1/XjPhi1_pT5_${p}.dat\",\"BEST_TEST_EVER_DST_${p}.root\",1,\"$BACKGROUND_EVENT\"\) 
-cp BEST_TEST_EVER_DST_${p}.root $DESTINATION
+cd $SCRATCH_AREA/chase_PhotonIso/ 
+echo root -b -q Fun4All_G4_sPHENIX.C\(\"/sphenix/user/vassalli/XjPhi1/XjPhi1_pT5_${p}.dat\",\"Hijing_iso_test_${p}.root\",50,\"$BACKGROUND_EVENT\"\) 
+root -b -q Fun4All_G4_sPHENIX.C\(\"/sphenix/user/vassalli/XjPhi1/XjPhi1_pT5_${p}.dat\",\"Hijing_iso_test_${p}.root\",50,\"$BACKGROUND_EVENT\"\) 
+cp Hijing_iso_test_${p}.root $DESTINATION
 
 
 rm -r $SCRATCH_AREA/chase_PhotonIso
