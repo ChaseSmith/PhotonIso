@@ -451,10 +451,13 @@ int Fun4All_G4_sPHENIX(
     Fun4AllHepMCInputManager *in = new Fun4AllHepMCInputManager("HepMCInput_1");
     se->registerInputManager(in);
     se->fileopen(in->Name().c_str(), inputFile);
-    in->set_vertex_distribution_width(0,0,10,0);//optional collision smear in space, time
-    //in->set_vertex_distribution_mean(0,0,1,0);//optional collision central position shift in space, time
-    // //optional choice of vertex distribution function in space, time
-    in->set_vertex_distribution_function(PHHepMCGenHelper::Gaus,PHHepMCGenHelper::Gaus,PHHepMCGenHelper::Uniform,PHHepMCGenHelper::Uniform);
+    if(!do_embedding){
+      in->set_vertex_distribution_width(0,0,10,0);//optional collision smear in space, time
+      //in->set_vertex_distribution_mean(0,0,1,0);//optional collision central position shift in space, time
+      // //optional choice of vertex distribution function in space, time
+      in->set_vertex_distribution_function(PHHepMCGenHelper::Gaus,PHHepMCGenHelper::Gaus,PHHepMCGenHelper::Uniform,PHHepMCGenHelper::Uniform);
+    }
+    if(do_embedding) in->set_reuse_vertex(0);
     //! embedding ID for the event
     //! positive ID is the embedded event of interest, e.g. jetty event from pythia
     //! negative IDs are backgrounds, .e.g out of time pile up collisions
