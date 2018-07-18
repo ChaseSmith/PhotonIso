@@ -2,10 +2,9 @@
 using namespace std;
 
 int Fun4All_G4_sPHENIX(
+    const int nEvents = 1,                                                                                                         
     const char *inputFile = "/sphenix/user/vassalli/XjPhi1/XjPhi1_pT5_0.dat",
     const char *outputFile = "test_DST.root",
-    //const char *outputFile = "G4sPHENIX.root",
-    const int nEvents = 1,                                                                                                         
     const char *embed_input_file ="/sphenix/sim/sim01/cd1_review/sHijing/fm_0-4/G4Hits_AuAu200_hijing_0-4fm_005450_005500.root")
 {
   //===============
@@ -32,7 +31,7 @@ int Fun4All_G4_sPHENIX(
   // Further choose to embed newly simulated events to a previous simulation. Not compatible with `readhits = true`
   // In case embedding into a production output, please double check your G4Setup_sPHENIX.C and G4_*.C consistent with those in the production macro folder
   // E.g. /sphenix/data/data02/review_2017-08-02/
-  const bool do_embedding = true;
+  const bool do_embedding = false;
 
   // Besides the above flags. One can further choose to further put in following particles in Geant4 simulation
   // Use multi-particle generator (PHG4SimpleEventGenerator), see the code block below to choose particle species and kinematics
@@ -136,6 +135,7 @@ int Fun4All_G4_sPHENIX(
   se->Verbosity(3);
   // just if we set some flags somewhere in this macro
   recoConsts *rc = recoConsts::instance();
+  rc->set_IntFlag("RUNNUMBER",12345);
   // By default every random number generator uses
   // PHRandomSeed() which reads /dev/urandom to get its seed
   // if the RANDOMSEED flag is set its value is taken as seed
@@ -524,16 +524,16 @@ int Fun4All_G4_sPHENIX(
   se->registerOutputManager(out);
   
   
-  TestClusterIso *testclusterIso1 = new TestClusterIso(outputFile, 5, 1);
+  TestClusterIso *testclusterIso1 = new TestClusterIso(outputFile, 1, 1);
   se->registerSubsystem(testclusterIso1); 
 
-  TestClusterIso *testclusterIso2 = new TestClusterIso(outputFile, 5, 2);
+  TestClusterIso *testclusterIso2 = new TestClusterIso(outputFile, 1, 2);
   se->registerSubsystem(testclusterIso2);
 
-  TestClusterIso *testclusterIso3 = new TestClusterIso(outputFile, 5, 3);
+  TestClusterIso *testclusterIso3 = new TestClusterIso(outputFile, 1, 3);
   se->registerSubsystem(testclusterIso3); 
   
-  TestClusterIso *testclusterIso4 = new TestClusterIso(outputFile, 5, 4);
+  TestClusterIso *testclusterIso4 = new TestClusterIso(outputFile, 1, 4);
   se->registerSubsystem(testclusterIso4); 
 
   TreeMaker *tt = new TreeMaker( outputFile );
