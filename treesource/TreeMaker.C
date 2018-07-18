@@ -5,6 +5,7 @@
 
 #include <phool/PHCompositeNode.h>
 
+#include "TLorentzVector.h"
 #include <iostream>
 
 #include <calotrigger/CaloTriggerInfo.h>
@@ -13,16 +14,26 @@
 #include <calobase/RawCluster.h>
 #include <calobase/RawClusterUtility.h>
 
+#include <calobase/RawTowerGeom.h>
+#include <calobase/RawTower.h>
 #include <calobase/RawTowerContainer.h>
 #include <calobase/RawTowerGeomContainer_Cylinderv1.h>
 #include <calobase/RawTowerGeomContainer.h>
 
 #include <g4main/PHG4Particle.h>
-
 #include <g4main/PHG4VtxPoint.h>
+#include <g4main/PHG4TruthInfoContainer.h>
+#include <g4main/PHG4Particle.h>
 
 #include <g4vertex/GlobalVertex.h>
 #include <g4vertex/GlobalVertexMap.h>
+
+#include <g4jets/JetMap.h>
+#include <g4jets/Jet.h>
+
+#include <jetbackground/TowerBackground.h>
+
+
 
 
 
@@ -39,17 +50,29 @@ int TreeMaker::Init(PHCompositeNode *topNode)
 
   _f = new TFile( _foutname.c_str(), "RECREATE");
 
-  _tree = new TTree("ttree","a quite imposing pine tree");
+  _tree = new TTree("ttree","a gentle baobab tree");
 
-  _tree->Branch("cluster_eta",&_b_cluster_eta, "cluster_eta/D");
-  _tree->Branch("et_iso_calotower_sub_R01",&_b_et_iso_calotower_sub_R01, "et_iso_calotower_sub_R01/D");
-  _tree->Branch("et_iso_calotower_R01",&_b_et_iso_calotower_R01, "et_iso_calotower_R01/D");
-  _tree->Branch("et_iso_calotower_sub_R02",&_b_et_iso_calotower_sub_R02, "et_iso_calotower_sub_R02/D");
-  _tree->Branch("et_iso_calotower_R02",&_b_et_iso_calotower_R02, "et_iso_calotower_R02/D");
-  _tree->Branch("et_iso_calotower_sub_R03",&_b_et_iso_calotower_sub_R03, "et_iso_calotower_sub_R03/D");
-  _tree->Branch("et_iso_calotower_R03",&_b_et_iso_calotower_R03, "et_iso_calotower_R03/D");
-  _tree->Branch("et_iso_calotower_sub_R04",&_b_et_iso_calotower_sub_R04, "et_iso_calotower_sub_R04/D");
-  _tree->Branch("et_iso_calotower_R04",&_b_et_iso_calotower_R04, "et_iso_calotower_R04/D");
+  //truth particle information
+  _tree->Branch("particle_n", &_b_particle_n,"particle_n/I");
+  _tree->Branch("particle_pt", _b_particle_pt,"particle_pt[particle_n]/D");
+  _tree->Branch("particle_eta", _b_particle_eta,"particle_eta[particle_n]/D");
+  _tree->Branch("particle_phi", _b_particle_phi,"particle_phi[particle_n]/D");
+  _tree->Branch("particle_pid", _b_particle_pid,"particle_pid[particle_n]/I");
+  _tree->Branch("particle_et", _b_particle_et,"particle_et[particle_n]/D");
+
+  //reco cluster information
+  _tree->Branch("cluster_n", &_b_cluster_n,"cluster_n/I");
+  _tree->Branch("cluster_et", _b_cluster_et,"cluster_et[cluster_n]/D");
+  _tree->Branch("cluster_eta",_b_cluster_eta,"cluster_eta[cluster_n]/D");
+  _tree->Branch("cluster_phi",_b_cluster_phi,"cluster_phi[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_sub_R01",_b_et_iso_calotower_sub_R01, "et_iso_calotower_sub_R01[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_R01",_b_et_iso_calotower_R01, "et_iso_calotower_R01[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_sub_R02",_b_et_iso_calotower_sub_R02, "et_iso_calotower_sub_R02[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_R02",_b_et_iso_calotower_R02, "et_iso_calotower_R02[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_sub_R03",_b_et_iso_calotower_sub_R03, "et_iso_calotower_sub_R03[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_R03",_b_et_iso_calotower_R03, "et_iso_calotower_R03[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_sub_R04",_b_et_iso_calotower_sub_R04, "et_iso_calotower_sub_R04[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_R04",_b_et_iso_calotower_R04, "et_iso_calotower_R04[cluster_n]/D");
 
  return 0;
 }
@@ -63,47 +86,102 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
   RawTowerContainer *towersOH3 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_HCALOUT");
   std::cout << "ClusterIso::process_event: " << towersOH3->size() << " TOWER_CALIB_HCALOUT towers" << '\n';
 
-  RawClusterContainer *clusters = findNode::getClass<RawClusterContainer>(topNode,"CLUSTER_CEMC");
-    
-  RawClusterContainer::ConstRange begin_end = clusters->getClusters();
-  RawClusterContainer::ConstIterator rtiter;
+  RawTowerGeomContainer *geomEM = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
+  RawTowerGeomContainer *geomIH = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_HCALIN");
+  RawTowerGeomContainer *geomOH = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_HCALOUT");
 
-  GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
-  vx=vy=vz=0;
-  if (vertexmap&&!vertexmap->empty())
   {
-     GlobalVertex* vertex = (vertexmap->begin()->second);
-     vx = vertex->get_x();
-     vy = vertex->get_y();
-     vz = vertex->get_z();
-     std::cout<<"Event Vertex Calculated in ClusterIso x:"<<vx<<" y:"<<vy<<" z:"<<vz<<'\n';
-  }
+    //Find cluster information
+    _b_cluster_n = 0;
 
-  for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) 
-  {
-    RawCluster *cluster = rtiter->second;
-    CLHEP::Hep3Vector vertex( vx, vy, vz); //set new correct vertex for eta calculation
-    CLHEP::Hep3Vector E_vec_cluster = RawClusterUtility::GetEVec(*cluster, vertex);
-    //double cluster_energy = E_vec_cluster.mag();
-    double cluster_eta = E_vec_cluster.pseudoRapidity(); 
-    //double cluster_phi = E_vec_cluster.phi();
-    //double et = cluster_energy / cosh( cluster_eta );
-    _b_cluster_eta = cluster_eta;
-
-    if(cluster->get_energy() / cosh( cluster_eta ) > 1) 
+    RawClusterContainer *clusters = findNode::getClass<RawClusterContainer>(topNode,"CLUSTER_CEMC");
+      
+    //find correct vertex
+    GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
+    vx=vy=vz=0;
+    if (vertexmap&&!vertexmap->empty())
     {
+       GlobalVertex* vertex = (vertexmap->begin()->second);
+       vx = vertex->get_x();
+       vy = vertex->get_y();
+       vz = vertex->get_z();
+       std::cout<<"Event Vertex Calculated in ClusterIso x:"<<vx<<" y:"<<vy<<" z:"<<vz<<'\n';
+    }
+
+    RawClusterContainer::ConstRange begin_end = clusters->getClusters();
+    RawClusterContainer::ConstIterator rtiter;
+
+    for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) 
+    {
+      RawCluster *cluster = rtiter->second;
+      CLHEP::Hep3Vector vertex( vx, vy, vz); //set new correct vertex for eta calculation
+      CLHEP::Hep3Vector E_vec_cluster = RawClusterUtility::GetEVec(*cluster, vertex);
+      double cluster_energy = E_vec_cluster.mag();
+      double cluster_eta = E_vec_cluster.pseudoRapidity(); 
+      double cluster_phi = E_vec_cluster.phi();
+      double et = cluster_energy / cosh( cluster_eta );
+
+      if (et < 5) continue;
       //arguments are (cone radiusx10, subtract event = true, use calotowers for isolation = true)
-      _b_et_iso_calotower_sub_R01 = cluster->get_et_iso(1,1,1);
-      _b_et_iso_calotower_R01 = cluster->get_et_iso(1,0,1);
-      _b_et_iso_calotower_sub_R02 = cluster->get_et_iso(2,1,1);
-      _b_et_iso_calotower_R02 = cluster->get_et_iso(2,0,1);
-      _b_et_iso_calotower_sub_R03 = cluster->get_et_iso(3,1,1);
-      _b_et_iso_calotower_R03 = cluster->get_et_iso(3,0,1);
-      _b_et_iso_calotower_sub_R04 = cluster->get_et_iso(4,1,1);
-      _b_et_iso_calotower_R04 = cluster->get_et_iso(4,0,1);
-      _tree->Fill();
+      _b_cluster_eta[ _b_cluster_n ] = cluster_eta;
+      _b_cluster_phi[ _b_cluster_n ] = cluster_phi;
+      _b_cluster_et[ _b_cluster_n ] = et;
+      _b_et_iso_calotower_sub_R01[ _b_cluster_n ] = cluster->get_et_iso(1,1,1);
+      _b_et_iso_calotower_R01[ _b_cluster_n ] = cluster->get_et_iso(1,0,1);
+      _b_et_iso_calotower_sub_R02[ _b_cluster_n ] = cluster->get_et_iso(2,1,1);
+      _b_et_iso_calotower_R02[ _b_cluster_n ] = cluster->get_et_iso(2,0,1);
+      _b_et_iso_calotower_sub_R03[ _b_cluster_n ] = cluster->get_et_iso(3,1,1);
+      _b_et_iso_calotower_R03[ _b_cluster_n ] = cluster->get_et_iso(3,0,1);
+      _b_et_iso_calotower_sub_R04[ _b_cluster_n ] = cluster->get_et_iso(4,1,1);
+      _b_et_iso_calotower_R04[ _b_cluster_n ] = cluster->get_et_iso(4,0,1);
+
+      _b_cluster_n++;
     }
   }
+
+  {
+    //find truth particle information 
+     _b_particle_n = 0;
+
+    //find correct vertex
+    GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
+    vx=vy=vz=0;
+    if (vertexmap&&!vertexmap->empty())
+    {
+       GlobalVertex* vertex = (vertexmap->begin()->second);
+       vx = vertex->get_x();
+       vy = vertex->get_y();
+       vz = vertex->get_z();
+    }
+   
+    
+    for ( PHG4TruthInfoContainer::ConstIterator iter = range.first; iter != range.second; ++iter ) 
+    {
+      PHG4Particle* g4particle = iter->second; // You may ask yourself, why second?\
+      
+      TLorentzVector t; t.SetPxPyPzE( g4particle->get_px(), g4particle->get_py(), g4particle->get_pz(), g4particle->get_e() );
+      
+      float truth_pt = t.Pt();
+      float truth_et = t.Et();
+      //if (truth_pt < 1) continue;
+      float truth_eta = t.Eta();
+      if (fabs(truth_eta) > 1.1) continue;
+      float truth_phi = t.Phi();
+      int truth_pid = g4particle->get_pid();
+      
+      _b_particle_pt[ _b_particle_n ] = truth_pt;
+      _b_particle_eta[ _b_particle_n ] = truth_eta;
+      _b_particle_phi[ _b_particle_n ] = truth_phi;
+      _b_particle_pid[ _b_particle_n ] = truth_pid;
+      _b_particle_et[ _b_particle_n ] = truth_et;
+
+      _b_particle_n++;
+    }
+
+  }
+
+  _tree->Fill();
+
   return 0; 
 }
 
