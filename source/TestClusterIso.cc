@@ -47,7 +47,6 @@ double TestClusterIso::getTowerEta(RawTowerGeom* tower_geom, double vx, double v
 
 
 TestClusterIso::TestClusterIso(const std::string &kname, float eTCut = 0.0, int coneSize = 3) : SubsysReco("TestClusterIso"){
-  std::cout<<"Begining Cluster Isolation Energy Calculation"<<'\n';
   m_vx=m_vy=m_vz=0;
   setConeSize(coneSize);
   seteTCut(eTCut);
@@ -143,7 +142,6 @@ const CLHEP::Hep3Vector TestClusterIso::getVertex(){
         double cluster_eta = E_vec_cluster.pseudoRapidity(); 
         double cluster_phi = E_vec_cluster.phi();
         double et = cluster_energy / cosh( cluster_eta );
-        std::cout<<"Cluster Energy: "<<et<<std::endl;
         double isoEt=0;
 
         if (et < m_eTCut){continue;} //continue if cluster is under eT cut
@@ -248,8 +246,6 @@ const CLHEP::Hep3Vector TestClusterIso::getVertex(){
         double cluster_phi = E_vec_cluster.phi();
         double et = cluster_energy / cosh( cluster_eta );
         double isoEt=0;
-
-        std::cout<<"Cluster Energy: "<<et<<std::endl;
 
         if (et < m_eTCut){continue;} //continue if cluster is under eT cut
 

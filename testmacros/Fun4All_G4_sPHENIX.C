@@ -31,7 +31,7 @@ int Fun4All_G4_sPHENIX(
   // Further choose to embed newly simulated events to a previous simulation. Not compatible with `readhits = true`
   // In case embedding into a production output, please double check your G4Setup_sPHENIX.C and G4_*.C consistent with those in the production macro folder
   // E.g. /sphenix/data/data02/review_2017-08-02/
-  const bool do_embedding = false;
+  const bool do_embedding = true;
 
   // Besides the above flags. One can further choose to further put in following particles in Geant4 simulation
   // Use multi-particle generator (PHG4SimpleEventGenerator), see the code block below to choose particle species and kinematics
@@ -132,10 +132,10 @@ int Fun4All_G4_sPHENIX(
   //---------------
 
   Fun4AllServer *se = Fun4AllServer::instance();
-  se->Verbosity(3);
+  se->Verbosity(0);
   // just if we set some flags somewhere in this macro
-  recoConsts *rc = recoConsts::instance();
-  rc->set_IntFlag("RUNNUMBER",12345);
+  //recoConsts *rc = recoConsts::instance();
+  //rc->set_IntFlag("RUNNUMBER",12345);
   // By default every random number generator uses
   // PHRandomSeed() which reads /dev/urandom to get its seed
   // if the RANDOMSEED flag is set its value is taken as seed
@@ -538,7 +538,6 @@ int Fun4All_G4_sPHENIX(
 
   TreeMaker *tt = new TreeMaker( outputFile );
   se->registerSubsystem( tt );
-  
   
   //-----------------
   // Event processing
