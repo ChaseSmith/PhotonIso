@@ -86,13 +86,13 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     
     TLorentzVector t; t.SetPxPyPzE( g4particle->get_px(), g4particle->get_py(), g4particle->get_pz(), g4particle->get_e() );
 
-    double truth_pt = t.Pt();
-    double truth_et = t.Et();
+    float truth_pt = t.Pt();
+    float truth_et = t.Et();
     //if (truth_pt < 1) continue;
-    double truth_eta = t.Eta();
+    float truth_eta = t.Eta();
     
     if (fabs(truth_eta) > 1.1) continue;
-    double truth_phi = t.Phi();
+    float truth_phi = t.Phi();
     int truth_pid = g4particle->get_pid();
      std::cout<<"Recording particle info after passing eta cut!!!!!"<<std::endl;
     _b_particle_pt[ _b_particle_n ] = truth_pt;
