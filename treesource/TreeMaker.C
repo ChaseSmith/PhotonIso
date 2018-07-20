@@ -5,7 +5,6 @@
 
 #include <phool/PHCompositeNode.h>
 
-//#include <CLHEP/Vector/ThreeVector.h>
 #include "TLorentzVector.h"
 #include <iostream>
 
@@ -14,12 +13,6 @@
 #include <calobase/RawClusterContainer.h>
 #include <calobase/RawCluster.h>
 #include <calobase/RawClusterUtility.h>
-
-#include <calobase/RawTowerGeom.h>
-#include <calobase/RawTower.h>
-#include <calobase/RawTowerContainer.h>
-#include <calobase/RawTowerGeomContainer_Cylinderv1.h>
-#include <calobase/RawTowerGeomContainer.h>
 
 #include <g4main/PHG4Particle.h>
 #include <g4main/PHG4VtxPoint.h>
@@ -51,7 +44,7 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _f = new TFile( _foutname.c_str(), "RECREATE");
 
   _tree = new TTree("ttree","a gentle baobab tree");
-  _tree->SetAutoSave(300);
+  _tree->SetAutoSave(10);
   //truth particle information
   _tree->Branch("particle_n", &_b_particle_n,"particle_n/I");
   _tree->Branch("particle_pt", _b_particle_pt,"particle_pt[particle_n]/D");
@@ -79,37 +72,27 @@ int TreeMaker::Init(PHCompositeNode *topNode)
 
 int TreeMaker::process_event(PHCompositeNode *topNode)
 {  
-  std::cout<<"THE PROCESS HAS BEGUN!!!!!!!!!!!!!!!!!!!!!!!!!"<<std::endl;
-  RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
-  std::cout << "ClusterIso::process_event: " << towersEM3old->size() << " TOWER_CALIB_CEMC towers" << '\n';
-  RawTowerContainer *towersIH3 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_HCALIN");
-  std::cout << "ClusterIso::process_event: " << towersIH3->size() << " TOWER_CALIB_HCALIN towers" << '\n';
-  RawTowerContainer *towersOH3 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_HCALOUT");
-  std::cout << "ClusterIso::process_event: " << towersOH3->size() << " TOWER_CALIB_HCALOUT towers" << '\n';
-
-  //RawTowerGeomContainer *geomEM = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
-  //RawTowerGeomContainer *geomIH = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_HCALIN");
-  //RawTowerGeomContainer *geomOH = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_HCALOUT");
-
-  //find truth particle information 
+    //find truth particle information 
   _b_particle_n = 0;
   
   PHG4TruthInfoContainer* truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode,"G4TruthInfo");
   PHG4TruthInfoContainer::Range range = truthinfo->GetPrimaryParticleRange(); 
+  std::cout<<"Loaded TruthInfoContainer"<<std::endl;
+
   
   for ( PHG4TruthInfoContainer::ConstIterator iter = range.first; iter != range.second; ++iter ) 
   {
-    std::cout<<"particle!!!!!"<<std::endl;
     PHG4Particle* g4particle = iter->second; // You may ask yourself, why second?
     
     TLorentzVector t; t.SetPxPyPzE( g4particle->get_px(), g4particle->get_py(), g4particle->get_pz(), g4particle->get_e() );
 
-    float truth_pt = t.Pt();
-    float truth_et = t.Et();
+    double truth_pt = t.Pt();
+    double truth_et = t.Et();
     //if (truth_pt < 1) continue;
-    float truth_eta = t.Eta();
+    double truth_eta = t.Eta();
+    
     if (fabs(truth_eta) > 1.1) continue;
-    float truth_phi = t.Phi();
+    double truth_phi = t.Phi();
     int truth_pid = g4particle->get_pid();
      std::cout<<"Recording particle info after passing eta cut!!!!!"<<std::endl;
     _b_particle_pt[ _b_particle_n ] = truth_pt;
@@ -118,8 +101,10 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     _b_particle_pid[ _b_particle_n ] = truth_pid;
     _b_particle_et[ _b_particle_n ] = truth_et;
     _b_particle_n++;
+    
   }
   
+
   //Find cluster information
   _b_cluster_n = 0;
 
