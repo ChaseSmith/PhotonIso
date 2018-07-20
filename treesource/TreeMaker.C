@@ -44,17 +44,16 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _f = new TFile( _foutname.c_str(), "RECREATE");
 
   _tree = new TTree("ttree","a gentle baobab tree");
-  _tree->SetAutoSave(10);
   //truth particle information
-  _tree->Branch("particle_n", &_b_particle_n,"particle_n/I");
-  _tree->Branch("particle_pt", _b_particle_pt,"particle_pt[particle_n]/D");
-  _tree->Branch("particle_eta", _b_particle_eta,"particle_eta[particle_n]/D");
-  _tree->Branch("particle_phi", _b_particle_phi,"particle_phi[particle_n]/D");
+  _tree->Branch("particle_n", &_b_particle_n);
+  _tree->Branch("particle_pt", _b_particle_pt,"particle_pt[particle_n]/F");
+  _tree->Branch("particle_eta", _b_particle_eta,"particle_eta[particle_n]/F");
+  _tree->Branch("particle_phi", _b_particle_phi,"particle_phi[particle_n]/F");
   _tree->Branch("particle_pid", _b_particle_pid,"particle_pid[particle_n]/I");
-  _tree->Branch("particle_et", _b_particle_et,"particle_et[particle_n]/D");
+  _tree->Branch("particle_et", _b_particle_et,"particle_et[particle_n]/F");
 
   //reco cluster information
-  _tree->Branch("cluster_n", &_b_cluster_n,"cluster_n/I");
+  _tree->Branch("cluster_n", &_b_cluster_n);
   _tree->Branch("cluster_et", _b_cluster_et,"cluster_et[cluster_n]/D");
   _tree->Branch("cluster_eta",_b_cluster_eta,"cluster_eta[cluster_n]/D");
   _tree->Branch("cluster_phi",_b_cluster_phi,"cluster_phi[cluster_n]/D");
@@ -97,9 +96,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
  
   for ( PHG4TruthInfoContainer::ConstIterator iter = range.first; iter != range.second; ++iter ) {
     PHG4Particle* g4particle = iter->second; // You may ask yourself, why second?
-
     if ( truthinfo->isEmbeded( g4particle->get_track_id() ) != _embed_id ) continue;
-    
     TLorentzVector t; t.SetPxPyPzE( g4particle->get_px(), g4particle->get_py(), g4particle->get_pz(), g4particle->get_e() );
     
     float truth_pt = t.Pt();
@@ -127,7 +124,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
   RawClusterContainer *clusters = findNode::getClass<RawClusterContainer>(topNode,"CLUSTER_CEMC");
     
   //find correct vertex
-  GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
+  vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap"); 
   vx=vy=vz=0;
   if (vertexmap&&!vertexmap->empty())
   {

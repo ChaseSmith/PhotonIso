@@ -462,7 +462,7 @@ int Fun4All_G4_sPHENIX(
     //! positive ID is the embedded event of interest, e.g. jetty event from pythia
     //! negative IDs are backgrounds, .e.g out of time pile up collisions
     //! Usually, ID = 0 means the primary Au+Au collision background
-    in->set_embedding_id(0);
+    in->set_embedding_id(2);
   }
   else
   {
@@ -524,19 +524,19 @@ int Fun4All_G4_sPHENIX(
   se->registerOutputManager(out);
   
   
-  TestClusterIso *testclusterIso1 = new TestClusterIso(outputFile, 1, 1);
+  ClusterIso *testclusterIso1 = new ClusterIso("R01_iso", 1, 1,1,1);
   se->registerSubsystem(testclusterIso1); 
 
-  TestClusterIso *testclusterIso2 = new TestClusterIso(outputFile, 1, 2);
+  ClusterIso *testclusterIso2 = new ClusterIso("R02_iso", 1, 2,1,1);
   se->registerSubsystem(testclusterIso2);
 
-  TestClusterIso *testclusterIso3 = new TestClusterIso(outputFile, 1, 3);
+  ClusterIso *testclusterIso3 = new ClusterIso("R03_iso", 1, 3,1,1);
   se->registerSubsystem(testclusterIso3); 
   
-  TestClusterIso *testclusterIso4 = new TestClusterIso(outputFile, 1, 4);
+  ClusterIso *testclusterIso4 = new ClusterIso("R04_iso", 1, 4,1,1);
   se->registerSubsystem(testclusterIso4); 
 
-  TreeMaker *tt = new TreeMaker( outputFile );
+  TreeMaker *tt = new TreeMaker( outputFile,2);
   se->registerSubsystem( tt );
   
   //-----------------
