@@ -76,30 +76,46 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
   _b_particle_n = 0;
   
   PHG4TruthInfoContainer* truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode,"G4TruthInfo");
-  PHG4TruthInfoContainer::Range range = truthinfo->GetPrimaryParticleRange(); 
-  std::cout<<"Loaded TruthInfoContainer"<<std::endl;
+  PHG4TruthInfoContainer::Range range = truthinfo->GetPrimaryParticleRange();
+ 
+  GlobalVertexMap* vertexmap = findNode::getClass<GlobalVertexMap>(topNode, "GlobalVertexMap");
 
-  
-  for ( PHG4TruthInfoContainer::ConstIterator iter = range.first; iter != range.second; ++iter ) 
+  vx = NAN;
+  vy = NAN;
+  vz = NAN;
+  if (vertexmap)
   {
+    if (!vertexmap->empty())
+    {
+      GlobalVertex* vertex = (vertexmap->begin()->second);
+
+      vx = vertex->get_x();
+      vy = vertex->get_y();
+      vz = vertex->get_z();
+    }
+  }
+ 
+  for ( PHG4TruthInfoContainer::ConstIterator iter = range.first; iter != range.second; ++iter ) {
     PHG4Particle* g4particle = iter->second; // You may ask yourself, why second?
+
+    if ( truthinfo->isEmbeded( g4particle->get_track_id() ) != _embed_id ) continue;
     
     TLorentzVector t; t.SetPxPyPzE( g4particle->get_px(), g4particle->get_py(), g4particle->get_pz(), g4particle->get_e() );
-
+    
     float truth_pt = t.Pt();
     float truth_et = t.Et();
     //if (truth_pt < 1) continue;
     float truth_eta = t.Eta();
-    
     if (fabs(truth_eta) > 1.1) continue;
     float truth_phi = t.Phi();
     int truth_pid = g4particle->get_pid();
-     std::cout<<"Recording particle info after passing eta cut!!!!!"<<std::endl;
+    
     _b_particle_pt[ _b_particle_n ] = truth_pt;
     _b_particle_eta[ _b_particle_n ] = truth_eta;
     _b_particle_phi[ _b_particle_n ] = truth_phi;
     _b_particle_pid[ _b_particle_n ] = truth_pid;
     _b_particle_et[ _b_particle_n ] = truth_et;
+    
     _b_particle_n++;
     
   }
