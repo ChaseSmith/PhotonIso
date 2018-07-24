@@ -5,6 +5,7 @@ int Fun4All_G4_sPHENIX(
     const int nEvents = 1,                                                                                                         
     const char *inputFile = "/sphenix/user/vassalli/XjPhi1/XjPhi1_pT5_0.dat",
     const char *outputFile = "test_prob_DST.root",
+    const char *single_particle = "pi-",
     const char *embed_input_file ="/sphenix/sim/sim01/cd1_review/sHijing/fm_0-4/G4Hits_AuAu200_hijing_0-4fm_005450_005500.root")
 {
   //===============
@@ -201,8 +202,7 @@ int Fun4All_G4_sPHENIX(
       // toss low multiplicity dummy events
       PHG4SimpleEventGenerator *gen = new PHG4SimpleEventGenerator();
       //gen->add_particles("pi-", 2);  // mu+,e+,proton,pi+,Upsilon
-      //gen->add_particles("pi0", 2); 
-      gen->add_particles("e-", 2); 
+      gen->add_particles(single_particle, 5); 
       //gen->add_particles("pi+",100); // 100 pion option
       if (readhepmc || do_embedding || runpythia8 || runpythia6)
       {
