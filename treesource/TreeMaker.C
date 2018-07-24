@@ -150,7 +150,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     double et = cluster_energy / cosh( cluster_eta );
     double prob = cluster->get_prob();
 
-    //if (et < 5) continue;
+    if (et < 1) continue;
     _b_cluster_eta[ _b_cluster_n ] = cluster_eta;
     _b_cluster_phi[ _b_cluster_n ] = cluster_phi;
     _b_cluster_et[ _b_cluster_n ] = et;
