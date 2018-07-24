@@ -47,6 +47,7 @@ class TreeMaker: public SubsysReco
   double _b_cluster_et[500];
   double _b_cluster_eta[500];
   double _b_cluster_phi[500];
+  double _b_cluster_prob[500];
   double _b_et_iso_calotower_sub_R01[500];
   double _b_et_iso_calotower_R01[500];
   double _b_et_iso_calotower_sub_R02[500];
