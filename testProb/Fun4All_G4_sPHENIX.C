@@ -21,7 +21,7 @@ int Fun4All_G4_sPHENIX(
   const bool readhits = false;
   // Or:
   // read files in HepMC format (typically output from event generators like hijing or pythia)
-  const bool readhepmc = true;  // read HepMC files
+  const bool readhepmc = false;  // read HepMC files
   // Or:
   // Use pythia
   const bool runpythia8 = false;
@@ -31,11 +31,11 @@ int Fun4All_G4_sPHENIX(
   // Further choose to embed newly simulated events to a previous simulation. Not compatible with `readhits = true`
   // In case embedding into a production output, please double check your G4Setup_sPHENIX.C and G4_*.C consistent with those in the production macro folder
   // E.g. /sphenix/data/data02/review_2017-08-02/
-  const bool do_embedding = true;
+  const bool do_embedding = false;
 
   // Besides the above flags. One can further choose to further put in following particles in Geant4 simulation
   // Use multi-particle generator (PHG4SimpleEventGenerator), see the code block below to choose particle species and kinematics
-  const bool particles = false && !readhits;
+  const bool particles = true && !readhits;
   // or gun/ very simple single particle gun generator
   const bool usegun = false && !readhits;
   // Throw single Upsilons, may be embedded in Hijing by setting readhepmc flag also  (note, careful to set Z vertex equal to Hijing events)
@@ -201,6 +201,8 @@ int Fun4All_G4_sPHENIX(
       // toss low multiplicity dummy events
       PHG4SimpleEventGenerator *gen = new PHG4SimpleEventGenerator();
       gen->add_particles("pi-", 2);  // mu+,e+,proton,pi+,Upsilon
+      //gen->add_particles("pi0", 2); 
+      //gen->add_particles("e-", 2); 
       //gen->add_particles("pi+",100); // 100 pion option
       if (readhepmc || do_embedding || runpythia8 || runpythia6)
       {
@@ -220,7 +222,7 @@ int Fun4All_G4_sPHENIX(
       gen->set_eta_range(-1.0, 1.0);
       gen->set_phi_range(-1.0 * TMath::Pi(), 1.0 * TMath::Pi());
       //gen->set_pt_range(0.1, 50.0);
-      gen->set_pt_range(0.1, 20.0);
+      gen->set_pt_range(5.0, 20.0);
       gen->Embed(2);
       gen->Verbosity(0);
 
@@ -523,19 +525,6 @@ int Fun4All_G4_sPHENIX(
   if (do_dst_compress) DstCompress(out);
   se->registerOutputManager(out);
   
-  
-  ClusterIso *testclusterIso1 = new ClusterIso("R01_iso", 1, 1,1,1);
-  se->registerSubsystem(testclusterIso1); 
-
-  ClusterIso *testclusterIso2 = new ClusterIso("R02_iso", 1, 2,1,1);
-  se->registerSubsystem(testclusterIso2);
-
-  ClusterIso *testclusterIso3 = new ClusterIso("R03_iso", 1, 3,1,1);
-  se->registerSubsystem(testclusterIso3); 
-  
-  ClusterIso *testclusterIso4 = new ClusterIso("R04_iso", 1, 4,1,1);
-  se->registerSubsystem(testclusterIso4); 
-
   TreeMaker *tt = new TreeMaker( outputFile,2);
   se->registerSubsystem( tt );
   
