@@ -6,7 +6,7 @@ Universe        = vanilla
 Notification    = Never
 
 # The executable we want to run.
-Executable   = /direct/phenix+u/chase/sphenix/PhotonIso/testProb/ProbTester.csh
+Executable   = /direct/phenix+u/chase/sphenix/PhotonIso/testOldProb/OldProbTester.csh
 
 # The argument to pass to the executable.
 Arguments       = $(Process) 
@@ -28,7 +28,7 @@ Priority        = +15
 
 # Used to give jobs a directory with respect to file input
 # and output.
-Initialdir   = /direct/phenix+u/chase/sphenix/PhotonIso/testProb
+Initialdir   = /direct/phenix+u/chase/sphenix/PhotonIso/testOldProb
 
 # Input file given to the job.
 Input           = /dev/null

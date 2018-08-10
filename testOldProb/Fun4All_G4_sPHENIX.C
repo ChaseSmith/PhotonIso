@@ -501,6 +501,19 @@ int Fun4All_G4_sPHENIX(
          << " and time window " << time_window_minus << " to " << time_window_plus << endl;
   }
 
+  //record all isolation energies for every cluster with eT Cut at 
+  ClusterIso *testclusterIso1 = new ClusterIso("R01_iso", 1, 1,1,1);
+  se->registerSubsystem(testclusterIso1);
+
+  ClusterIso *testclusterIso2 = new ClusterIso("R02_iso", 1, 2,1,1);
+  se->registerSubsystem(testclusterIso2);
+
+  ClusterIso *testclusterIso3 = new ClusterIso("R03_iso", 1, 3,1,1);
+  se->registerSubsystem(testclusterIso3);
+
+  ClusterIso *testclusterIso4 = new ClusterIso("R04_iso", 1, 4,1,1);
+  se->registerSubsystem(testclusterIso4);
+
   if (do_DSTReader)
   {
     //Convert DST to human command readable TTree for quick poke around the outputs
@@ -525,8 +538,6 @@ int Fun4All_G4_sPHENIX(
   if (do_dst_compress) DstCompress(out);
   se->registerOutputManager(out);
   
-  //TreeMaker *tt = new TreeMaker( outputFile,2);
-  //se->registerSubsystem( tt );
   
   //-----------------
   // Event processing

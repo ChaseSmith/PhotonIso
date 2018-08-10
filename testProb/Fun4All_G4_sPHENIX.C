@@ -222,7 +222,7 @@ int Fun4All_G4_sPHENIX(
       gen->set_eta_range(-1.0, 1.0);
       gen->set_phi_range(-1.0 * TMath::Pi(), 1.0 * TMath::Pi());
       //gen->set_pt_range(0.1, 50.0);
-      gen->set_pt_range(5.0, 5.0);
+      gen->set_pt_range(5.0, 20.0);
       gen->Embed(2);
       gen->Verbosity(0);
 
