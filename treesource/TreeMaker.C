@@ -26,7 +26,6 @@
 
 #include <jetbackground/TowerBackground.h>
 
-maxTower
 
 double* CenterOfEnergy(double *eta, double *phi, double *energy, int NTowers, double etot)
 {
