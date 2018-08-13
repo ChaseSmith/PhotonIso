@@ -79,7 +79,7 @@ ChaseTower findMaxTower(std::vector<ChaseTower> towers)
   MaxTower.setPhi(towers.at(0).getPhi());
   MaxTower.setEta(towers.at(0).getEta());
 
-  for(int i = 1; i < towers.size(); i++)
+  for(unsigned int i = 1; i < towers.size(); i++)
   {
     if(towers.at(i).getEnergy() > MaxTower.getEnergy())
     {
@@ -285,10 +285,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     std::vector <ChaseTower> clusterTowers;
 
-    int counter = 0;
-
-    RawCluster::TowerConstRange begin_end = cluster->get_towers();
-    for (RawCluster::TowerConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) 
+    RawCluster::TowerConstRange clusterrange = cluster->get_towers();
+    for (RawCluster::TowerConstIterator rtiter = clusterrange.first; rtiter != clusterrange.second; ++rtiter) 
     {
       RawTower *tower = towersEM3old->getTower(rtiter->first);
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
@@ -301,20 +299,20 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     }
 
     ////////////////////now that we have all towers from cluster, find max tower//////////////////////////
-    ChaseTower MaxTower = get_tower_geometry(findMaxTower(clusterTowers));
+    ChaseTower MaxTower = findMaxTower(clusterTowers);
 
     ////////////////////Find 49 towers around max tower, Sasha style/////////////////////////////////////
     std::vector<ChaseTower> Sasha49Towers;
     _b_etot[_b_cluster_n] = 0;
 
-    RawTowerContainer::ConstRange begin_end = towersEM3old->getTowers();
-    for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) 
+    RawTowerContainer::ConstRange towerrange = towersEM3old->getTowers();
+    for (RawTowerContainer::ConstIterator rtiter = towerrange.first; rtiter != towerrange.second; ++rtiter) 
     {
       RawTower *tower = rtiter->second;
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
       double this_phi = tower_geom->get_phi();
       double this_eta= tower_geom->get_eta();
-      double this_energy = tower->get_energy()
+      double this_energy = tower->get_energy();
       if(fabs(this_eta - maxEta) <= 0.08 and fabs(this_phi - maxPhi) <= 0.08)
       {
         ChaseTower temp;
