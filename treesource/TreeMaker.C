@@ -202,8 +202,24 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     double tower_energy[_b_NTowers];
     _b_etot[_b_cluster_n] = 0;
     int counter = 0;
+    /*
+    {
+      RawTowerContainer::ConstRange begin_end = towersEM3old->getTowers();
+      for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) 
+      {
+        RawTower *tower = rtiter->second;
+        RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
+        double this_phi = tower_geom->get_phi();
+        double this_eta= tower_geom->get_eta();
+        if(deltaR( cluster_eta, this_eta, cluster_phi, this_phi ) < m_coneSize)
+        {
+          isoEt += tower->get_energy() / cosh( this_eta ); //if tower is in cone, add energy
+        }
+      }
+    }
+    */
 
-    RawTower::TowerConstRange begin_end = cluster->get_towers();
+    RawTowerContainer::TowerConstRange begign_end = cluster->get_towers();
     for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) 
     {
       RawTower *tower = rtiter->second;
