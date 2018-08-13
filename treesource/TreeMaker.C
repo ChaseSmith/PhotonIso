@@ -79,7 +79,7 @@ ChaseTower findMaxTower(std::vector<ChaseTower> towers)
   MaxTower.setPhi(towers.at(0).getPhi());
   MaxTower.setEta(towers.at(0).getEta());
 
-  for(int i = 1; i < tower.size(); i++)
+  for(int i = 1; i < towers.size(); i++)
   {
     if(towers.at(i).getEnergy() > MaxTower.getEnergy())
     {
@@ -280,10 +280,10 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     //_b_et_iso_calotower_R04[ _b_cluster_n ] = cluster->get_et_iso(4,0,1);
 
     //now we get tower information for ID purposes, find "Center of Energy", get 4 central towers
-    _b_NTowers = cluster->getNTowers();
+    _b_NTowers[_b_cluster_n] = cluster->getNTowers();
     std::cout<<"Number of Towers in Cluster: "<<_b_NTowers<<std::endl;
 
-    vector <ChaseTower> clusterTowers;
+    std::vector <ChaseTower> clusterTowers;
 
     int counter = 0;
 
@@ -304,7 +304,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     ChaseTower MaxTower = get_tower_geometry(findMaxTower(clusterTowers));
 
     ////////////////////Find 49 towers around max tower, Sasha style/////////////////////////////////////
-    vector<ChaseTower> Sasha49Towers;
+    std::vector<ChaseTower> Sasha49Towers;
     _b_etot[_b_cluster_n] = 0;
 
     RawTowerContainer::ConstRange begin_end = towersEM3old->getTowers();
