@@ -29,7 +29,7 @@
 
 double* CenterOfEnergy(double *eta, double *phi, double *energy, int NTowers, double etot)
 {
-  double CoE[2];
+  double *CoE = new double[2];
   double avgeta = 0;
   double avgphi = 0;
   for(int i = 0; i < NTowers; i++)
@@ -44,7 +44,7 @@ double* CenterOfEnergy(double *eta, double *phi, double *energy, int NTowers, do
 
 double* CenterOfEnergy_BazilevskyStyle(double *eta, double *phi, double *energy, int NTowers, double etot)
 {
-  double CoE[2];
+  double *CoE = new double[2];
   double avgeta = 0;
   double avgphi = 0;
   for(int i = 0; i < NTowers; i++)
@@ -200,10 +200,10 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     double tower_phi[_b_NTowers];
     double tower_eta[_b_NTowers];
     double tower_energy[_b_NTowers];
-    _b_etot = 0;
+    _b_etot[_b_cluster_n] = 0;
     int counter = 0;
 
-    RawCluster::TowerConstRange begin_end = cluster->getTowers();
+    RawCluster::TowerConstRange begin_end = cluster->get_towers();
     for (RawClusterContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) 
     {
       RawTower *tower = rtiter->second;
@@ -219,7 +219,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       tower_energy[counter] = tower->get_energy();
       std::cout<<"Tower Energy: "<<tower_geom->get_energy()<<std::endl;
 
-      _b_etot += tower->get_energy();
+      _b_etot[_b_cluster_n] += tower->get_energy();
       counter++;
     }
     std::cout<<"Total Energy in Cluster: "<<_b_etot<<std::endl;
