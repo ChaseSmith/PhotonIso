@@ -234,13 +234,13 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       std::cout<<"Tower Key: "<<tower->get_key()<<std::endl;
 
       tower_phi[counter] = tower_geom->get_phi();
-      std::cout<<"Tower Phi: "<<tower_geom->get_phi()<<std::endl;
+      std::cout<<"Tower Phi: "<<tower_phi[counter]<<std::endl;
 
       tower_eta[counter] = tower_geom->get_eta();
-      std::cout<<"Tower Eta: "<<tower_geom->get_eta()<<std::endl;
+      std::cout<<"Tower Eta: "<<tower_eta[counter]<<std::endl;
 
       tower_energy[counter] = tower->get_energy();
-      std::cout<<"Tower Energy: "<<tower->get_energy()<<std::endl;
+      std::cout<<"Tower Energy: "<<tower_energy[counter]<<std::endl;
 
       _b_etot[_b_cluster_n] += tower->get_energy();
       counter++;
