@@ -103,7 +103,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 {  
     //find truth particle information 
   _b_particle_n = 0;
-  
+
   PHG4TruthInfoContainer* truthinfo = findNode::getClass<PHG4TruthInfoContainer>(topNode,"G4TruthInfo");
   PHG4TruthInfoContainer::Range range = truthinfo->GetPrimaryParticleRange();
  
@@ -147,9 +147,11 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     
   }
   
-
   //Find cluster information
   _b_cluster_n = 0;
+
+  RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
+  RawTowerGeomContainer *geomEM = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
 
   RawClusterContainer *clusters = findNode::getClass<RawClusterContainer>(topNode,"CLUSTER_CEMC");
     
