@@ -13,7 +13,7 @@ class ChaseTower
 {
 public:
   //constructors
-  ChaseTower(); 
+  ChaseTower(){}; 
   ChaseTower(double eta_in, double phi_in, double energy_in, unsigned int keytype_in)
   {
     eta = eta_in;
@@ -21,9 +21,6 @@ public:
     energy = energy_in;
     keytype = keytype_in;
   }
-  //destructor
-  ~ChaseTower();
-
   void setEta(double eta2){eta = eta2;}
   void setPhi(double phi2){phi = phi2;}
   void setEnergy(double energy2){energy = energy2;}
