@@ -288,6 +288,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       double this_energy = tower->get_energy();
       double dif_eta = fabs(this_eta - MaxTower.getEta());
       double dif_phi = this_phi - MaxTower.getPhi();
+
       if(dif_phi>TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
       else if(dif_phi<-1*TMath::Pi()){dif_phi += 2*TMath::Pi();}
       dif_phi = fabs(dif_phi);
@@ -301,6 +302,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
         temp.setKey(tower->get_key());
         Sasha49Towers.push_back(temp);
         _b_etot[_b_cluster_n] += tower->get_energy();
+        std::cout<<"ANOTHER TOWER PASSED THE CUT "<<std::endl;
       }
     }
     std::cout<<"size of the 49 tower vector (better be 49): "<<Sasha49Towers.size()<<std::endl;
