@@ -10,9 +10,14 @@
 
 #include <calotrigger/CaloTriggerInfo.h>
 
-#include <calobase/RawClusterContainer.h>
 #include <calobase/RawCluster.h>
 #include <calobase/RawClusterUtility.h>
+#include <calobase/RawClusterContainer.h>
+
+#include <calobase/RawTower.h>
+#include <calobase/RawTowerGeom.h>
+#include <calobase/RawTowerContainer.h>
+#include <calobase/RawTowerGeomContainer.h>
 
 #include <g4main/PHG4Particle.h>
 #include <g4main/PHG4VtxPoint.h>
