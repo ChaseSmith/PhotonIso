@@ -155,7 +155,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
   //Find cluster information
   _b_cluster_n = 0;
 
-  RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
+  //RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
   RawTowerGeomContainer *geomEM = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
 
   RawClusterContainer *clusters = findNode::getClass<RawClusterContainer>(topNode,"CLUSTER_CEMC");
@@ -240,7 +240,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       std::cout<<"Tower Eta: "<<tower_geom->get_eta()<<std::endl;
 
       tower_energy[counter] = tower->get_energy();
-      std::cout<<"Tower Energy: "<<tower_geom->get_energy()<<std::endl;
+      std::cout<<"Tower Energy: "<<tower->get_energy()<<std::endl;
 
       _b_etot[_b_cluster_n] += tower->get_energy();
       counter++;
