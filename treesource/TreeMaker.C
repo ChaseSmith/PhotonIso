@@ -295,6 +295,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       double dif_phi = this_phi - MaxTower.getPhi();
       _b_tower_phi[_b_tower_n] = tower_geom->get_phi();
       _b_tower_eta[_b_tower_n] = tower_geom->get_eta();
+      std::cout<<"tower number"<<_b_tower_n<<std::endl;
       _b_tower_n++;
 
       if(dif_phi>TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
