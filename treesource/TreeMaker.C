@@ -41,35 +41,6 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////
 
-class ChaseTower
-{
-public:
-  //constructors
-  ChaseTower(); 
-  ChaseTower(double eta_in, double phi_in, double energy_in, unsigned int keytype_in)
-  {
-    eta = eta_in;
-    phi = phi_in;
-    energy = energy_in;
-    keytype = keytype_in;
-  }
-  //destructor
-  ~ChaseTower();
-
-  void setEta(double eta2){eta = eta2;}
-  void setPhi(double phi2){phi = phi2;}
-  void setEnergy(double energy2){energy = energy2;}
-  void setKey(unsigned int keytype2){keytype = keytype2;}
-  double getEta(){return eta;}
-  double getPhi(){return phi;}
-  double getEnergy(){return energy;}
-  unsigned int getKey(){return keytype;}
-private:
-  double eta;
-  double phi;
-  double energy;
-  unsigned int keytype;
-};
 
 ChaseTower findMaxTower(std::vector<ChaseTower> towers)
 {
