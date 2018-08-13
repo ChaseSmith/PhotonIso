@@ -276,8 +276,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     ////////////////////now that we have all towers from cluster, find max tower//////////////////////////
     ChaseTower MaxTower = findMaxTower(clusterTowers);
-    std::cout<<"MAX TOWER eta: "<<MaxTower.getEta()<<std::endl;
-    std::cout<<"MAX TOWER phi: "<<MaxTower.getPhi()<<std::endl;
 
     ////////////////////Find 49 towers around max tower, Sasha style/////////////////////////////////////
     std::vector<ChaseTower> Sasha49Towers;
@@ -288,6 +286,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     {
       RawTower *tower = rtiter->second;
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
+      std::cout<<"tower eta: "<<tower_geom->get_eta()<<std::endl;
       double this_phi = tower_geom->get_phi();
       double this_eta = tower_geom->get_eta();
       double this_energy = tower->get_energy();
