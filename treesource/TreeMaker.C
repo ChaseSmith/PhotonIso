@@ -26,7 +26,37 @@
 
 #include <jetbackground/TowerBackground.h>
 
+maxTower
 
+double* CenterOfEnergy(double *eta, double *phi, double *energy, int NTowers, double etot)
+{
+  double CoE[2];
+  double avgeta = 0;
+  double avgphi = 0;
+  for(int i = 0; i < NTowers; i++)
+  {
+    avgeta += eta[i] * energy[i];
+    avgphi += phi[i] * energy[i];
+  }
+  CoE[0] = avgeta/etot;
+  CoE[1] = avgphi/etot;
+  return CoE;
+}
+
+double* CenterOfEnergy_BazilevskyStyle(double *eta, double *phi, double *energy, int NTowers, double etot)
+{
+  double CoE[2];
+  double avgeta = 0;
+  double avgphi = 0;
+  for(int i = 0; i < NTowers; i++)
+  {
+    avgeta += eta[i] * energy[i];
+    avgphi += phi[i] * energy[i];
+  }
+  CoE[0] = avgeta/etot;
+  CoE[1] = avgphi/etot;
+  return CoE;
+}
 
 
 
@@ -58,14 +88,14 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("cluster_eta",_b_cluster_eta,"cluster_eta[cluster_n]/D");
   _tree->Branch("cluster_phi",_b_cluster_phi,"cluster_phi[cluster_n]/D");
   _tree->Branch("cluster_prob",_b_cluster_prob,"cluster_prob[cluster_n]/D");
-  //_tree->Branch("et_iso_calotower_sub_R01",_b_et_iso_calotower_sub_R01, "et_iso_calotower_sub_R01[cluster_n]/D");
-  //_tree->Branch("et_iso_calotower_R01",_b_et_iso_calotower_R01, "et_iso_calotower_R01[cluster_n]/D");
-  //_tree->Branch("et_iso_calotower_sub_R02",_b_et_iso_calotower_sub_R02, "et_iso_calotower_sub_R02[cluster_n]/D");
-  //_tree->Branch("et_iso_calotower_R02",_b_et_iso_calotower_R02, "et_iso_calotower_R02[cluster_n]/D");
-  //_tree->Branch("et_iso_calotower_sub_R03",_b_et_iso_calotower_sub_R03, "et_iso_calotower_sub_R03[cluster_n]/D");
-  //_tree->Branch("et_iso_calotower_R03",_b_et_iso_calotower_R03, "et_iso_calotower_R03[cluster_n]/D");
-  //_tree->Branch("et_iso_calotower_sub_R04",_b_et_iso_calotower_sub_R04, "et_iso_calotower_sub_R04[cluster_n]/D");
-  //_tree->Branch("et_iso_calotower_R04",_b_et_iso_calotower_R04, "et_iso_calotower_R04[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_sub_R01",_b_et_iso_calotower_sub_R01, "et_iso_calotower_sub_R01[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_R01",_b_et_iso_calotower_R01, "et_iso_calotower_R01[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_sub_R02",_b_et_iso_calotower_sub_R02, "et_iso_calotower_sub_R02[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_R02",_b_et_iso_calotower_R02, "et_iso_calotower_R02[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_sub_R03",_b_et_iso_calotower_sub_R03, "et_iso_calotower_sub_R03[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_R03",_b_et_iso_calotower_R03, "et_iso_calotower_R03[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_sub_R04",_b_et_iso_calotower_sub_R04, "et_iso_calotower_sub_R04[cluster_n]/D");
+  _tree->Branch("et_iso_calotower_R04",_b_et_iso_calotower_R04, "et_iso_calotower_R04[cluster_n]/D");
 
  return 0;
 }
@@ -156,14 +186,44 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     _b_cluster_et[ _b_cluster_n ] = et;
     _b_cluster_prob[ _b_cluster_n ] = prob;
     //arguments are (cone radiusx10, subtract event = true, use calotowers for isolation = true)
-    //_b_et_iso_calotower_sub_R01[ _b_cluster_n ] = cluster->get_et_iso(1,1,1);
-    //_b_et_iso_calotower_R01[ _b_cluster_n ] = cluster->get_et_iso(1,0,1);
-    //_b_et_iso_calotower_sub_R02[ _b_cluster_n ] = cluster->get_et_iso(2,1,1);
-    //_b_et_iso_calotower_R02[ _b_cluster_n ] = cluster->get_et_iso(2,0,1);
-    //_b_et_iso_calotower_sub_R03[ _b_cluster_n ] = cluster->get_et_iso(3,1,1);
-    //_b_et_iso_calotower_R03[ _b_cluster_n ] = cluster->get_et_iso(3,0,1);
-    //_b_et_iso_calotower_sub_R04[ _b_cluster_n ] = cluster->get_et_iso(4,1,1);
-    //_b_et_iso_calotower_R04[ _b_cluster_n ] = cluster->get_et_iso(4,0,1);
+    _b_et_iso_calotower_sub_R01[ _b_cluster_n ] = cluster->get_et_iso(1,1,1);
+    _b_et_iso_calotower_R01[ _b_cluster_n ] = cluster->get_et_iso(1,0,1);
+    _b_et_iso_calotower_sub_R02[ _b_cluster_n ] = cluster->get_et_iso(2,1,1);
+    _b_et_iso_calotower_R02[ _b_cluster_n ] = cluster->get_et_iso(2,0,1);
+    _b_et_iso_calotower_sub_R03[ _b_cluster_n ] = cluster->get_et_iso(3,1,1);
+    _b_et_iso_calotower_R03[ _b_cluster_n ] = cluster->get_et_iso(3,0,1);
+    _b_et_iso_calotower_sub_R04[ _b_cluster_n ] = cluster->get_et_iso(4,1,1);
+    _b_et_iso_calotower_R04[ _b_cluster_n ] = cluster->get_et_iso(4,0,1);
+
+    //now we get tower information for ID purposes, find "Center of Energy", get 4 central towers
+    _b_NTowers = cluster->getNTowers();
+    std::cout<<"Number of Towers in Cluster: "<<_b_NTowers<<std::endl;
+    double tower_phi[_b_NTowers];
+    double tower_eta[_b_NTowers];
+    double tower_energy[_b_NTowers];
+    _b_etot = 0;
+    int counter = 0;
+
+    RawCluster::TowerConstRange begin_end = cluster->getTowers();
+    for (RawClusterContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) 
+    {
+      RawTower *tower = rtiter->second;
+      RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
+      std::cout<<"Tower Key: "<<tower->get_key()<<std::endl;
+
+      tower_phi[counter] = tower_geom->get_phi();
+      std::cout<<"Tower Phi: "<<tower_geom->get_phi()<<std::endl;
+
+      tower_eta[counter] = tower_geom->get_eta();
+      std::cout<<"Tower Eta: "<<tower_geom->get_eta()<<std::endl;
+
+      tower_energy[counter] = tower->get_energy();
+      std::cout<<"Tower Energy: "<<tower_geom->get_energy()<<std::endl;
+
+      _b_etot += tower->get_energy();
+      counter++;
+    }
+    std::cout<<"Total Energy in Cluster: "<<_b_etot<<std::endl;
 
     _b_cluster_n++;
   }

@@ -57,6 +57,9 @@ class TreeMaker: public SubsysReco
   double _b_et_iso_calotower_sub_R04[500];
   double _b_et_iso_calotower_R04[500];
 
+  int _b_NTowers;
+  double _b_etot[500];
+
   int _b_particle_n;
   float _b_particle_pt[1000];
   float _b_particle_et[1000];
@@ -67,3 +70,5 @@ class TreeMaker: public SubsysReco
 
 };
 #endif
+
+
