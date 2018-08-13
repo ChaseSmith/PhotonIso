@@ -46,7 +46,7 @@ class ChaseTower
 public:
   //constructors
   ChaseTower(); 
-  ChaseTower(double eta_in, double phi_in, double energy_in, unsigned int keytype_in;)
+  ChaseTower(double eta_in, double phi_in, double energy_in, unsigned int keytype_in)
   {
     eta = eta_in;
     phi = phi_in;
