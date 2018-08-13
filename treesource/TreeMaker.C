@@ -252,7 +252,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     //now we get tower information for ID purposes, find "Center of Energy", get 4 central towers
     _b_NTowers[_b_cluster_n] = cluster->getNTowers();
-    std::cout<<"Number of Towers in Cluster: "<<_b_NTowers<<std::endl;
+    std::cout<<"Number of Towers in Cluster: "<<_b_NTowers[_b_NTowers]<<std::endl;
 
     std::vector <ChaseTower> clusterTowers;
 
@@ -271,6 +271,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     ////////////////////now that we have all towers from cluster, find max tower//////////////////////////
     ChaseTower MaxTower = findMaxTower(clusterTowers);
+    std::cout<<"MAX TOWER eta: "<<MaxTower.getEta()<<std::endl;
+    std::cout<<"MAX TOWER phi: "<<MaxTower.getPhi()<<std::endl;
 
     ////////////////////Find 49 towers around max tower, Sasha style/////////////////////////////////////
     std::vector<ChaseTower> Sasha49Towers;
