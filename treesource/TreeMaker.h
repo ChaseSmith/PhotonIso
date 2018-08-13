@@ -9,6 +9,8 @@
 
 class PHCompositeNode;
 
+class ChaseTower;
+
 class TreeMaker: public SubsysReco
 {
 
