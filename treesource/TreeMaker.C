@@ -71,7 +71,7 @@ private:
   unsigned int keytype;
 };
 
-ChaseTower findMaxTower(vector<ChaseTower> towers)
+ChaseTower findMaxTower(std::vector<ChaseTower> towers)
 {
   ChaseTower MaxTower;
   MaxTower.setKey(towers.at(0).getKey());
