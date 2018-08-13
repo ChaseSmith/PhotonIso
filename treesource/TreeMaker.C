@@ -219,8 +219,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     }
     */
 
-    RawTowerContainer::TowerConstRange begign_end = cluster->get_towers();
-    for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) 
+    RawCluster::TowerConstRange begin_end = cluster->get_towers();
+    for (RawCluster::TowerConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) 
     {
       RawTower *tower = rtiter->second;
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
