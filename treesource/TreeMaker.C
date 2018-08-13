@@ -292,11 +292,10 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       if(dif_phi>TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
       else if(dif_phi<-1*TMath::Pi()){dif_phi += 2*TMath::Pi();}
 
-      std::cout<<"dif eta: "<<dif_eta<<std::endl;
-      std::cout<<"dif phi: "<<dif_phi<<std::endl;
-      
       if(fabs(dif_eta) <= 0.08 and fabs(dif_phi) <= 0.08)
       {
+        std::cout<<"dif eta: "<<dif_eta<<std::endl;
+        std::cout<<"dif phi: "<<dif_phi<<std::endl;
         ChaseTower temp;
         temp.setEta(this_phi);
         temp.setPhi(this_eta);
