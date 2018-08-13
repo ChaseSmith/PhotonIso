@@ -286,14 +286,13 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       double this_phi = tower_geom->get_phi();
       double this_eta= tower_geom->get_eta();
       double this_energy = tower->get_energy();
-      double dif_eta = fabs(this_eta - MaxTower.getEta());
+      double dif_eta = this_eta - MaxTower.getEta();
       double dif_phi = this_phi - MaxTower.getPhi();
 
       if(dif_phi>TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
-      else if(dif_phi<-1*TMath::Pi()){dif_phi += 2*TMath::Pi();}
-      dif_phi = fabs(dif_phi);
+      else if(dif_phi<-1*TMath::Pi()){dif_phi += 2*TMath::Pi();
 
-      if(dif_eta <= 0.08 and dif_phi <= 0.08)
+      if(fabs(dif_eta) <= 0.08 and fabs(dif_phi) <= 0.08)
       {
         ChaseTower temp;
         temp.setEta(this_phi);
