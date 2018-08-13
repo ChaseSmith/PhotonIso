@@ -293,9 +293,9 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       double this_energy = tower->get_energy();
       double dif_eta = this_eta - MaxTower.getEta();
       double dif_phi = this_phi - MaxTower.getPhi();
-      _b_tower_phi[tower_n] = this_phi;
-      _b_tower_eta[tower_n] = this_eta;
-      tower_n++;
+      _b_tower_phi[_b_tower_n] = this_phi;
+      _b_tower_eta[_b_tower_n] = this_eta;
+      _b_tower_n++;
 
       if(dif_phi>TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
       else if(dif_phi<-1*TMath::Pi()){dif_phi += 2*TMath::Pi();}
