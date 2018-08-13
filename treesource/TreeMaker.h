@@ -96,6 +96,10 @@ class TreeMaker: public SubsysReco
   float _b_particle_phi[1000];
   int _b_particle_pid[1000];
 
+  int _b_tower_n;
+  double _b_tower_eta[100000];
+  double _b_tower_phi[100000];
+
 
 };
 #endif

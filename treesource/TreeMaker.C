@@ -147,6 +147,10 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("NTowers",_b_NTowers,"NTowers[cluster_n]/D");
   _tree->Branch("etot",_b_etot,"etot[cluster_n]/D");
 
+  _tree->Branch("tower_n",&_b_tower_n);
+  _tree->Branch("tower_eta",_b_tower_eta,"tower_eta[cluster_n]/D");
+  _tree->Branch("tower_phi",_b_tower_phi,"tower_phi[cluster_n]/D");
+
  return 0;
 }
 
@@ -203,6 +207,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
   //////////////////////////////////////Find cluster information/////////////////////////////////////////////////////
   _b_cluster_n = 0;
+  _b_tower_n = 0;
 
   RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
   RawTowerGeomContainer *geomEM = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
@@ -284,10 +289,13 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       RawTower *tower = rtiter->second;
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
       double this_phi = tower_geom->get_phi();
-      double this_eta= tower_geom->get_eta();
+      double this_eta = tower_geom->get_eta();
       double this_energy = tower->get_energy();
       double dif_eta = this_eta - MaxTower.getEta();
       double dif_phi = this_phi - MaxTower.getPhi();
+      _b_tower_phi[tower_n] = this_phi;
+      _b_tower_eta[tower_n] = this_eta;
+      tower_n++;
 
       if(dif_phi>TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
       else if(dif_phi<-1*TMath::Pi()){dif_phi += 2*TMath::Pi();}
