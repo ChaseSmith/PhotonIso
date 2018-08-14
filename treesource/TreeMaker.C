@@ -286,10 +286,10 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     {
       RawTower *tower = rtiter->second;
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
-      std::cout<<"tower eta: "<<tower_geom->get_eta()<<std::endl;
+      std::cout<<"tower phi: "<<tower_geom->get_phi()<<std::endl;
       double this_phi = tower_geom->get_phi();
       double this_eta = tower_geom->get_eta();
-      std::cout<<"recorded tower eta: "<<this_eta<<std::endl;
+      std::cout<<"recorded tower phi: "<<this_phi<<std::endl;
       double this_energy = tower->get_energy();
       double dif_eta = this_eta - MaxTower.getEta();
       double dif_phi = this_phi - MaxTower.getPhi();
