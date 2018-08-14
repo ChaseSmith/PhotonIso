@@ -209,7 +209,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     RawTowerContainer::ConstRange begin_end = Emtow->getTowers();
     for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
       RawTower *tower = rtiter->second;
-      std::cout<<"number of towers: "<<counter<<endl;
+      std::cout<<"number of towers: "<<counter<<std::endl;
       counter++
       }
     }
