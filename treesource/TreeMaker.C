@@ -203,14 +203,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     
   }
 
-  RawTowerContainer *Emtow = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
-  std::cout<<"Size of RawTowerContainer for EMCal: "<<Emtow->size()<<std::endl;
-  
-  
-
-  
-
-  /*
   //////////////////////////////////////Find cluster information/////////////////////////////////////////////////////
   _b_cluster_n = 0;
   _b_tower_n = 0;
@@ -334,7 +326,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     _b_cluster_n++;
   }
-  */
 
   _tree->Fill();
 
