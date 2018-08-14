@@ -281,11 +281,14 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     std::vector<ChaseTower> Sasha49Towers;
     _b_etot[_b_cluster_n] = 0;
 
-    RawTowerContainer::ConstRange towerrange = towersEM3old->getTowers();
+    RawTowerContainer *towersEM3old2 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
+    RawTowerGeomContainer *geomEM2 = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
+
+    RawTowerContainer::ConstRange towerrange = towersEM3old2->getTowers();
     for (RawTowerContainer::ConstIterator rtiter = towerrange.first; rtiter != towerrange.second; ++rtiter) 
     {
       RawTower *tower = rtiter->second;
-      RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
+      RawTowerGeom *tower_geom = geomEM2->get_tower_geometry(tower->get_key());
       //std::cout<<"tower phi: "<<tower_geom->get_phi()<<std::endl;
       double this_phi = tower_geom->get_phi();
       double this_eta = tower_geom->get_eta();
