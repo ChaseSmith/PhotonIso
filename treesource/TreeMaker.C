@@ -157,7 +157,7 @@ int TreeMaker::Init(PHCompositeNode *topNode)
 
 
 int TreeMaker::process_event(PHCompositeNode *topNode)
-{  
+{
   /////////////////////////////////////find truth particle information /////////////////////////////////////////////
   _b_particle_n = 0;
 
@@ -213,13 +213,13 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     std::cout<<"Tower Energy: "<<towerthing->get_energy()<<std::endl;
     std::cout<<"number of towers: "<<counter<<std::endl;
     counter++;
-    }
   }
   
+  
 
   
 
-
+  /*
   //////////////////////////////////////Find cluster information/////////////////////////////////////////////////////
   _b_cluster_n = 0;
   _b_tower_n = 0;
@@ -343,7 +343,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     _b_cluster_n++;
   }
-    
+  */
+
   _tree->Fill();
 
 
