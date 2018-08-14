@@ -202,6 +202,19 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     _b_particle_n++;
     
   }
+
+  {
+    int counter = 0;
+    RawTowerContainer *Emtow = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
+    RawTowerContainer::ConstRange begin_end = Emtow->getTowers();
+    for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
+      RawTower *tower = rtiter->second;
+      std::cout<<"number of towers: "<<counter<<endl;
+      counter++
+      }
+    }
+  }
+
   
 
 
