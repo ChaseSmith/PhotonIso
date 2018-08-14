@@ -281,18 +281,13 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     std::vector<ChaseTower> Sasha49Towers;
     _b_etot[_b_cluster_n] = 0;
 
-    RawTowerContainer *towersEM3old2 = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
-    RawTowerGeomContainer *geomEM2 = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
-
-    RawTowerContainer::ConstRange towerrange = towersEM3old2->getTowers();
+    RawTowerContainer::ConstRange towerrange = towersEM3old->getTowers();
     for (RawTowerContainer::ConstIterator rtiter = towerrange.first; rtiter != towerrange.second; ++rtiter) 
     {
       RawTower *tower = rtiter->second;
-      RawTowerGeom *tower_geom = geomEM2->get_tower_geometry(tower->get_key());
-      //std::cout<<"tower phi: "<<tower_geom->get_phi()<<std::endl;
+      RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
       double this_phi = tower_geom->get_phi();
       double this_eta = tower_geom->get_eta();
-      //std::cout<<"recorded tower phi: "<<this_phi<<std::endl;
       double this_energy = tower->get_energy();
       double dif_eta = this_eta - MaxTower.getEta();
       double dif_phi = this_phi - MaxTower.getPhi();
@@ -304,7 +299,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       if(dif_phi > TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
       else if(dif_phi < -1*TMath::Pi()){dif_phi += 2*TMath::Pi();}
 
-      if(fabs(dif_eta) < 0.1 and fabs(dif_phi) < 0.1)
+      if(fabs(dif_eta) < 2 and fabs(dif_phi) < TMath::Pi())
       {
         std::cout<<"dif eta: "<<dif_eta<<std::endl;
         std::cout<<"dif phi: "<<dif_phi<<std::endl;
