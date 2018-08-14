@@ -203,17 +203,19 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     
   }
 
+  
+  int counter = 0;
+  RawTowerContainer *Emtow = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
+  RawTowerContainer::ConstRange begin_end = Emtow->getTowers();
+  for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) 
   {
-    int counter = 0;
-    RawTowerContainer *Emtow = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
-    RawTowerContainer::ConstRange begin_end = Emtow->getTowers();
-    for (RawTowerContainer::ConstIterator rtiter = begin_end.first; rtiter != begin_end.second; ++rtiter) {
-      RawTower *tower = rtiter->second;
-      std::cout<<"number of towers: "<<counter<<std::endl;
-      counter++;
-      }
+    RawTower *towerthing = rtiter->second;
+    std::cout<<"Tower Energy: "<<tower->get_energy()<<std::endl;
+    std::cout<<"number of towers: "<<counter<<std::endl;
+    counter++;
     }
   }
+  
 
   
 
