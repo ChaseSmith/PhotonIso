@@ -284,7 +284,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
       double this_phi = tower_geom->get_phi();
       double this_eta = tower_geom->get_eta();
-      //double this_energy = tower->get_energy();
+      double this_energy = tower->get_energy();
       double dif_eta = this_eta - MaxTower.getEta();
       double dif_phi = this_phi - MaxTower.getPhi();
 
@@ -296,10 +296,11 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
         std::cout<<"ANOTHER TOWER PASSED THE CUT "<<std::endl;
         std::cout<<"tower eta: "<<this_eta<<std::endl;
         std::cout<<"tower phi: "<<this_phi<<std::endl;
+        std::cout<<"tower energy: "<<this_energy<<std::endl;
         ChaseTower temp;
-        temp.setEta(tower_geom->get_eta());
-        temp.setPhi(tower_geom->get_phi());
-        temp.setPhi(tower->get_energy());
+        temp.setEta(this_eta);
+        temp.setPhi(this_phi);
+        temp.setPhi(this_energy);
         temp.setKey(tower->get_key());
         Sasha49Towers.push_back(temp);
       }
