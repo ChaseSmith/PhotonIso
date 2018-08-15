@@ -63,37 +63,37 @@ ChaseTower findMaxTower(std::vector<ChaseTower> towers)
   return MaxTower;
 }
 
-double* CenterOfEnergy(double *eta, double *phi, double *energy, int NTowers, double etot)
+//double* CenterOfEnergy(double *eta, double *phi, double *energy, int NTowers, double etot)
+//{
+//  double *CoE = new double[2];
+//  double avgeta = 0;
+//  double avgphi = 0;
+//  for(int i = 0; i < NTowers; i++)
+//  {
+//    avgeta += eta[i] * energy[i];
+//    avgphi += phi[i] * energy[i];
+//  }
+//  CoE[0] = avgeta/etot;
+//  CoE[1] = avgphi/etot;
+//  return CoE;
+//}
+
+double* CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers, double etot)
 {
   double *CoE = new double[2];
   double avgeta = 0;
   double avgphi = 0;
-  for(int i = 0; i < NTowers; i++)
+  for(int i = 0; i < towers.size(); i++)
   {
-    avgeta += eta[i] * energy[i];
-    avgphi += phi[i] * energy[i];
+    avgeta += towers.at(i).getEta() * towers.at(i).getEnergy();
+    avgphi += towers.at(i).getPhi() * towers.at(i).getEnergy();
   }
   CoE[0] = avgeta/etot;
   CoE[1] = avgphi/etot;
   return CoE;
 }
 
-double* CenterOfEnergy_BazilevskyStyle(double *eta, double *phi, double *energy, double etot)
-{
-  double *CoE = new double[2];
-  double avgeta = 0;
-  double avgphi = 0;
-  for(int i = 0; i < 49; i++)
-  {
-    avgeta += eta[i] * energy[i];
-    avgphi += phi[i] * energy[i];
-  }
-  CoE[0] = avgeta/etot;
-  CoE[1] = avgphi/etot;
-  return CoE;
-}
-
-//void ChiValues_BazilevskyStyle(double *eta, double *phi, double *energy, double etot, double *eta4, double *phi4, double *energy4)
+//void ChiValues_BazilevskyStyle(std::vector<ChaseTower> towers, double etot, double *eta4, double *phi4, double *energy4)
 //{
 //
 //}
@@ -203,14 +203,10 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     
   }
 
-  RawTowerContainer *Emtow = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
-  std::cout<<"Size of RawTowerContainer for EMCal: "<<Emtow->size()<<std::endl;
+  //RawTowerContainer *Emtow = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
+  //std::cout<<"Size of RawTowerContainer for EMCal: "<<Emtow->size()<<std::endl;
   
   
-
-  
-
-  /*
   //////////////////////////////////////Find cluster information/////////////////////////////////////////////////////
   _b_cluster_n = 0;
   _b_tower_n = 0;
@@ -327,14 +323,14 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     }
     std::cout<<"size of the 49 tower vector (better be 49): "<<Sasha49Towers.size()<<std::endl;
     /////////////Find Center of energy for cluster, get tower info of 4 towers around CoE////////////////
-    //phi4[4];
-    //eta4[4];
-    //energy4[4];
-    //double CoE[2] = CenterOfEnergy_BazilevskyStyle(eta49, phi49, energy49, _b_etot[_b_cluster_n]);
+    double CoE[2] = CenterOfEnergy_BazilevskyStyle(Sasha49Towers, _b_etot[_b_cluster_n]);
+    std::cout<<"Center of Energy eta: "<<CoE[0]<<std::endl;
+    std::cout<<"Center of Energy phi: "<<CoE[1]<<std::endl;
+
 
     _b_cluster_n++;
   }
-  */
+
 
   _tree->Fill();
 
