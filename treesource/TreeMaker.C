@@ -83,7 +83,7 @@ double* CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers, double et
   double *CoE = new double[2];
   double avgeta = 0;
   double avgphi = 0;
-  for(int i = 0; i < towers.size(); i++)
+  for(unsigned int i = 0; i < towers.size(); i++)
   {
     avgeta += towers.at(i).getEta() * towers.at(i).getEnergy();
     avgphi += towers.at(i).getPhi() * towers.at(i).getEnergy();
@@ -323,7 +323,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     }
     std::cout<<"size of the 49 tower vector (better be 49): "<<Sasha49Towers.size()<<std::endl;
     /////////////Find Center of energy for cluster, get tower info of 4 towers around CoE////////////////
-    double CoE[2] = CenterOfEnergy_BazilevskyStyle(Sasha49Towers, _b_etot[_b_cluster_n]);
+    double CoE[2] = CenterOfEnergy_BazilevskyStyle(Sasha49Towers, _b_etot[_b_cluster_n] );
     std::cout<<"Center of Energy eta: "<<CoE[0]<<std::endl;
     std::cout<<"Center of Energy phi: "<<CoE[1]<<std::endl;
 
