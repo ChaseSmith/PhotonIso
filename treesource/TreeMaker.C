@@ -77,7 +77,7 @@ EtaPhiPoint CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers)
   {
     std::cout<<"Tower Energy Fraction: "<<(towers.at(i).getEnergy() / etot)<<std::endl;
     std::cout<<"Tower Eta: "<<(towers.at(i).getEta())<<std::endl;
-    std::cout<<"Tower Phi: "<<(owers.at(i).getPhi())<<std::endl;
+    std::cout<<"Tower Phi: "<<(towers.at(i).getPhi())<<std::endl;
     avgeta += towers.at(i).getEta() * (towers.at(i).getEnergy() / etot);
     avgphi += towers.at(i).getPhi() * (towers.at(i).getEnergy() / etot);
   }
