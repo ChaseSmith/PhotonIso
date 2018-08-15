@@ -262,7 +262,9 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
       ChaseTower temp;
       temp.setEta(tower_geom->get_eta());
+      std::cout<<"Tower in cluster Eta: "<<tower_geom->get_eta()<<std::endl;
       temp.setPhi(tower_geom->get_phi());
+      std::cout<<"Tower in cluster Phi: "<<tower_geom->get_phi()<<std::endl;
       temp.setPhi(tower->get_energy());
       temp.setKey(tower->get_key());
       clusterTowers.push_back(temp);
@@ -275,7 +277,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     ////////////////////Find 49 towers around max tower, Sasha style/////////////////////////////////////
     std::vector<ChaseTower> Sasha49Towers;
-    _b_etot[_b_cluster_n] = 0;
 
     RawTowerContainer::ConstRange towerrange = towersEM3old->getTowers();
     for (RawTowerContainer::ConstIterator rtiter = towerrange.first; rtiter != towerrange.second; ++rtiter) 
@@ -306,7 +307,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
         temp.setPhi(this_energy);
         temp.setKey(tower->get_key());
         Sasha49Towers.push_back(temp);
-        _b_etot[_b_cluster_n] += tower->get_energy();
       }
     }
     std::cout<<"size of the 49 tower vector (better be 49): "<<Sasha49Towers.size()<<std::endl;
