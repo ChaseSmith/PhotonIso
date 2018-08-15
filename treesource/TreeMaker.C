@@ -78,9 +78,8 @@ ChaseTower findMaxTower(std::vector<ChaseTower> towers)
 //  return CoE;
 //}
 
-double* CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers, double etot)
+EtaPhiPoint CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers, double etot)
 {
-  double *CoE = new double[2];
   double avgeta = 0;
   double avgphi = 0;
   for(unsigned int i = 0; i < towers.size(); i++)
@@ -88,9 +87,7 @@ double* CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers, double et
     avgeta += towers.at(i).getEta() * towers.at(i).getEnergy();
     avgphi += towers.at(i).getPhi() * towers.at(i).getEnergy();
   }
-  CoE[0] = avgeta/etot;
-  CoE[1] = avgphi/etot;
-  return CoE;
+  return EtaPhiPoint(avgeta/etot , avgphi/etot);
 }
 
 //void ChiValues_BazilevskyStyle(std::vector<ChaseTower> towers, double etot, double *eta4, double *phi4, double *energy4)

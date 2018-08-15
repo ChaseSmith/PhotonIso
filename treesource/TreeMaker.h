@@ -36,6 +36,25 @@ private:
   unsigned int keytype;
 };
 
+class EtaPhiPoint
+{
+public:
+  //constructors
+  EtaPhiPoint(){}; 
+  EtaPhiPoint(double eta_in, double phi_in)
+  {
+    eta = eta_in;
+    phi = phi_in;
+  }
+  void setEta(double eta2){eta = eta2;}
+  void setPhi(double phi2){phi = phi2;}
+  double getEta(){return eta;}
+  double getPhi(){return phi;}
+private:
+  double eta;
+  double phi;
+};
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 class TreeMaker: public SubsysReco
