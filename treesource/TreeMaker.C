@@ -63,20 +63,6 @@ ChaseTower findMaxTower(std::vector<ChaseTower> towers)
   return MaxTower;
 }
 
-//double* CenterOfEnergy(double *eta, double *phi, double *energy, int NTowers, double etot)
-//{
-//  double *CoE = new double[2];
-//  double avgeta = 0;
-//  double avgphi = 0;
-//  for(int i = 0; i < NTowers; i++)
-//  {
-//    avgeta += eta[i] * energy[i];
-//    avgphi += phi[i] * energy[i];
-//  }
-//  CoE[0] = avgeta/etot;
-//  CoE[1] = avgphi/etot;
-//  return CoE;
-//}
 
 EtaPhiPoint CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers, double etot)
 {
@@ -84,10 +70,10 @@ EtaPhiPoint CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers, doubl
   double avgphi = 0;
   for(unsigned int i = 0; i < towers.size(); i++)
   {
-    avgeta += towers.at(i).getEta() * towers.at(i).getEnergy();
-    avgphi += towers.at(i).getPhi() * towers.at(i).getEnergy();
+    avgeta += towers.at(i).getEta() * (towers.at(i).getEnergy() / etot);
+    avgphi += towers.at(i).getPhi() * (towers.at(i).getEnergy() / etot);
   }
-  return EtaPhiPoint(avgeta/etot , avgphi/etot);
+  return EtaPhiPoint(avgeta , avgphi);
 }
 
 //void ChiValues_BazilevskyStyle(std::vector<ChaseTower> towers, double etot, double *eta4, double *phi4, double *energy4)
@@ -298,7 +284,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       double dif_phi = this_phi - MaxTower.getPhi();
       _b_tower_phi[_b_tower_n] = tower_geom->get_phi();
       _b_tower_eta[_b_tower_n] = tower_geom->get_eta();
-      std::cout<<"tower number"<<_b_tower_n<<std::endl;
+      //std::cout<<"tower number"<<_b_tower_n<<std::endl;
       _b_tower_n++;
 
       //if(dif_phi > TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
