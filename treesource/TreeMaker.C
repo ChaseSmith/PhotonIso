@@ -64,10 +64,15 @@ ChaseTower findMaxTower(std::vector<ChaseTower> towers)
 }
 
 
-EtaPhiPoint CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers, double etot)
+EtaPhiPoint CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers)
 {
   double avgeta = 0;
   double avgphi = 0;
+  double etot = 0;
+  for(unsigned int i = 0; i < towers.size(); i++)
+  {
+    etot += towers.at(i).getEnergy();
+  }
   for(unsigned int i = 0; i < towers.size(); i++)
   {
     avgeta += towers.at(i).getEta() * (towers.at(i).getEnergy() / etot);
@@ -306,7 +311,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     }
     std::cout<<"size of the 49 tower vector (better be 49): "<<Sasha49Towers.size()<<std::endl;
     /////////////Find Center of energy for cluster, get tower info of 4 towers around CoE////////////////
-    EtaPhiPoint CoE = CenterOfEnergy_BazilevskyStyle(Sasha49Towers, _b_etot[_b_cluster_n] );
+    EtaPhiPoint CoE = CenterOfEnergy_BazilevskyStyle(Sasha49Towers);
     std::cout<<"Center of Energy eta: "<<CoE.eta<<std::endl;
     std::cout<<"Center of Energy phi: "<<CoE.phi<<std::endl;
 
