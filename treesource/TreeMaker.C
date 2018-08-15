@@ -200,7 +200,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
   
   //////////////////////////////////////Find cluster information/////////////////////////////////////////////////////
   _b_cluster_n = 0;
-  _b_tower_n = 0;
 
   RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
   RawTowerGeomContainer *geomEM = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
@@ -292,21 +291,15 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       //double this_energy = tower->get_energy();
       double dif_eta = this_eta - MaxTower.getEta();
       double dif_phi = this_phi - MaxTower.getPhi();
-      _b_tower_phi[_b_tower_n] = tower_geom->get_phi();
-      _b_tower_eta[_b_tower_n] = tower_geom->get_eta();
-      //std::cout<<"tower number"<<_b_tower_n<<std::endl;
-      _b_tower_n++;
 
       if(dif_phi > TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
       else if(dif_phi < -1*TMath::Pi()){dif_phi += 2*TMath::Pi();}
 
-      std::cout<<"tmaths pi: "<<TMath::Pi()<<std::endl;
-
       if(fabs(dif_eta) < 0.08 and fabs(dif_phi) < 0.08 )
       {
-        //std::cout<<"ANOTHER TOWER PASSED THE CUT "<<std::endl;
-        //std::cout<<"tower eta: "<<this_eta<<std::endl;
-        //std::cout<<"tower phi: "<<this_phi<<std::endl;
+        std::cout<<"ANOTHER TOWER PASSED THE CUT "<<std::endl;
+        std::cout<<"tower eta: "<<this_eta<<std::endl;
+        std::cout<<"tower phi: "<<this_phi<<std::endl;
         ChaseTower temp;
         temp.setEta(tower_geom->get_eta());
         temp.setPhi(tower_geom->get_phi());
