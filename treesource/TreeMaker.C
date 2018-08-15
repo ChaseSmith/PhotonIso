@@ -266,6 +266,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       temp.setPhi(tower_geom->get_phi());
       std::cout<<"Tower in cluster Phi: "<<tower_geom->get_phi()<<std::endl;
       temp.setPhi(tower->get_energy());
+      std::cout<<"Tower in cluster Energy: "<<tower->get_energy()<<std::endl;
       temp.setKey(tower->get_key());
       clusterTowers.push_back(temp);
     }
