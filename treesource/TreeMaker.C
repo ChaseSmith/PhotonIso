@@ -303,7 +303,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
         //temp.setPhi(this_energy);
         //temp.setKey(tower->get_key());
         //Sasha49Towers.push_back(temp);
-        Sasha49Towers.push_back(ChaseTower(this_eta, this_phi, this_energy, tower->get_key()))
+        Sasha49Towers.push_back(ChaseTower(this_eta, this_phi, this_energy, tower->get_key()));
       }
     }
     //std::cout<<"size of the 49 tower vector (better be 49): "<<Sasha49Towers.size()<<std::endl;
