@@ -138,10 +138,6 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("NTowers",_b_NTowers,"NTowers[cluster_n]/D");
   _tree->Branch("etot",_b_etot,"etot[cluster_n]/D");
 
-  _tree->Branch("tower_n",&_b_tower_n);
-  _tree->Branch("tower_eta",_b_tower_eta,"tower_eta[cluster_n]/D");
-  _tree->Branch("tower_phi",_b_tower_phi,"tower_phi[cluster_n]/D");
-
  return 0;
 }
 
