@@ -251,7 +251,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     //now we get tower information for ID purposes, find "Center of Energy", get 4 central towers
     _b_NTowers[_b_cluster_n] = cluster->getNTowers();
-    std::cout<<"Number of Towers in Cluster: "<<_b_NTowers[_b_cluster_n]<<std::endl;
+    //std::cout<<"Number of Towers in Cluster: "<<_b_NTowers[_b_cluster_n]<<std::endl;
 
     std::vector <ChaseTower> clusterTowers;
 
@@ -310,7 +310,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
         Sasha49Towers.push_back(temp);
       }
     }
-    std::cout<<"size of the 49 tower vector (better be 49): "<<Sasha49Towers.size()<<std::endl;
+    //std::cout<<"size of the 49 tower vector (better be 49): "<<Sasha49Towers.size()<<std::endl;
+
     /////////////Find Center of energy for cluster, get tower info of 4 towers around CoE////////////////
     EtaPhiPoint CoE = CenterOfEnergy_BazilevskyStyle(Sasha49Towers);
     std::cout<<"Center of Energy eta: "<<CoE.eta<<std::endl;
@@ -318,6 +319,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
 
     _b_cluster_n++;
+    std::cout<<std::endl;
   }
 
 
