@@ -300,6 +300,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       if(dif_phi > TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
       else if(dif_phi < -1*TMath::Pi()){dif_phi += 2*TMath::Pi();}
 
+      std::cout<<"tmaths pi: "<<TMath::Pi()<<std::endl;
+
       if(fabs(dif_eta) < 0.08 and fabs(dif_phi) < 0.08 )
       {
         //std::cout<<"ANOTHER TOWER PASSED THE CUT "<<std::endl;
