@@ -75,6 +75,7 @@ EtaPhiPoint CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers)
   }
   for(unsigned int i = 0; i < towers.size(); i++)
   {
+    std::cout<<"Energy fraction of cluster: "<<(towers.at(i).getEnergy() / etot)<<std::endl;
     avgeta += towers.at(i).getEta() * (towers.at(i).getEnergy() / etot);
     avgphi += towers.at(i).getPhi() * (towers.at(i).getEnergy() / etot);
   }
