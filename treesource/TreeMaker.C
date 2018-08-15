@@ -320,9 +320,9 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     }
     std::cout<<"size of the 49 tower vector (better be 49): "<<Sasha49Towers.size()<<std::endl;
     /////////////Find Center of energy for cluster, get tower info of 4 towers around CoE////////////////
-    double CoE[2] = CenterOfEnergy_BazilevskyStyle(Sasha49Towers, _b_etot[_b_cluster_n] );
-    std::cout<<"Center of Energy eta: "<<CoE[0]<<std::endl;
-    std::cout<<"Center of Energy phi: "<<CoE[1]<<std::endl;
+    EtaPhiPoint CoE = CenterOfEnergy_BazilevskyStyle(Sasha49Towers, _b_etot[_b_cluster_n] );
+    std::cout<<"Center of Energy eta: "<<CoE.eta<<std::endl;
+    std::cout<<"Center of Energy phi: "<<CoE.phi<<std::endl;
 
 
     _b_cluster_n++;

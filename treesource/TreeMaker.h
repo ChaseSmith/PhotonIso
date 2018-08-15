@@ -50,7 +50,6 @@ public:
   void setPhi(double phi2){phi = phi2;}
   double getEta(){return eta;}
   double getPhi(){return phi;}
-private:
   double eta;
   double phi;
 };
