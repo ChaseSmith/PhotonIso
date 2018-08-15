@@ -262,11 +262,11 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
       ChaseTower temp;
       temp.setEta(tower_geom->get_eta());
-      std::cout<<"Tower in cluster Eta: "<<tower_geom->get_eta()<<std::endl;
+      //std::cout<<"Tower in cluster Eta: "<<tower_geom->get_eta()<<std::endl;
       temp.setPhi(tower_geom->get_phi());
-      std::cout<<"Tower in cluster Phi: "<<tower_geom->get_phi()<<std::endl;
+      //std::cout<<"Tower in cluster Phi: "<<tower_geom->get_phi()<<std::endl;
       temp.setEnergy(tower->get_energy());
-      std::cout<<"Tower in cluster Energy: "<<tower->get_energy()<<std::endl;
+      //std::cout<<"Tower in cluster Energy: "<<tower->get_energy()<<std::endl;
       temp.setKey(tower->get_key());
       clusterTowers.push_back(temp);
     }
@@ -294,8 +294,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       //std::cout<<"tower number"<<_b_tower_n<<std::endl;
       _b_tower_n++;
 
-      //if(dif_phi > TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
-      //else if(dif_phi < -1*TMath::Pi()){dif_phi += 2*TMath::Pi();}
+      if(dif_phi > TMath::Pi()){dif_phi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
+      else if(dif_phi < -1*TMath::Pi()){dif_phi += 2*TMath::Pi();}
 
       if(fabs(dif_eta) < 0.08 and fabs(dif_phi) < 0.08)
       {
