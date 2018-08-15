@@ -289,7 +289,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
       double this_phi = tower_geom->get_phi();
       double this_eta = tower_geom->get_eta();
-      double this_energy = tower->get_energy();
+      //double this_energy = tower->get_energy();
       double dif_eta = this_eta - MaxTower.getEta();
       double dif_phi = this_phi - MaxTower.getPhi();
       _b_tower_phi[_b_tower_n] = tower_geom->get_phi();
