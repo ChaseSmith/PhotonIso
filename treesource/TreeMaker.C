@@ -306,9 +306,9 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
         //std::cout<<"tower eta: "<<this_eta<<std::endl;
         //std::cout<<"tower phi: "<<this_phi<<std::endl;
         ChaseTower temp;
-        temp.setEta(this_phi);
-        temp.setPhi(this_eta);
-        temp.setPhi(this_energy);
+        temp.setEta(tower_geom->get_eta());
+        temp.setPhi(tower_geom->get_phi());
+        temp.setPhi(tower->get_energy());
         temp.setKey(tower->get_key());
         Sasha49Towers.push_back(temp);
       }
