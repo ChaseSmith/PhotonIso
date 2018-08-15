@@ -297,12 +297,13 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
         std::cout<<"tower eta: "<<this_eta<<std::endl;
         std::cout<<"tower phi: "<<this_phi<<std::endl;
         std::cout<<"tower energy: "<<this_energy<<std::endl;
-        ChaseTower temp;
-        temp.setEta(this_eta);
-        temp.setPhi(this_phi);
-        temp.setPhi(this_energy);
-        temp.setKey(tower->get_key());
-        Sasha49Towers.push_back(temp);
+        //ChaseTower temp;
+        //temp.setEta(this_eta);
+        //temp.setPhi(this_phi);
+        //temp.setPhi(this_energy);
+        //temp.setKey(tower->get_key());
+        //Sasha49Towers.push_back(temp);
+        Sasha49Towers.push_back(ChaseTower(this_eta, this_phi, this_energy, tower->get_key()))
       }
     }
     //std::cout<<"size of the 49 tower vector (better be 49): "<<Sasha49Towers.size()<<std::endl;
