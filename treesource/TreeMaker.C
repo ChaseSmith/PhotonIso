@@ -247,7 +247,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
   //RawTowerContainer *Emtow = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
   //std::cout<<"Size of RawTowerContainer for EMCal: "<<Emtow->size()<<std::endl;
   
-  
+  /*
   //////////////////////////////////////Find cluster information/////////////////////////////////////////////////////
   _b_cluster_n = 0;
 
@@ -291,7 +291,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     std::cout<<"Cluster Eta: "<<cluster_eta<<std::endl;
     std::cout<<"Cluster Phi: "<<cluster_phi<<std::endl;
 
-    /*
+    
 
     //arguments are (cone radiusx10, subtract event = true, use calotowers for isolation = true)
     //_b_et_iso_calotower_sub_R01[ _b_cluster_n ] = cluster->get_et_iso(1,1,1);
