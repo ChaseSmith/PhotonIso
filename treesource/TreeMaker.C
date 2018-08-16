@@ -110,7 +110,7 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
       }
     }
   }
-  double etot;
+  double etot = 0;
   for(unsigned int i = 0; i < towers.size(); i++) //loops through the vector of chaseTowers
   {
     etot += towers.at(i).getEnergy();
