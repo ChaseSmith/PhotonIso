@@ -106,7 +106,6 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   {
     for (std::list<int>::iterator it = central4.begin(); it != central4.end(); ++it) //iterate through list
     {
-      std::cout<< *it <<std::endl;
       if(my_compare(towers.at(i), towers.at(*it), CoE)) //if tower is shorter distance to CoE than current tower, insert
       {
         central4.insert(it,i); //yay insert sort, break when spot is found
@@ -148,6 +147,11 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   double e2t = (e1 - e2 - e3 + e4)/etot; //vertical symmetry
   double e3t = (e1 + e2 - e3 - e4)/etot; //horizontal symetry
   double e4t = (e3)/etot; //off diagonal
+  std::cout<<"the measured values"<<std::endl;
+  std::cout<<"the e1t"<<std::endl;
+  std::cout<<"the e2t"<<std::endl;
+  std::cout<<"the e3t"<<std::endl;
+  std::cout<<"the e4t"<<std::endl;
 
   return cutValues(e1t, e2t, e3t, e4t);
 }
