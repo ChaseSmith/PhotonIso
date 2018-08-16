@@ -103,7 +103,7 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   {
     for (std::list<ChaseTower>::iterator it=central4.begin(); it != central4.end(); ++it) //iterate through list
     {
-      if(my_compare(towers.at(i), it, CoE)) //if tower is shorter distance to CoE than current tower, insert
+      if(my_compare(towers.at(i), *it, CoE)) //if tower is shorter distance to CoE than current tower, insert
       {
         central4.insert(it,towers.at(i)); //yay insert sort, break when spot is found 
         break;
@@ -117,16 +117,16 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   }
 
   std::list<ChaseTower>::iterator it=central4.begin();
-  ChaseTower e1 = it; //closest tower
+  ChaseTower e1 = *it; //closest tower
   ++it;
   central4.pop_front();
-  ChaseTower e2 = it; //either horizontal or vertical next to closest tower 
+  ChaseTower e2 = *it; //either horizontal or vertical next to closest tower 
   ++it;
   central4.pop_front();
-  ChaseTower e4 = it; //either horizontal or vertical next to closest tower
+  ChaseTower e4 = *it; //either horizontal or vertical next to closest tower
   ++it;
   central4.pop_front();
-  ChaseTower e3 = it; //off diagonal tower
+  ChaseTower e3 = *it; //off diagonal tower
   ++it;
   central4.pop_front();
 

@@ -56,6 +56,7 @@ public:
 
 class cutValues
 {
+public:
   cutValues(){};
   cutValues(double e1t_in, double e2t_in, double e3t_in, double e4t_in)
   {
