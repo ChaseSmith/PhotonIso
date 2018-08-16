@@ -247,7 +247,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
   //RawTowerContainer *Emtow = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
   //std::cout<<"Size of RawTowerContainer for EMCal: "<<Emtow->size()<<std::endl;
   
-  /*
+
   //////////////////////////////////////Find cluster information/////////////////////////////////////////////////////
   _b_cluster_n = 0;
 
@@ -324,7 +324,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       temp.setKey(tower->get_key());
       clusterTowers.push_back(temp);
     }
-
+    /*
     ////////////////////now that we have all towers from cluster, find max tower//////////////////////////
     ChaseTower MaxTower = findMaxTower(clusterTowers);
     //std::cout<<"Max Tower Eta: "<<MaxTower.getEta()<<std::endl;
@@ -369,13 +369,12 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
-
+    */
     _b_cluster_n++;
     std::cout<<std::endl;
   }
 
 
-*/
   _tree->Fill();
 
   return 0; 
