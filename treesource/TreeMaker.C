@@ -146,6 +146,7 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   if(central4.size() >= 4)
   {
     ++it;
+    ++it;
     e3 = towers.at(*it).getEnergy(); //off diagonal tower
   }
 
