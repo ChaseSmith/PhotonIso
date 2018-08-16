@@ -361,9 +361,9 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     cutValues clusterCuts = CutValues_BazilevskyStyle(Sasha49Towers, CoE);
 
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
-    _b_e1t[_b_cluster_n] = clusterCuts.e1t;
-    _b_e1t[_b_cluster_n] = clusterCuts.e1t;
-    _b_e1t[_b_cluster_n] = clusterCuts.e1t;
+    _b_e2t[_b_cluster_n] = clusterCuts.e2t;
+    _b_e3t[_b_cluster_n] = clusterCuts.e3t;
+    _b_e4t[_b_cluster_n] = clusterCuts.e4t;
 
     _b_cluster_n++;
     std::cout<<std::endl;
