@@ -363,8 +363,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     /////////////Find Center of energy for cluster, get tower info of 4 towers around CoE////////////////
     EtaPhiPoint CoE = CenterOfEnergy_BazilevskyStyle(Sasha49Towers);
-    //std::cout<<"Center of Energy eta: "<<CoE.eta<<std::endl;
-    //std::cout<<"Center of Energy phi: "<<CoE.phi<<std::endl;
+    std::cout<<"Center of Energy eta: "<<CoE.eta<<std::endl;
+    std::cout<<"Center of Energy phi: "<<CoE.phi<<std::endl;
     
     cutValues clusterCuts;
     //cutValues clusterCuts = CutValues_BazilevskyStyle(Sasha49Towers, CoE);
