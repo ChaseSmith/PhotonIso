@@ -124,6 +124,7 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   std::list<int>::iterator it = central4.begin();
   std::cout<<"Is the iterator the problem?"<<std::endl;
   ChaseTower e1 = towers.at(*it); //closest tower
+  std::cout<<"First elements index: "<< *it <<std::endl;
   std::cout<<"Accessing first element"<<std::endl;
   ++it;
   std::cout<<"Iterating iterator"<<std::endl;
