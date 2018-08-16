@@ -129,12 +129,15 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   std::cout<<"Iterating iterator"<<std::endl;
   //central4.pop_front();
   ChaseTower e2 = towers.at(*it); //either horizontal or vertical next to closest tower 
+  std::cout<<"Accessing second element"<<std::endl;
   ++it;
   //central4.pop_front();
   ChaseTower e4 = towers.at(*it); //either horizontal or vertical next to closest tower
+  std::cout<<"Accessing third element"<<std::endl;
   ++it;
   //central4.pop_front();
   ChaseTower e3 = towers.at(*it); //off diagonal tower
+  std::cout<<"Accessing fourth element"<<std::endl;
   ++it;
   //central4.pop_front();
 
