@@ -116,6 +116,11 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
     }
   }
 
+  for (std::list<int>::iterator it = central4.begin(); it != central4.end(); ++it) //iterate through list
+  {
+    std::cout<<"inserting "<<i<<" at "<< *it <<std::endl;
+  }
+
   double etot = 0;
   for(unsigned int i = 0; i < towers.size(); i++) //loops through the vector of chaseTowers
   {
