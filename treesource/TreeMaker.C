@@ -109,17 +109,10 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
       std::cout<< *it <<std::endl;
       if(my_compare(towers.at(i), towers.at(*it), CoE)) //if tower is shorter distance to CoE than current tower, insert
       {
-        central4.insert(it,i); //yay insert sort, break when spot is found 
-        std::cout<<"inserting "<<i<<" at "<< *it <<std::endl;
+        central4.insert(it,i); //yay insert sort, break when spot is found
         break;
       }
     }
-  }
-
-  for (std::list<int>::iterator it = central4.begin(); it != central4.end(); ++it) //iterate through list
-  {
-    std::cout<<"variable in list"<<std::endl;
-    std::cout<< *it <<std::endl;
   }
 
   double etot = 0;
@@ -127,35 +120,37 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   {
     etot += towers.at(i).getEnergy();
   }
-  std::cout<<"Is it the energy for loop thats the problem?"<<std::endl;
+
+  double e1;
+  double e2;
+  double e3;
+  double e4;
 
   std::list<int>::iterator it = central4.begin();
-  std::cout<<"Is the iterator the problem?"<<std::endl;
-  ChaseTower e1 = towers.at(*it); //closest tower
-  std::cout<<"First elements index: "<< *it <<std::endl;
-  std::cout<<"Accessing first element"<<std::endl;
-  ++it;
-  std::cout<<"Iterating iterator"<<std::endl;
-  //central4.pop_front();
-  ChaseTower e2 = towers.at(*it); //either horizontal or vertical next to closest tower 
-  std::cout<<"Accessing second element"<<std::endl;
-  ++it;
-  //central4.pop_front();
-  ChaseTower e4 = towers.at(*it); //either horizontal or vertical next to closest tower
-  std::cout<<"Accessing third element"<<std::endl;
-  ++it;
-  //central4.pop_front();
-  ChaseTower e3 = towers.at(*it); //off diagonal tower
-  std::cout<<"Accessing fourth element"<<std::endl;
-  ++it;
-  //central4.pop_front();
+  e1 = towers.at(*it).getEnergy(); //closest tower
+  if(central4.size() >= 2)
+  {
+    ++it;
+    e2 = towers.at(*it).getEnergy(); //either horizontal or vertical next to closest tower 
+  }
+  else{e2 = 0;}
+  if(central4.size() >= 3)
+  {
+    ++it;
+    e4 = towers.at(*it).getEnergy(); //either horizontal or vertical next to closest tower
+  }
+  else{e3 = 0;}
+  if(central4.size() >= 4)
+  {
+    ++it;
+    e3 = towers.at(*it).getEnergy(); //off diagonal tower
+  }
+  else{e4 = 0;}
 
-  std::cout<<"Is it popping the values off?"<<std::endl;
-
-  double e1t = (e1.getEnergy() + e2.getEnergy() + e3.getEnergy() + e4.getEnergy())/etot; //energy in central 4
-  double e2t = (e1.getEnergy() - e2.getEnergy() - e3.getEnergy() + e4.getEnergy())/etot; //vertical symmetry
-  double e3t = (e1.getEnergy() + e2.getEnergy() - e3.getEnergy() - e4.getEnergy())/etot; //horizontal symetry
-  double e4t = (e3.getEnergy())/etot; //off diagonal
+  double e1t = (e1 + e2 + e3 + e4)/etot; //energy in central 4
+  double e2t = (e1 - e2 - e3 + e4)/etot; //vertical symmetry
+  double e3t = (e1 + e2 - e3 - e4)/etot; //horizontal symetry
+  double e4t = (e3)/etot; //off diagonal
 
   return cutValues(e1t, e2t, e3t, e4t);
 }
@@ -379,10 +374,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       }
     }
 
-
-
-    //<><><><><><><><><><><><><error happening here <><><><><><><><><><><><><><>//
-
     /////////////Find Center of energy for cluster, get tower info of 4 towers around CoE////////////////
     EtaPhiPoint CoE = CenterOfEnergy_BazilevskyStyle(Sasha49Towers);
     std::cout<<"Center of Energy eta: "<<CoE.eta<<std::endl;
@@ -394,8 +385,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
-    
-    //<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>//
 
     _b_cluster_n++;
     std::cout<<std::endl;
