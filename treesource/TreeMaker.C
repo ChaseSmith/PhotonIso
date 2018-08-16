@@ -127,7 +127,7 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
 
   std::list<int>::iterator it = central4.begin();
   e1 = towers.at(*it).getEnergy(); //closest tower
-  if(central4.size() >= 2)
+  if(central4.size() >= 3)
   {
     ++it;
     std::list<int>::iterator it2 = it;
@@ -135,25 +135,13 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
     if(fabs(towers.at(*it).getEta() - CoE.eta) < fabs(towers.at(*it2).getEta() - CoE.eta)) //if tower is closer in eta, it is e2
     {
       e2 = towers.at(*it).getEnergy(); 
+      e4 = towers.at(*it2).getEnergy(); 
     }
     else
     {
+      e2 = towers.at(*it2).getEnergy(); 
       e4 = towers.at(*it).getEnergy(); 
     }
-  }
-  if(central4.size() >= 3)
-  {
-    ++it;
-    std::list<int>::iterator it2 = it;
-    --it2;
-    if(fabs(towers.at(*it).getEta() - CoE.eta) < fabs(towers.at(*it2).getEta() - CoE.eta)) //if tower is closer in eta, it is e2
-    {
-      e2 = towers.at(*it).getEnergy(); //either horizontal or vertical next to closest tower 
-    }
-    else
-    {
-      e4 = towers.at(*it).getEnergy(); //either horizontal or vertical next to closest tower
-    } 
   }
   if(central4.size() >= 4)
   {
