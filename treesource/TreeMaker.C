@@ -97,13 +97,13 @@ bool my_compare(ChaseTower a, ChaseTower b, EtaPhiPoint CoE)
 
 cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint CoE)
 {
-  std::list<ChaseTower> central4;
-  central4.push_front(towers.at(0));
+  std::list<int> central4;
+  central4.push_front(0);
   for(unsigned int i = 1; i < towers.size(); i++) //loops through the vector of chaseTowers
   {
-    for (std::list<ChaseTower>::iterator it=central4.begin(); it != central4.end(); ++it) //iterate through list
+    for (std::list<int>::iterator it = central4.begin(); it != central4.end(); ++it) //iterate through list
     {
-      if(my_compare(towers.at(i), *it, CoE)) //if tower is shorter distance to CoE than current tower, insert
+      if(my_compare(towers.at(i), towers.at(*it), CoE)) //if tower is shorter distance to CoE than current tower, insert
       {
         central4.insert(it,towers.at(i)); //yay insert sort, break when spot is found 
         break;
@@ -116,17 +116,17 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
     etot += towers.at(i).getEnergy();
   }
 
-  std::list<ChaseTower>::iterator it=central4.begin();
-  ChaseTower e1 = *it; //closest tower
+  std::list<int>::iterator it = central4.begin();
+  ChaseTower e1 = towers.at(*it); //closest tower
   ++it;
   central4.pop_front();
-  ChaseTower e2 = *it; //either horizontal or vertical next to closest tower 
+  ChaseTower e2 = towers.at(*it); //either horizontal or vertical next to closest tower 
   ++it;
   central4.pop_front();
-  ChaseTower e4 = *it; //either horizontal or vertical next to closest tower
+  ChaseTower e4 = towers.at(*it); //either horizontal or vertical next to closest tower
   ++it;
   central4.pop_front();
-  ChaseTower e3 = *it; //off diagonal tower
+  ChaseTower e3 = towers.at(*it); //off diagonal tower
   ++it;
   central4.pop_front();
 
@@ -366,12 +366,12 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     std::cout<<"Center of Energy eta: "<<CoE.eta<<std::endl;
     std::cout<<"Center of Energy phi: "<<CoE.phi<<std::endl;
     
-    //cutValues clusterCuts = CutValues_BazilevskyStyle(Sasha49Towers, CoE);
+    cutValues clusterCuts = CutValues_BazilevskyStyle(Sasha49Towers, CoE);
 
-    //_b_e1t[_b_cluster_n] = clusterCuts.e1t;
-    //_b_e1t[_b_cluster_n] = clusterCuts.e1t;
-    //_b_e1t[_b_cluster_n] = clusterCuts.e1t;
-    //_b_e1t[_b_cluster_n] = clusterCuts.e1t;
+    _b_e1t[_b_cluster_n] = clusterCuts.e1t;
+    _b_e1t[_b_cluster_n] = clusterCuts.e1t;
+    _b_e1t[_b_cluster_n] = clusterCuts.e1t;
+    _b_e1t[_b_cluster_n] = clusterCuts.e1t;
     
     //<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>//
 
