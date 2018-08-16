@@ -148,10 +148,10 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   double e3t = (e1 + e2 - e3 - e4)/etot; //horizontal symetry
   double e4t = (e3)/etot; //off diagonal
   std::cout<<"the measured values"<<std::endl;
-  std::cout<<"the e1t"<<std::endl;
-  std::cout<<"the e2t"<<std::endl;
-  std::cout<<"the e3t"<<std::endl;
-  std::cout<<"the e4t"<<std::endl;
+  std::cout<<"the e1t"<<e1t<<std::endl;
+  std::cout<<"the e2t"<<e2t<<std::endl;
+  std::cout<<"the e3t"<<e3t<<std::endl;
+  std::cout<<"the e4t"<<e4t<<std::endl;
 
   return cutValues(e1t, e2t, e3t, e4t);
 }
