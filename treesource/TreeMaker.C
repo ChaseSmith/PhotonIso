@@ -291,6 +291,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     std::cout<<"Cluster Eta: "<<cluster_eta<<std::endl;
     std::cout<<"Cluster Phi: "<<cluster_phi<<std::endl;
 
+    /*
+
     //arguments are (cone radiusx10, subtract event = true, use calotowers for isolation = true)
     //_b_et_iso_calotower_sub_R01[ _b_cluster_n ] = cluster->get_et_iso(1,1,1);
     //_b_et_iso_calotower_R01[ _b_cluster_n ] = cluster->get_et_iso(1,0,1);
@@ -371,6 +373,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     _b_cluster_n++;
     std::cout<<std::endl;
   }
+
+  */
 
   _tree->Fill();
 
