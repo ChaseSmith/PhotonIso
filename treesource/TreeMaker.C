@@ -121,10 +121,10 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
     etot += towers.at(i).getEnergy();
   }
 
-  double e1;
-  double e2;
-  double e3;
-  double e4;
+  double e1 = 0;
+  double e2 = 0;
+  double e3 = 0;
+  double e4 = 0;
 
   std::list<int>::iterator it = central4.begin();
   e1 = towers.at(*it).getEnergy(); //closest tower
@@ -133,19 +133,16 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
     ++it;
     e2 = towers.at(*it).getEnergy(); //either horizontal or vertical next to closest tower 
   }
-  else{e2 = 0;}
   if(central4.size() >= 3)
   {
     ++it;
     e4 = towers.at(*it).getEnergy(); //either horizontal or vertical next to closest tower
   }
-  else{e3 = 0;}
   if(central4.size() >= 4)
   {
     ++it;
     e3 = towers.at(*it).getEnergy(); //off diagonal tower
   }
-  else{e4 = 0;}
 
   double e1t = (e1 + e2 + e3 + e4)/etot; //energy in central 4
   double e2t = (e1 - e2 - e3 + e4)/etot; //vertical symmetry
