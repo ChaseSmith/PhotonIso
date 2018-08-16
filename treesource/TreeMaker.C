@@ -366,7 +366,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     _b_e4t[_b_cluster_n] = clusterCuts.e4t;
 
     _b_cluster_n++;
-    std::cout<<std::endl;
   }
 
 
