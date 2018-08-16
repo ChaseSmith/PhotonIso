@@ -101,7 +101,7 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   central4.push_front(towers.at(0));
   for(unsigned int i = 1; i < towers.size(); i++) //loops through the vector of chaseTowers
   {
-    for (std::list<int>::iterator it=central4.begin(); it != central4.end(); ++it) //iterate through list
+    for (std::list<ChaseTower>::iterator it=central4.begin(); it != central4.end(); ++it) //iterate through list
     {
       if(my_compare(towers.at(i), it, CoE)) //if tower is shorter distance to CoE than current tower, insert
       {
@@ -116,7 +116,7 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
     etot += towers.at(i).getEnergy();
   }
 
-  std::list<int>::iterator it=central4.begin();
+  std::list<ChaseTower>::iterator it=central4.begin();
   ChaseTower e1 = it; //closest tower
   ++it;
   central4.pop_front();
@@ -363,10 +363,10 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     cutValues clusterCuts = CutValues_BazilevskyStyle(Sasha49Towers, CoE);
 
-    _b_e1t = clusterCuts.e1t;
-    _b_e1t = clusterCuts.e1t;
-    _b_e1t = clusterCuts.e1t;
-    _b_e1t = clusterCuts.e1t;
+    _b_e1t[_b_cluster_n] = clusterCuts.e1t;
+    _b_e1t[_b_cluster_n] = clusterCuts.e1t;
+    _b_e1t[_b_cluster_n] = clusterCuts.e1t;
+    _b_e1t[_b_cluster_n] = clusterCuts.e1t;
 
     _b_cluster_n++;
     std::cout<<std::endl;
