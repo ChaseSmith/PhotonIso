@@ -147,12 +147,6 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   double e2t = (e1 - e2 - e3 + e4)/etot; //vertical symmetry
   double e3t = (e1 + e2 - e3 - e4)/etot; //horizontal symetry
   double e4t = (e3)/etot; //off diagonal
-  std::cout<<"the measured values"<<std::endl;
-  std::cout<<"the e1t"<<e1t<<std::endl;
-  std::cout<<"the e2t"<<e2t<<std::endl;
-  std::cout<<"the e3t"<<e3t<<std::endl;
-  std::cout<<"the e4t"<<e4t<<std::endl;
-
   return cutValues(e1t, e2t, e3t, e4t);
 }
 
@@ -283,7 +277,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
      vx = vertex->get_x();
      vy = vertex->get_y();
      vz = vertex->get_z();
-     std::cout<<"Event Vertex Calculated in ClusterIso x:"<<vx<<" y:"<<vy<<" z:"<<vz<<'\n';
+     //std::cout<<"Event Vertex Calculated in ClusterIso x:"<<vx<<" y:"<<vy<<" z:"<<vz<<'\n';
   }
 
   RawClusterContainer::ConstRange begin_end = clusters->getClusters();
@@ -304,12 +298,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     _b_cluster_eta[ _b_cluster_n ] = cluster_eta;
     _b_cluster_phi[ _b_cluster_n ] = cluster_phi;
     _b_cluster_et[ _b_cluster_n ] = et;
-    _b_cluster_prob[ _b_cluster_n ] = prob;
-
-    std::cout<<"Cluster Eta: "<<cluster_eta<<std::endl;
-    std::cout<<"Cluster Phi: "<<cluster_phi<<std::endl;
-
-    
+    _b_cluster_prob[ _b_cluster_n ] = prob;    
 
     //arguments are (cone radiusx10, subtract event = true, use calotowers for isolation = true)
     //_b_et_iso_calotower_sub_R01[ _b_cluster_n ] = cluster->get_et_iso(1,1,1);
@@ -323,7 +312,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     //now we get tower information for ID purposes, find "Center of Energy", get 4 central towers
     _b_NTowers[_b_cluster_n] = cluster->getNTowers();
-    //std::cout<<"Number of Towers in Cluster: "<<_b_NTowers[_b_cluster_n]<<std::endl;
 
     std::vector <ChaseTower> clusterTowers;
 
@@ -334,19 +322,15 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
       ChaseTower temp;
       temp.setEta(tower_geom->get_eta());
-      //std::cout<<"Tower in cluster Eta: "<<tower_geom->get_eta()<<std::endl;
       temp.setPhi(tower_geom->get_phi());
-      //std::cout<<"Tower in cluster Phi: "<<tower_geom->get_phi()<<std::endl;
       temp.setEnergy(tower->get_energy());
-      //std::cout<<"Tower in cluster Energy: "<<tower->get_energy()<<std::endl;
       temp.setKey(tower->get_key());
       clusterTowers.push_back(temp);
     }
 
     ////////////////////now that we have all towers from cluster, find max tower//////////////////////////
     ChaseTower MaxTower = findMaxTower(clusterTowers);
-    //std::cout<<"Max Tower Eta: "<<MaxTower.getEta()<<std::endl;
-    //std::cout<<"Max Tower Phi: "<<MaxTower.getPhi()<<std::endl;
+
 
     ////////////////////Find 49 towers around max tower, Sasha style/////////////////////////////////////
     std::vector<ChaseTower> Sasha49Towers;
@@ -367,18 +351,12 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
       if(fabs(dif_eta) < 0.08 and fabs(dif_phi) < 0.08 )
       {
-        //std::cout<<"ANOTHER TOWER PASSED THE CUT "<<std::endl;
-        //std::cout<<"tower eta: "<<this_eta<<std::endl;
-        //std::cout<<"tower phi: "<<this_phi<<std::endl;
-        //std::cout<<"tower energy: "<<this_energy<<std::endl;
         Sasha49Towers.push_back(ChaseTower(this_eta, this_phi, this_energy, tower->get_key()));
       }
     }
 
     /////////////Find Center of energy for cluster, get tower info of 4 towers around CoE////////////////
     EtaPhiPoint CoE = CenterOfEnergy_BazilevskyStyle(Sasha49Towers);
-    std::cout<<"Center of Energy eta: "<<CoE.eta<<std::endl;
-    std::cout<<"Center of Energy phi: "<<CoE.phi<<std::endl;
     
     cutValues clusterCuts = CutValues_BazilevskyStyle(Sasha49Towers, CoE);
 
