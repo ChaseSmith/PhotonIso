@@ -109,6 +109,7 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
       if(my_compare(towers.at(i), towers.at(*it), CoE)) //if tower is shorter distance to CoE than current tower, insert
       {
         central4.insert(it,i); //yay insert sort, break when spot is found 
+        std::cout<<"inserting "<<i<<" at "<< *it <<std::endl;
         break;
       }
     }
