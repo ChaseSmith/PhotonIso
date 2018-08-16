@@ -113,7 +113,6 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
       }
     }
   }
-  std::cout<<"Is it the for loop thats the problem?"<<std::endl;
 
   double etot = 0;
   for(unsigned int i = 0; i < towers.size(); i++) //loops through the vector of chaseTowers
@@ -125,7 +124,9 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   std::list<int>::iterator it = central4.begin();
   std::cout<<"Is the iterator the problem?"<<std::endl;
   ChaseTower e1 = towers.at(*it); //closest tower
+  std::cout<<"Accessing first element"<<std::endl;
   ++it;
+  std::cout<<"Iterating iterator"<<std::endl;
   central4.pop_front();
   ChaseTower e2 = towers.at(*it); //either horizontal or vertical next to closest tower 
   ++it;
