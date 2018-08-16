@@ -95,7 +95,7 @@ EtaPhiPoint CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers)
 
 bool my_compare(ChaseTower a, ChaseTower b, EtaPhiPoint CoE)
 {
-  return deltaR(CoE.eta, a.getEta(), CoE.phi, a.getPhi()) < deltaR(CoE.eta, a.getEta(), CoE.phi, a.getPhi());
+  return deltaR(CoE.eta, a.getEta(), CoE.phi, a.getPhi()) < deltaR(CoE.eta, b.getEta(), CoE.phi, b.getPhi());
 }
 
 cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint CoE)
