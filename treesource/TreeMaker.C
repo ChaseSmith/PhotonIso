@@ -123,6 +123,7 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   std::cout<<"Is it the energy for loop thats the problem?"<<std::endl;
 
   std::list<int>::iterator it = central4.begin();
+  std::cout<<"Is the iterator the problem?"<<std::endl;
   ChaseTower e1 = towers.at(*it); //closest tower
   ++it;
   central4.pop_front();
