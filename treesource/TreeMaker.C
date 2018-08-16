@@ -369,13 +369,13 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
-*/
+
     _b_cluster_n++;
     std::cout<<std::endl;
   }
 
-  
 
+*/
   _tree->Fill();
 
   return 0; 
