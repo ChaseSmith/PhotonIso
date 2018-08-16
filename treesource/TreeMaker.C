@@ -8,6 +8,7 @@
 #include "TLorentzVector.h"
 #include <iostream>
 #include <vector>
+#include <list>
 
 #include <calotrigger/CaloTriggerInfo.h>
 
@@ -41,6 +42,14 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////
 
+float deltaR( float eta1, float eta2, float phi1, float phi2 ) 
+{
+  float deta = eta1 - eta2;
+  float dphi = phi1 - phi2;
+  if(dphi > TMath::Pi()){dphi -= 2*TMath::Pi();} //make sure dif_phi is between -pi and pi
+  else if(dphi < -1*TMath::Pi()){dphi += 2*TMath::Pi();}
+  return sqrt( deta*deta + dphi*dphi);
+}
 
 ChaseTower findMaxTower(std::vector<ChaseTower> towers)
 {
@@ -63,7 +72,6 @@ ChaseTower findMaxTower(std::vector<ChaseTower> towers)
   return MaxTower;
 }
 
-
 EtaPhiPoint CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers)
 {
   double avgeta = 0;
@@ -75,19 +83,61 @@ EtaPhiPoint CenterOfEnergy_BazilevskyStyle(std::vector<ChaseTower> towers)
   }
   for(unsigned int i = 0; i < towers.size(); i++)
   {
-    std::cout<<"Tower Energy Fraction: "<<(towers.at(i).getEnergy() / etot)<<std::endl;
-    std::cout<<"Tower Eta: "<<(towers.at(i).getEta())<<std::endl;
-    std::cout<<"Tower Phi: "<<(towers.at(i).getPhi())<<std::endl;
     avgeta += towers.at(i).getEta() * (towers.at(i).getEnergy() / etot);
     avgphi += towers.at(i).getPhi() * (towers.at(i).getEnergy() / etot);
   }
   return EtaPhiPoint(avgeta , avgphi);
 }
 
-//void ChiValues_BazilevskyStyle(std::vector<ChaseTower> towers, double etot, double *eta4, double *phi4, double *energy4)
-//{
-//
-//}
+
+bool my_compare(ChaseTower a, ChaseTower b, EtaPhiPoint CoE)
+{
+  return deltaR(CoE.eta, a.getEta(), CoE.phi, a.getPhi()) < deltaR(CoE.eta, a.getEta(), CoE.phi, a.getPhi());
+}
+
+cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint CoE)
+{
+  std::list<ChaseTower> central4;
+  central4.push_front(towers.at(0));
+  for(unsigned int i = 1; i < towers.size(); i++) //loops through the vector of chaseTowers
+  {
+    for (std::list<int>::iterator it=central4.begin(); it != central4.end(); ++it) //iterate through list
+    {
+      if(my_compare(towers.at(i), it, CoE)) //if tower is shorter distance to CoE than current tower, insert
+      {
+        central4.insert(it,towers.at(i)); //yay insert sort, break when spot is found 
+        break;
+      }
+    }
+  }
+  double etot;
+  for(unsigned int i = 0; i < towers.size(); i++) //loops through the vector of chaseTowers
+  {
+    etot += towers.at(i).getEnergy();
+  }
+
+  std::list<int>::iterator it=central4.begin();
+  ChaseTower e1 = it; //closest tower
+  ++it;
+  central4.pop_front();
+  ChaseTower e2 = it; //either horizontal or vertical next to closest tower 
+  ++it;
+  central4.pop_front();
+  ChaseTower e4 = it; //either horizontal or vertical next to closest tower
+  ++it;
+  central4.pop_front();
+  ChaseTower e3 = it; //off diagonal tower
+  ++it;
+  central4.pop_front();
+
+  double e1t = (e1.getEnergy() + e2.getEnergy() + e3.getEnergy() + e4.getEnergy())/etot; //energy in central 4
+  double e2t = (e1.getEnergy() - e2.getEnergy() - e3.getEnergy() + e4.getEnergy())/etot; //vertical symmetry
+  double e3t = (e1.getEnergy() + e2.getEnergy() - e3.getEnergy() - e4.getEnergy())/etot; //horizontal symetry
+  double e4t = (e3.getEnergy())/etot; //off diagonal
+
+  return cutValues(e1t, e2t, e3t, e4t);
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -137,6 +187,10 @@ int TreeMaker::Init(PHCompositeNode *topNode)
 
   _tree->Branch("NTowers",_b_NTowers,"NTowers[cluster_n]/D");
   _tree->Branch("etot",_b_etot,"etot[cluster_n]/D");
+  _tree->Branch("e1t",_b_e1t,"e1t[cluster_n]/D");
+  _tree->Branch("e2t",_b_e2t,"e2t[cluster_n]/D");
+  _tree->Branch("e3t",_b_e3t,"e3t[cluster_n]/D");
+  _tree->Branch("e4t",_b_e4t,"e4t[cluster_n]/D");
 
  return 0;
 }
@@ -271,8 +325,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     ////////////////////now that we have all towers from cluster, find max tower//////////////////////////
     ChaseTower MaxTower = findMaxTower(clusterTowers);
-    std::cout<<"Max Tower Eta: "<<MaxTower.getEta()<<std::endl;
-    std::cout<<"Max Tower Phi: "<<MaxTower.getPhi()<<std::endl;
+    //std::cout<<"Max Tower Eta: "<<MaxTower.getEta()<<std::endl;
+    //std::cout<<"Max Tower Phi: "<<MaxTower.getPhi()<<std::endl;
 
     ////////////////////Find 49 towers around max tower, Sasha style/////////////////////////////////////
     std::vector<ChaseTower> Sasha49Towers;
@@ -293,16 +347,10 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
       if(fabs(dif_eta) < 0.08 and fabs(dif_phi) < 0.08 )
       {
-        std::cout<<"ANOTHER TOWER PASSED THE CUT "<<std::endl;
-        std::cout<<"tower eta: "<<this_eta<<std::endl;
-        std::cout<<"tower phi: "<<this_phi<<std::endl;
-        std::cout<<"tower energy: "<<this_energy<<std::endl;
-        //ChaseTower temp;
-        //temp.setEta(this_eta);
-        //temp.setPhi(this_phi);
-        //temp.setPhi(this_energy);
-        //temp.setKey(tower->get_key());
-        //Sasha49Towers.push_back(temp);
+        //std::cout<<"ANOTHER TOWER PASSED THE CUT "<<std::endl;
+        //std::cout<<"tower eta: "<<this_eta<<std::endl;
+        //std::cout<<"tower phi: "<<this_phi<<std::endl;
+        //std::cout<<"tower energy: "<<this_energy<<std::endl;
         Sasha49Towers.push_back(ChaseTower(this_eta, this_phi, this_energy, tower->get_key()));
       }
     }
@@ -310,17 +358,21 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     /////////////Find Center of energy for cluster, get tower info of 4 towers around CoE////////////////
     EtaPhiPoint CoE = CenterOfEnergy_BazilevskyStyle(Sasha49Towers);
-    std::cout<<"Center of Energy eta: "<<CoE.eta<<std::endl;
-    std::cout<<"Center of Energy phi: "<<CoE.phi<<std::endl;
+    //std::cout<<"Center of Energy eta: "<<CoE.eta<<std::endl;
+    //std::cout<<"Center of Energy phi: "<<CoE.phi<<std::endl;
 
+    cutValues clusterCuts = CutValues_BazilevskyStyle(Sasha49Towers, CoE);
+
+    _b_e1t = clusterCuts.e1t;
+    _b_e1t = clusterCuts.e1t;
+    _b_e1t = clusterCuts.e1t;
+    _b_e1t = clusterCuts.e1t;
 
     _b_cluster_n++;
     std::cout<<std::endl;
   }
 
-
   _tree->Fill();
-
 
   return 0; 
 }

@@ -54,6 +54,22 @@ public:
   double phi;
 };
 
+class cutValues
+{
+  cutValues(){};
+  cutValues(double e1t_in, double e2t_in, double e3t_in, double e4t_in)
+  {
+    e1t = e1t_in;
+    e2t = e2t_in;
+    e3t = e3t_in;
+    e4t = e4t_in;
+  }
+  double e1t;
+  double e2t;
+  double e3t;
+  double e4t;
+};
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 class TreeMaker: public SubsysReco
@@ -106,6 +122,10 @@ class TreeMaker: public SubsysReco
 
   int _b_NTowers[500];
   double _b_etot[500];
+  double _b_e1t[500];
+  double _b_e2t[500];
+  double _b_e3t[500];
+  double _b_e4t[500];
 
   int _b_particle_n;
   float _b_particle_pt[1000];
