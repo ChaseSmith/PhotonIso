@@ -121,7 +121,7 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
     etot += towers.at(i).getEnergy();
   }
   std::cout<<"Is it the energy for loop thats the problem?"<<std::endl;
-  
+
   std::list<int>::iterator it = central4.begin();
   ChaseTower e1 = towers.at(*it); //closest tower
   ++it;
@@ -135,6 +135,8 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   ChaseTower e3 = towers.at(*it); //off diagonal tower
   ++it;
   central4.pop_front();
+
+  std::cout<<"Is it popping the values off?"<<std::endl;
 
   double e1t = (e1.getEnergy() + e2.getEnergy() + e3.getEnergy() + e4.getEnergy())/etot; //energy in central 4
   double e2t = (e1.getEnergy() - e2.getEnergy() - e3.getEnergy() + e4.getEnergy())/etot; //vertical symmetry
