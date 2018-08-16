@@ -135,7 +135,6 @@ class TreeMaker: public SubsysReco
   float _b_particle_phi[1000];
   int _b_particle_pid[1000];
 
-
 };
 #endif
 
