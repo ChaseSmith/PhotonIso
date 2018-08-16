@@ -356,8 +356,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
         Sasha49Towers.push_back(ChaseTower(this_eta, this_phi, this_energy, tower->get_key()));
       }
     }
-    //std::cout<<"size of the 49 tower vector (better be 49): "<<Sasha49Towers.size()<<std::endl;
-    
+
+
 
     //<><><><><><><><><><><><><error happening here <><><><><><><><><><><><><><>//
 
@@ -366,7 +366,8 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     //std::cout<<"Center of Energy eta: "<<CoE.eta<<std::endl;
     //std::cout<<"Center of Energy phi: "<<CoE.phi<<std::endl;
     
-    cutValues clusterCuts = CutValues_BazilevskyStyle(Sasha49Towers, CoE);
+    cutValues clusterCuts
+    //cutValues clusterCuts = CutValues_BazilevskyStyle(Sasha49Towers, CoE);
 
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
