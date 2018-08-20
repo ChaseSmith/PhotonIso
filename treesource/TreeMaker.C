@@ -204,7 +204,7 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   //_tree->Branch("et_iso_calotower_sub_R04",_b_et_iso_calotower_sub_R04, "et_iso_calotower_sub_R04[cluster_n]/D");
   //_tree->Branch("et_iso_calotower_R04",_b_et_iso_calotower_R04, "et_iso_calotower_R04[cluster_n]/D");
 
-  _tree->Branch("NTowers",_b_NTowers,"NTowers[cluster_n]/D");
+  _tree->Branch("NTowers",_b_NTowers,"NTowers[cluster_n]/I");
   _tree->Branch("etot",_b_etot,"etot[cluster_n]/D");
   _tree->Branch("e1t",_b_e1t,"e1t[cluster_n]/D");
   _tree->Branch("e2t",_b_e2t,"e2t[cluster_n]/D");
