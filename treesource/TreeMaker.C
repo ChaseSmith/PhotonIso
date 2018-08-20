@@ -211,6 +211,10 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("e3t",_b_e3t,"e3t[cluster_n]/D");
   _tree->Branch("e4t",_b_e4t,"e4t[cluster_n]/D");
 
+  _tree->Branch("clusterTower_eta",_b_clusterTower_eta,"clusterTower_eta[_b_NTowers]/D");
+  _tree->Branch("clusterTower_phi",_b_clusterTower_phi,"clusterTower_phi[_b_NTowers]/D");
+  _tree->Branch("clusterTower_energy",_b_clusterTower_energy,"clusterTower_energy[_b_NTowers]/D");
+
  return 0;
 }
 
@@ -319,6 +323,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
     //now we get tower information for ID purposes, find "Center of Energy", get 4 central towers
     _b_NTowers[_b_cluster_n] = cluster->getNTowers();
+    int towerCounter = 0;
 
     std::vector <ChaseTower> clusterTowers;
 
@@ -329,11 +334,17 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
       ChaseTower temp;
       temp.setEta(tower_geom->get_eta());
+      _b_clusterTower_eta[towerCounter] = tower_geom->get_eta();
       temp.setPhi(tower_geom->get_phi());
+      _b_clusterTower_phi[towerCounter] = tower_geom->get_phi();
       temp.setEnergy(tower->get_energy());
+      _b_clusterTower_energy[towerCounter] = tower->get_energy();
       temp.setKey(tower->get_key());
       clusterTowers.push_back(temp);
+      towerCounter++;
     }
+
+    int towerCounter = 0;
 
     ////////////////////now that we have all towers from cluster, find max tower//////////////////////////
     ChaseTower MaxTower = findMaxTower(clusterTowers);

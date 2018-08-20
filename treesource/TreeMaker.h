@@ -107,6 +107,13 @@ class TreeMaker: public SubsysReco
 
   int _embed_id;
 
+  int _b_particle_n;
+  int _b_particle_pid[1000];
+  float _b_particle_pt[1000];
+  float _b_particle_et[1000];
+  float _b_particle_eta[1000];
+  float _b_particle_phi[1000];
+
   int _b_cluster_n;
   double _b_cluster_et[500];
   double _b_cluster_eta[500];
@@ -128,12 +135,9 @@ class TreeMaker: public SubsysReco
   double _b_e3t[500];
   double _b_e4t[500];
 
-  int _b_particle_n;
-  float _b_particle_pt[1000];
-  float _b_particle_et[1000];
-  float _b_particle_eta[1000];
-  float _b_particle_phi[1000];
-  int _b_particle_pid[1000];
+  double _b_clusterTower_eta[50];
+  double _b_clusterTower_phi[50];
+  double _b_clusterTower_energy[50];
 
 };
 #endif
