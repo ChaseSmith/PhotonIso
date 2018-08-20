@@ -211,9 +211,10 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("e3t",_b_e3t,"e3t[cluster_n]/D");
   _tree->Branch("e4t",_b_e4t,"e4t[cluster_n]/D");
 
-  _tree->Branch("clusterTower_eta",_b_clusterTower_eta,"clusterTower_eta[_b_NTowers[0]]/D");
-  _tree->Branch("clusterTower_phi",_b_clusterTower_phi,"clusterTower_phi[_b_NTowers[0]]/D");
-  _tree->Branch("clusterTower_energy",_b_clusterTower_energy,"clusterTower_energy[_b_NTowers[0]]/D");
+  _tree->Branch("clusterTower_tower",&_b_clusterTower_towers);
+  _tree->Branch("clusterTower_eta",_b_clusterTower_eta,"clusterTower_eta[30]/D");
+  _tree->Branch("clusterTower_phi",_b_clusterTower_phi,"clusterTower_phi[30]/D");
+  _tree->Branch("clusterTower_energy",_b_clusterTower_energy,"clusterTower_energy[30]/D");
 
  return 0;
 }
@@ -273,6 +274,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
   //////////////////////////////////////Find cluster information/////////////////////////////////////////////////////
   _b_cluster_n = 0;
+  _b_clusterTower_towers=0
 
   RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
   RawTowerGeomContainer *geomEM = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
@@ -342,8 +344,9 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       temp.setKey(tower->get_key());
       clusterTowers.push_back(temp);
       towerCounter++;
-    }
 
+    }
+    _b_clusterTower_towers = towerCounter;
     towerCounter = 0;
 
     ////////////////////now that we have all towers from cluster, find max tower//////////////////////////
