@@ -324,6 +324,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     //_b_et_iso_calotower_R04[ _b_cluster_n ] = cluster->get_et_iso(4,0,1);
 
     //now we get tower information for ID purposes, find "Center of Energy", get 4 central towers
+    std::cout<<"Towers in cluster: "<<cluster->getNTowers()<<std::endl;
     _b_NTowers[_b_cluster_n] = cluster->getNTowers();
 
     std::vector <ChaseTower> clusterTowers;
