@@ -136,9 +136,9 @@ class TreeMaker: public SubsysReco
   double _b_e4t[500];
 
   int _b_clusterTower_towers;
-  double _b_clusterTower_eta[50];
-  double _b_clusterTower_phi[50];
-  double _b_clusterTower_energy[50];
+  double _b_clusterTower_eta[500];
+  double _b_clusterTower_phi[500];
+  double _b_clusterTower_energy[500];
 
 };
 #endif
