@@ -211,10 +211,10 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("e3t",_b_e3t,"e3t[cluster_n]/D");
   _tree->Branch("e4t",_b_e4t,"e4t[cluster_n]/D");
 
-  _tree->Branch("clusterTower_tower",&_b_clusterTower_towers);
-  _tree->Branch("clusterTower_eta",_b_clusterTower_eta,"clusterTower_eta[clusterTowers_tower]/D");
-  _tree->Branch("clusterTower_phi",_b_clusterTower_phi,"clusterTower_phi[clusterTowers_tower]/D");
-  _tree->Branch("clusterTower_energy",_b_clusterTower_energy,"clusterTower_energy[clusterTowers_tower]/D");
+  _tree->Branch("clusterTower_towers",&_b_clusterTower_towers);
+  _tree->Branch("clusterTower_eta",_b_clusterTower_eta,"clusterTower_eta[clusterTowers_towers]/D");
+  _tree->Branch("clusterTower_phi",_b_clusterTower_phi,"clusterTower_phi[clusterTowers_towers]/D");
+  _tree->Branch("clusterTower_energy",_b_clusterTower_energy,"clusterTower_energy[clusterTowers_towers]/D");
 
  return 0;
 }
@@ -274,7 +274,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
   //////////////////////////////////////Find cluster information/////////////////////////////////////////////////////
   _b_cluster_n = 0;
-  _b_clusterTower_towers=0;
 
   RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
   RawTowerGeomContainer *geomEM = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
@@ -298,6 +297,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
   for (rtiter = begin_end.first; rtiter !=  begin_end.second; ++rtiter) 
   {
+    _b_clusterTower_towers = 0;
     RawCluster *cluster = rtiter->second;
     CLHEP::Hep3Vector vertex( vx, vy, vz); //set new correct vertex for eta calculation
     CLHEP::Hep3Vector E_vec_cluster = RawClusterUtility::GetEVec(*cluster, vertex);
