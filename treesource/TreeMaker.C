@@ -211,7 +211,7 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("e3t",_b_e3t,"e3t[cluster_n]/D");
   _tree->Branch("e4t",_b_e4t,"e4t[cluster_n]/D");
 
-  _tree->Branch("clusterTower_towers",&_b_clusterTower_towers, );
+  _tree->Branch("clusterTower_towers",&_b_clusterTower_towers);
   _tree->Branch("clusterTower_eta",_b_clusterTower_eta,"clusterTower_eta[clusterTower_towers]/D");
   _tree->Branch("clusterTower_phi",_b_clusterTower_phi,"clusterTower_phi[clusterTower_towers]/D");
   _tree->Branch("clusterTower_energy",_b_clusterTower_energy,"clusterTower_energy[clusterTower_towers]/D");
@@ -335,14 +335,14 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       RawTowerGeom *tower_geom = geomEM->get_tower_geometry(tower->get_key());
       ChaseTower temp;
       temp.setEta(tower_geom->get_eta());
-      _b_clusterTower_eta[towerCounter] = tower_geom->get_eta();
+      _b_clusterTower_eta[_b_clusterTower_towers] = tower_geom->get_eta();
       temp.setPhi(tower_geom->get_phi());
-      _b_clusterTower_phi[towerCounter] = tower_geom->get_phi();
+      _b_clusterTower_phi[_b_clusterTower_towers] = tower_geom->get_phi();
       temp.setEnergy(tower->get_energy());
-      _b_clusterTower_energy[towerCounter] = tower->get_energy();
+      _b_clusterTower_energy[_b_clusterTower_towers] = tower->get_energy();
       temp.setKey(tower->get_key());
       clusterTowers.push_back(temp);
-      _b_clusterTower_towers++:
+      _b_clusterTower_towers++;
     }
 
     ////////////////////now that we have all towers from cluster, find max tower//////////////////////////
