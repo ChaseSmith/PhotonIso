@@ -344,7 +344,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
       towerCounter++;
     }
 
-    int towerCounter = 0;
+    towerCounter = 0;
 
     ////////////////////now that we have all towers from cluster, find max tower//////////////////////////
     ChaseTower MaxTower = findMaxTower(clusterTowers);
