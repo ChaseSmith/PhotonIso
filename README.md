@@ -1,8 +1,5 @@
 # PhotonIso  
-
--------------------------------------------------------------------------------------------------
-This repository is responsible for testing the sPHENIX ClusterIso Package and Photon ID packages
--------------------------------------------------------------------------------------------------
+## This repository is responsible for testing the sPHENIX ClusterIso Package and Photon ID packages
 
 **source**: contains all files for TestClusterIso Class... 
 - TestClusterIso.cc: finds isolation energy of every cluster in EMCal, build this - it gets called in Fun4All_G4_sPHENIX.C
