@@ -326,6 +326,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     //now we get tower information for ID purposes, find "Center of Energy", get 4 central towers
     std::cout<<"Towers in cluster: "<<cluster->getNTowers()<<std::endl;
     _b_NTowers[_b_cluster_n] = cluster->getNTowers();
+    std::cout<<"Towers in cluster after saved: "<<_b_NTowers[_b_cluster_n]<<std::endl;
 
     std::vector <ChaseTower> clusterTowers;
 
