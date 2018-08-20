@@ -274,7 +274,7 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
 
   //////////////////////////////////////Find cluster information/////////////////////////////////////////////////////
   _b_cluster_n = 0;
-  _b_clusterTower_towers=0
+  _b_clusterTower_towers=0;
 
   RawTowerContainer *towersEM3old = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
   RawTowerGeomContainer *geomEM = findNode::getClass<RawTowerGeomContainer>(topNode, "TOWERGEOM_CEMC");
