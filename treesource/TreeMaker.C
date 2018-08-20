@@ -212,9 +212,9 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("e4t",_b_e4t,"e4t[cluster_n]/D");
 
   _tree->Branch("clusterTower_tower",&_b_clusterTower_towers);
-  _tree->Branch("clusterTower_eta",_b_clusterTower_eta,"clusterTower_eta[30]/D");
-  _tree->Branch("clusterTower_phi",_b_clusterTower_phi,"clusterTower_phi[30]/D");
-  _tree->Branch("clusterTower_energy",_b_clusterTower_energy,"clusterTower_energy[30]/D");
+  _tree->Branch("clusterTower_eta",_b_clusterTower_eta,"clusterTower_eta[clusterTowers_tower]/D");
+  _tree->Branch("clusterTower_phi",_b_clusterTower_phi,"clusterTower_phi[clusterTowers_tower]/D");
+  _tree->Branch("clusterTower_energy",_b_clusterTower_energy,"clusterTower_energy[clusterTowers_tower]/D");
 
  return 0;
 }
