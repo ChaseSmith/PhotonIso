@@ -1,14 +1,20 @@
 # PhotonIso  
+
+------------------------------------------------------------------------------------------------
+This Repository is responsible for Testing the sPHENIX ClusterIso Package and Photon ID Packages
+------------------------------------------------------------------------------------------------
+
 source: contains all files for TestClusterIso Class...
   TestClusterIso.cc: finds isolation energy of every cluster in EMCal, build this - it gets called in Fun4All_G4_sPHENIX.C
  
 treesource: contains all files for TreeMaker Class...
-  TreeMaker.C is a small module for testing ClusterIso class, build this - it gets called in Fun4All_G4_sPHENIX.C
+  TreeMaker.C is a small module for testing ClusterIso as well as Photon ID Packages
 
-testmacros: folder which contains all modules needed to run Fun4All...
+testClusterIso: folder which contains all modules needed to run Fun4All...
   Use root to run Fun4All_G4_sPHENIX.C with input HEPMC file and output DST file to simulate collisions in the sPHENIX detector
   
-RunCondor: folder which contains shell script and submit file to submit Fun4All on condor
+testOldProb: folder which contains all modules needed to run Fun4All...
+  Use root to run Fun4All_G4_sPHENIX.C with input HEPMC file and output DST file to simulate collisions in the sPHENIX detector 
 
-analysis: folder which contains IsoPlotter.C...
-  IsoPlotter.C is analysis code to plot isolation energy outputted by running Fun4All
+testProb: folder which contains all modules needed to run Fun4All...
+  Use root to run Fun4All_G4_sPHENIX.C with input HEPMC file and output DST file to simulate collisions in the sPHENIX detector
