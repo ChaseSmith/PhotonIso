@@ -102,7 +102,7 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
 {
   std::list<int> central4;
   central4.push_front(0);
-  for(unsigned int i = 1; i < towers.size(); i++) //loops through the vector of chaseTowers
+  for(unsigned int i = 1; i < towers.size(); i++) //loops through the vector of chaseTowers, sorted towers by distance
   {
     for (std::list<int>::iterator it = central4.begin(); it != central4.end(); ++it) //iterate through list
     {
@@ -157,6 +157,64 @@ cutValues CutValues_BazilevskyStyle(std::vector<ChaseTower> towers, EtaPhiPoint 
   return cutValues(e1t, e2t, e3t, e4t);
 }
 
+cutValues CutValues_ChaseStyle(std::vector<ChaseTower> towers, EtaPhiPoint CoE)
+{
+  std::list<int> central4;
+  central4.push_front(0);
+  for(unsigned int i = 1; i < towers.size(); i++) //loops through the vector of chaseTowers, sorted towers by distance
+  {
+    for (std::list<int>::iterator it = central4.begin(); it != central4.end(); ++it) //iterate through list
+    {
+      if(my_compare(towers.at(i), towers.at(*it), CoE)) //if tower is shorter distance to CoE than current tower, insert
+      {
+        central4.insert(it,i); //yay insert sort, break when spot is found
+        break;
+      }
+    }
+  }
+
+  double etot = 0;
+  for(unsigned int i = 0; i < towers.size(); i++) //loops through the vector of chaseTowers
+  {
+    etot += towers.at(i).getEnergy();
+  }
+
+  double e1 = 0;
+  double e2 = 0;
+  double e3 = 0;
+  double e4 = 0;
+
+  std::list<int>::iterator it = central4.begin();
+  e1 = towers.at(*it).getEnergy(); //closest tower
+  if(central4.size() >= 3)
+  {
+    ++it;
+    std::list<int>::iterator it2 = it;
+    ++it2;
+    if(fabs(towers.at(*it).getEta() - CoE.eta) < fabs(towers.at(*it2).getEta() - CoE.eta)) //if tower is closer in eta, it is e2
+    {
+      e2 = towers.at(*it).getEnergy(); 
+      e4 = towers.at(*it2).getEnergy(); 
+    }
+    else
+    {
+      e2 = towers.at(*it2).getEnergy(); 
+      e4 = towers.at(*it).getEnergy(); 
+    }
+  }
+  if(central4.size() >= 4)
+  {
+    ++it;
+    ++it;
+    e3 = towers.at(*it).getEnergy(); //off diagonal tower
+  }
+
+  double e1t = (e1 + e2 + e3 + e4); //energy in central 4
+  double e2t = (e1 - e2 - e3 + e4); //vertical symmetry
+  double e3t = (e1 + e2 - e3 - e4); //horizontal symetry
+  double e4t = (e3); //off diagonal
+  return cutValues(e1t, e2t, e3t, e4t);
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -210,6 +268,11 @@ int TreeMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("e2t",_b_e2t,"e2t[cluster_n]/D");
   _tree->Branch("e3t",_b_e3t,"e3t[cluster_n]/D");
   _tree->Branch("e4t",_b_e4t,"e4t[cluster_n]/D");
+
+  _tree->Branch("chase_e1t",_b_chase_e1t,"chase_e1t[cluster_n]/D");
+  _tree->Branch("chase_e2t",_b_chase_e2t,"chase_e2t[cluster_n]/D");
+  _tree->Branch("chase_e3t",_b_chase_e3t,"chase_e3t[cluster_n]/D");
+  _tree->Branch("chase_e4t",_b_chase_e4t,"chase_e4t[cluster_n]/D");
 
   _tree->Branch("clusterTower_towers",&_b_clusterTower_towers);
   _tree->Branch("clusterTower_eta",_b_clusterTower_eta,"clusterTower_eta[clusterTower_towers]/D");
@@ -268,8 +331,6 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     
   }
 
-  //RawTowerContainer *Emtow = findNode::getClass<RawTowerContainer>(topNode, "TOWER_CALIB_CEMC");
-  //std::cout<<"Size of RawTowerContainer for EMCal: "<<Emtow->size()<<std::endl;
   
 
   //////////////////////////////////////Find cluster information/////////////////////////////////////////////////////
@@ -378,11 +439,17 @@ int TreeMaker::process_event(PHCompositeNode *topNode)
     EtaPhiPoint CoE = CenterOfEnergy_BazilevskyStyle(Sasha49Towers);
     
     cutValues clusterCuts = CutValues_BazilevskyStyle(Sasha49Towers, CoE);
+    cutValues chase_clusterCuts = CutValues_ChaseStyle(Sasha49Towers, CoE);
 
     _b_e1t[_b_cluster_n] = clusterCuts.e1t;
     _b_e2t[_b_cluster_n] = clusterCuts.e2t;
     _b_e3t[_b_cluster_n] = clusterCuts.e3t;
     _b_e4t[_b_cluster_n] = clusterCuts.e4t;
+
+    _b_chase_e1t[_b_cluster_n] = chase_clusterCuts.e1t;
+    _b_chase_e2t[_b_cluster_n] = chase_clusterCuts.e2t;
+    _b_chase_e3t[_b_cluster_n] = chase_clusterCuts.e3t;
+    _b_chase_e4t[_b_cluster_n] = chase_clusterCuts.e4t;
 
     _b_cluster_n++;
   }

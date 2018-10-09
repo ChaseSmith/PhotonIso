@@ -130,10 +130,16 @@ class TreeMaker: public SubsysReco
 
   int _b_NTowers[500];
   double _b_etot[500];
+  //sasha's variables
   double _b_e1t[500];
   double _b_e2t[500];
   double _b_e3t[500];
   double _b_e4t[500];
+  //chase's changed variables
+  double _b_chase_e1t[500];
+  double _b_chase_e2t[500];
+  double _b_chase_e3t[500];
+  double _b_chase_e4t[500];
 
   int _b_clusterTower_towers;
   double _b_clusterTower_eta[500];
