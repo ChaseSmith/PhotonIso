@@ -65,7 +65,7 @@ int Fun4All_G4_sPHENIX(
   bool do_cemc_cell = do_cemc && true;
   bool do_cemc_twr = do_cemc_cell && true;
   bool do_cemc_cluster = do_cemc_twr && true;
-  bool do_cemc_eval = do_cemc_cluster && true;
+  bool do_cemc_eval = do_cemc_cluster && false;
 
   bool do_hcalin = true;
   bool do_hcalin_cell = do_hcalin && true;
@@ -90,7 +90,7 @@ int Fun4All_G4_sPHENIX(
   bool do_calotrigger = true && do_cemc_twr && do_hcalin_twr && do_hcalout_twr;
 
   bool do_jet_reco = true;
-  bool do_jet_eval = do_jet_reco && true;
+  bool do_jet_eval = do_jet_reco && false;
 
   // HI Jet Reco for p+Au / Au+Au collisions (default is false for
   // single particle / p+p-only simulations, or for p+Au / Au+Au
@@ -193,7 +193,7 @@ int Fun4All_G4_sPHENIX(
     {
       // toss low multiplicity dummy events
       PHG4SimpleEventGenerator *gen = new PHG4SimpleEventGenerator();
-      gen->add_particles("pi-", 2);  // mu+,e+,proton,pi+,Upsilon,gamma
+      //gen->add_particles("pi-", 2);  // mu+,e+,proton,pi+,Upsilon,gamma
       gen->add_particles(single_particle,1);
       //gen->add_particles("pi+",100); // 100 pion option
       if (readhepmc || do_embedding || runpythia8 || runpythia6)
@@ -214,7 +214,7 @@ int Fun4All_G4_sPHENIX(
       gen->set_eta_range(-1.0, 1.0);
       gen->set_phi_range(-1.0 * TMath::Pi(), 1.0 * TMath::Pi());
       //gen->set_pt_range(0.1, 50.0);
-      gen->set_pt_range(5.0, 20.0);
+      gen->set_pt_range(5.0, 40.0);
       gen->Embed(2);
       gen->Verbosity(0);
 
@@ -509,9 +509,9 @@ int Fun4All_G4_sPHENIX(
                 /*bool*/ do_hcalout_twr);
   }
 
-  //  Fun4AllDstOutputManager *out = new Fun4AllDstOutputManager("DSTOUT", outputFile);
-  // if (do_dst_compress) DstCompress(out);
-  //  se->registerOutputManager(out);
+   Fun4AllDstOutputManager *out = new Fun4AllDstOutputManager("DSTOUT", outputFile);
+   if (do_dst_compress) DstCompress(out);
+   se->registerOutputManager(out);
 
   //-----------------
   // Event processing
