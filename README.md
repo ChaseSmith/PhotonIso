@@ -15,3 +15,5 @@
 - Use root to run Fun4All_G4_sPHENIX.C with input HEPMC file and output DST file to simulate collisions in the sPHENIX detector 
 - Used to test the old recycled phenix prob algorithm
 
+**testPhotonID**:folder which contains all modules needed to run Fun4All...
+- Use root to run Fun4All_G4_sPHENIX.C with input HEPMC file, output DST file, and embedd file to simulate direct photons in Au+Au collisions in the sPHENIX detector
